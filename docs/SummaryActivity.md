@@ -1,0 +1,40 @@
+# StravaClient::SummaryActivity
+
+## Properties
+Name | Type | Description | Notes
+------------ | ------------- | ------------- | -------------
+**id** | **Integer** | The unique identifier of the activity | [optional] 
+**external_id** | **String** | The identifier provided at upload time | [optional] 
+**upload_id** | **Integer** | The identifier of the upload that resulted in this activity | [optional] 
+**athlete** | [**MetaAthlete**](MetaAthlete.md) |  | [optional] 
+**name** | **String** | The name of the activity | [optional] 
+**distance** | **Float** | The activity&#39;s distance, in meters | [optional] 
+**moving_time** | **Integer** | The activity&#39;s moving time | [optional] 
+**elapsed_time** | **Integer** | The activity&#39;s elapsed time | [optional] 
+**total_elevation_gain** | **Float** | The activity&#39;s total elevation gain. | [optional] 
+**elev_high** | **Float** | The activity&#39;s highest elevation, in meters | [optional] 
+**elev_low** | **Float** | The activity&#39;s lowest elevation, in meters | [optional] 
+**type** | [**ActivityType**](ActivityType.md) |  | [optional] 
+**start_date** | **DateTime** | The time at which the activity was started. | [optional] 
+**start_date_local** | **DateTime** | The time at which the activity was started in the local timezone. | [optional] 
+**timezone** | **String** | The timezone of the activity | [optional] 
+**start_latlng** | [**LatLng**](LatLng.md) |  | [optional] 
+**end_latlng** | [**LatLng**](LatLng.md) |  | [optional] 
+**achievement_count** | **Integer** | The number of achievements gained during this activity | [optional] 
+**kudos_count** | **Integer** | The number of kudos given for this activity | [optional] 
+**comment_count** | **Integer** | The number of comments for this activity | [optional] 
+**athlete_count** | **Integer** | The number of athletes for taking part in a group activity | [optional] 
+**photo_count** | **Integer** | The number of Instagram photos for this activity | [optional] 
+**total_photo_count** | **Integer** | The number of Instagram and Strava photos for this activity | [optional] 
+**map** | [**PolylineMap**](PolylineMap.md) |  | [optional] 
+**trainer** | **BOOLEAN** | Whether this activity was recorded on a training machine | [optional] 
+**commute** | **BOOLEAN** | Whether this activity is a commute | [optional] 
+**manual** | **BOOLEAN** | Whether this activity was created manually | [optional] 
+**private** | **BOOLEAN** | Whether this activity is private | [optional] 
+**flagged** | **BOOLEAN** | Whether this activity is flagged | [optional] 
+**workout_type** | **Integer** | The activity&#39;s workout type | [optional] 
+**average_speed** | **Float** | The activity&#39;s average speed, in meters per second | [optional] 
+**max_speed** | **Float** | The activity&#39;s max speed, in meters per second | [optional] 
+**has_kudoed** | **BOOLEAN** | Whether the logged-in athlete has kudoed this activity | [optional] 
+
+
