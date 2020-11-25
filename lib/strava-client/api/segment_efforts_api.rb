@@ -1,7 +1,7 @@
 =begin
 #Strava API v3
 
-#Strava API
+#The [Swagger Playground](https://developers.strava.com/playground) is the easiest way to familiarize yourself with the Strava API by submitting HTTP requests and observing the responses before you write any client code. It will show what a response will look like with different endpoints depending on the authorization scope you receive from your athletes. To use the Playground, go to https://www.strava.com/settings/api and change your “Authorization Callback Domain” to developers.strava.com. Please note, we only support Swagger 2.0. There is a known issue where you can only select one scope at a time. For more information, please check the section “client code” at https://developers.strava.com/docs.
 
 OpenAPI spec version: 3.0.0
 
@@ -21,38 +21,42 @@ module StravaClient
     end
 
     # List Segment Efforts
-    # Returns a set of the authenticated athlete's segment efforts for a given segment.
-    # @param id The identifier of the segment.
+    # Returns a set of the authenticated athlete's segment efforts for a given segment.  Requires subscription.
+    # @param segment_id The identifier of the segment.
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :page Page number.
+    # @option opts [DateTime] :start_date_local ISO 8601 formatted date time.
+    # @option opts [DateTime] :end_date_local ISO 8601 formatted date time.
     # @option opts [Integer] :per_page Number of items per page. Defaults to 30. (default to 30)
     # @return [Array<DetailedSegmentEffort>]
-    def get_efforts_by_segment_id(id, opts = {})
-      data, _status_code, _headers = get_efforts_by_segment_id_with_http_info(id, opts)
+    def get_efforts_by_segment_id(segment_id, opts = {})
+      data, _status_code, _headers = get_efforts_by_segment_id_with_http_info(segment_id, opts)
       return data
     end
 
     # List Segment Efforts
-    # Returns a set of the authenticated athlete&#39;s segment efforts for a given segment.
-    # @param id The identifier of the segment.
+    # Returns a set of the authenticated athlete&#39;s segment efforts for a given segment.  Requires subscription.
+    # @param segment_id The identifier of the segment.
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :page Page number.
+    # @option opts [DateTime] :start_date_local ISO 8601 formatted date time.
+    # @option opts [DateTime] :end_date_local ISO 8601 formatted date time.
     # @option opts [Integer] :per_page Number of items per page. Defaults to 30.
     # @return [Array<(Array<DetailedSegmentEffort>, Fixnum, Hash)>] Array<DetailedSegmentEffort> data, response status code and response headers
-    def get_efforts_by_segment_id_with_http_info(id, opts = {})
+    def get_efforts_by_segment_id_with_http_info(segment_id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug "Calling API: SegmentEffortsApi.get_efforts_by_segment_id ..."
       end
-      # verify the required parameter 'id' is set
-      if @api_client.config.client_side_validation && id.nil?
-        fail ArgumentError, "Missing the required parameter 'id' when calling SegmentEffortsApi.get_efforts_by_segment_id"
+      # verify the required parameter 'segment_id' is set
+      if @api_client.config.client_side_validation && segment_id.nil?
+        fail ArgumentError, "Missing the required parameter 'segment_id' when calling SegmentEffortsApi.get_efforts_by_segment_id"
       end
       # resource path
-      local_var_path = "/segments/{id}/all_efforts".sub('{' + 'id' + '}', id.to_s)
+      local_var_path = "/segment_efforts"
 
       # query parameters
       query_params = {}
-      query_params[:'page'] = opts[:'page'] if !opts[:'page'].nil?
+      query_params[:'segment_id'] = segment_id
+      query_params[:'start_date_local'] = opts[:'start_date_local'] if !opts[:'start_date_local'].nil?
+      query_params[:'end_date_local'] = opts[:'end_date_local'] if !opts[:'end_date_local'].nil?
       query_params[:'per_page'] = opts[:'per_page'] if !opts[:'per_page'].nil?
 
       # header parameters
@@ -80,7 +84,7 @@ module StravaClient
     end
 
     # Get Segment Effort
-    # Returns a segment effort from an activity that is owned by the authenticated athlete.
+    # Returns a segment effort from an activity that is owned by the authenticated athlete. Requires subscription.
     # @param id The identifier of the segment effort.
     # @param [Hash] opts the optional parameters
     # @return [DetailedSegmentEffort]
@@ -90,7 +94,7 @@ module StravaClient
     end
 
     # Get Segment Effort
-    # Returns a segment effort from an activity that is owned by the authenticated athlete.
+    # Returns a segment effort from an activity that is owned by the authenticated athlete. Requires subscription.
     # @param id The identifier of the segment effort.
     # @param [Hash] opts the optional parameters
     # @return [Array<(DetailedSegmentEffort, Fixnum, Hash)>] DetailedSegmentEffort data, response status code and response headers

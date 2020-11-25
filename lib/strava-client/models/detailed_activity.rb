@@ -1,7 +1,7 @@
 =begin
 #Strava API v3
 
-#Strava API
+#The [Swagger Playground](https://developers.strava.com/playground) is the easiest way to familiarize yourself with the Strava API by submitting HTTP requests and observing the responses before you write any client code. It will show what a response will look like with different endpoints depending on the authorization scope you receive from your athletes. To use the Playground, go to https://www.strava.com/settings/api and change your “Authorization Callback Domain” to developers.strava.com. Please note, we only support Swagger 2.0. There is a known issue where you can only select one scope at a time. For more information, please check the section “client code” at https://developers.strava.com/docs.
 
 OpenAPI spec version: 3.0.0
 
@@ -32,10 +32,10 @@ module StravaClient
     # The activity's distance, in meters
     attr_accessor :distance
 
-    # The activity's moving time
+    # The activity's moving time, in seconds
     attr_accessor :moving_time
 
-    # The activity's elapsed time
+    # The activity's elapsed time, in seconds
     attr_accessor :elapsed_time
 
     # The activity's total elevation gain.
@@ -100,6 +100,9 @@ module StravaClient
     # The activity's workout type
     attr_accessor :workout_type
 
+    # The unique identifier of the upload in string format
+    attr_accessor :upload_id_str
+
     # The activity's average speed, in meters per second
     attr_accessor :average_speed
 
@@ -108,6 +111,24 @@ module StravaClient
 
     # Whether the logged-in athlete has kudoed this activity
     attr_accessor :has_kudoed
+
+    # The id of the gear for the activity
+    attr_accessor :gear_id
+
+    # The total work done in kilojoules during this activity. Rides only
+    attr_accessor :kilojoules
+
+    # Average power output in watts during this activity. Rides only
+    attr_accessor :average_watts
+
+    # Whether the watts are from a power meter, false if estimated
+    attr_accessor :device_watts
+
+    # Rides with power meter data only
+    attr_accessor :max_watts
+
+    # Similar to Normalized Power. Rides with power meter data only
+    attr_accessor :weighted_average_watts
 
     # The description of the activity
     attr_accessor :description
@@ -171,9 +192,16 @@ module StravaClient
         :'private' => :'private',
         :'flagged' => :'flagged',
         :'workout_type' => :'workout_type',
+        :'upload_id_str' => :'upload_id_str',
         :'average_speed' => :'average_speed',
         :'max_speed' => :'max_speed',
         :'has_kudoed' => :'has_kudoed',
+        :'gear_id' => :'gear_id',
+        :'kilojoules' => :'kilojoules',
+        :'average_watts' => :'average_watts',
+        :'device_watts' => :'device_watts',
+        :'max_watts' => :'max_watts',
+        :'weighted_average_watts' => :'weighted_average_watts',
         :'description' => :'description',
         :'photos' => :'photos',
         :'gear' => :'gear',
@@ -221,9 +249,16 @@ module StravaClient
         :'private' => :'BOOLEAN',
         :'flagged' => :'BOOLEAN',
         :'workout_type' => :'Integer',
+        :'upload_id_str' => :'String',
         :'average_speed' => :'Float',
         :'max_speed' => :'Float',
         :'has_kudoed' => :'BOOLEAN',
+        :'gear_id' => :'String',
+        :'kilojoules' => :'Float',
+        :'average_watts' => :'Float',
+        :'device_watts' => :'BOOLEAN',
+        :'max_watts' => :'Integer',
+        :'weighted_average_watts' => :'Integer',
         :'description' => :'String',
         :'photos' => :'PhotosSummary',
         :'gear' => :'SummaryGear',
@@ -366,6 +401,10 @@ module StravaClient
         self.workout_type = attributes[:'workout_type']
       end
 
+      if attributes.has_key?(:'upload_id_str')
+        self.upload_id_str = attributes[:'upload_id_str']
+      end
+
       if attributes.has_key?(:'average_speed')
         self.average_speed = attributes[:'average_speed']
       end
@@ -376,6 +415,30 @@ module StravaClient
 
       if attributes.has_key?(:'has_kudoed')
         self.has_kudoed = attributes[:'has_kudoed']
+      end
+
+      if attributes.has_key?(:'gear_id')
+        self.gear_id = attributes[:'gear_id']
+      end
+
+      if attributes.has_key?(:'kilojoules')
+        self.kilojoules = attributes[:'kilojoules']
+      end
+
+      if attributes.has_key?(:'average_watts')
+        self.average_watts = attributes[:'average_watts']
+      end
+
+      if attributes.has_key?(:'device_watts')
+        self.device_watts = attributes[:'device_watts']
+      end
+
+      if attributes.has_key?(:'max_watts')
+        self.max_watts = attributes[:'max_watts']
+      end
+
+      if attributes.has_key?(:'weighted_average_watts')
+        self.weighted_average_watts = attributes[:'weighted_average_watts']
       end
 
       if attributes.has_key?(:'description')
@@ -498,9 +561,16 @@ module StravaClient
           private == o.private &&
           flagged == o.flagged &&
           workout_type == o.workout_type &&
+          upload_id_str == o.upload_id_str &&
           average_speed == o.average_speed &&
           max_speed == o.max_speed &&
           has_kudoed == o.has_kudoed &&
+          gear_id == o.gear_id &&
+          kilojoules == o.kilojoules &&
+          average_watts == o.average_watts &&
+          device_watts == o.device_watts &&
+          max_watts == o.max_watts &&
+          weighted_average_watts == o.weighted_average_watts &&
           description == o.description &&
           photos == o.photos &&
           gear == o.gear &&
@@ -523,7 +593,7 @@ module StravaClient
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [id, external_id, upload_id, athlete, name, distance, moving_time, elapsed_time, total_elevation_gain, elev_high, elev_low, type, start_date, start_date_local, timezone, start_latlng, end_latlng, achievement_count, kudos_count, comment_count, athlete_count, photo_count, total_photo_count, map, trainer, commute, manual, private, flagged, workout_type, average_speed, max_speed, has_kudoed, description, photos, gear, calories, segment_efforts, device_name, embed_token, splits_metric, splits_standard, laps, best_efforts].hash
+      [id, external_id, upload_id, athlete, name, distance, moving_time, elapsed_time, total_elevation_gain, elev_high, elev_low, type, start_date, start_date_local, timezone, start_latlng, end_latlng, achievement_count, kudos_count, comment_count, athlete_count, photo_count, total_photo_count, map, trainer, commute, manual, private, flagged, workout_type, upload_id_str, average_speed, max_speed, has_kudoed, gear_id, kilojoules, average_watts, device_watts, max_watts, weighted_average_watts, description, photos, gear, calories, segment_efforts, device_name, embed_token, splits_metric, splits_standard, laps, best_efforts].hash
     end
 
     # Builds the object from hash

@@ -1,7 +1,7 @@
 =begin
 #Strava API v3
 
-#Strava API
+#The [Swagger Playground](https://developers.strava.com/playground) is the easiest way to familiarize yourself with the Strava API by submitting HTTP requests and observing the responses before you write any client code. It will show what a response will look like with different endpoints depending on the authorization scope you receive from your athletes. To use the Playground, go to https://www.strava.com/settings/api and change your “Authorization Callback Domain” to developers.strava.com. Please note, we only support Swagger 2.0. There is a known issue where you can only select one scope at a time. For more information, please check the section “client code” at https://developers.strava.com/docs.
 
 OpenAPI spec version: 3.0.0
 
@@ -21,7 +21,7 @@ module StravaClient
     # The name of this segment
     attr_accessor :name
 
-    # The category of the climb
+    # The category of the climb [0, 5]. Higher is harder ie. 5 is Hors catégorie, 0 is uncategorized in climb_category. If climb_category = 5, climb_category_desc = HC. If climb_category = 2, climb_category_desc = 3.
     attr_accessor :climb_category
 
     # The description for the category of the climb

@@ -1,7 +1,7 @@
 =begin
 #Strava API v3
 
-#Strava API
+#The [Swagger Playground](https://developers.strava.com/playground) is the easiest way to familiarize yourself with the Strava API by submitting HTTP requests and observing the responses before you write any client code. It will show what a response will look like with different endpoints depending on the authorization scope you receive from your athletes. To use the Playground, go to https://www.strava.com/settings/api and change your “Authorization Callback Domain” to developers.strava.com. Please note, we only support Swagger 2.0. There is a known issue where you can only select one scope at a time. For more information, please check the section “client code” at https://developers.strava.com/docs.
 
 OpenAPI spec version: 3.0.0
 
@@ -17,6 +17,9 @@ module StravaClient
   class SummarySegmentEffort
     # The unique identifier of this effort
     attr_accessor :id
+
+    # The unique identifier of the activity related to this effort
+    attr_accessor :activity_id
 
     # The effort's elapsed time
     attr_accessor :elapsed_time
@@ -38,6 +41,7 @@ module StravaClient
     def self.attribute_map
       {
         :'id' => :'id',
+        :'activity_id' => :'activity_id',
         :'elapsed_time' => :'elapsed_time',
         :'start_date' => :'start_date',
         :'start_date_local' => :'start_date_local',
@@ -50,6 +54,7 @@ module StravaClient
     def self.swagger_types
       {
         :'id' => :'Integer',
+        :'activity_id' => :'Integer',
         :'elapsed_time' => :'Integer',
         :'start_date' => :'DateTime',
         :'start_date_local' => :'DateTime',
@@ -68,6 +73,10 @@ module StravaClient
 
       if attributes.has_key?(:'id')
         self.id = attributes[:'id']
+      end
+
+      if attributes.has_key?(:'activity_id')
+        self.activity_id = attributes[:'activity_id']
       end
 
       if attributes.has_key?(:'elapsed_time')
@@ -111,6 +120,7 @@ module StravaClient
       return true if self.equal?(o)
       self.class == o.class &&
           id == o.id &&
+          activity_id == o.activity_id &&
           elapsed_time == o.elapsed_time &&
           start_date == o.start_date &&
           start_date_local == o.start_date_local &&
@@ -127,7 +137,7 @@ module StravaClient
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [id, elapsed_time, start_date, start_date_local, distance, is_kom].hash
+      [id, activity_id, elapsed_time, start_date, start_date_local, distance, is_kom].hash
     end
 
     # Builds the object from hash

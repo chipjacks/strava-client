@@ -1,7 +1,7 @@
 =begin
 #Strava API v3
 
-#Strava API
+#The [Swagger Playground](https://developers.strava.com/playground) is the easiest way to familiarize yourself with the Strava API by submitting HTTP requests and observing the responses before you write any client code. It will show what a response will look like with different endpoints depending on the authorization scope you receive from your athletes. To use the Playground, go to https://www.strava.com/settings/api and change your “Authorization Callback Domain” to developers.strava.com. Please note, we only support Swagger 2.0. There is a known issue where you can only select one scope at a time. For more information, please check the section “client code” at https://developers.strava.com/docs.
 
 OpenAPI spec version: 3.0.0
 
@@ -21,7 +21,7 @@ module StravaClient
     end
 
     # Get Authenticated Athlete
-    # Returns the currently authenticated athlete.
+    # Returns the currently authenticated athlete. Tokens with profile:read_all scope will receive a detailed athlete representation; all others will receive a summary representation.
     # @param [Hash] opts the optional parameters
     # @return [DetailedAthlete]
     def get_logged_in_athlete(opts = {})
@@ -30,7 +30,7 @@ module StravaClient
     end
 
     # Get Authenticated Athlete
-    # Returns the currently authenticated athlete.
+    # Returns the currently authenticated athlete. Tokens with profile:read_all scope will receive a detailed athlete representation; all others will receive a summary representation.
     # @param [Hash] opts the optional parameters
     # @return [Array<(DetailedAthlete, Fixnum, Hash)>] DetailedAthlete data, response status code and response headers
     def get_logged_in_athlete_with_http_info(opts = {})
@@ -68,7 +68,7 @@ module StravaClient
     end
 
     # Get Zones
-    # Returns the the authenticated athlete's heart rate and power zones.
+    # Returns the the authenticated athlete's heart rate and power zones. Requires profile:read_all.
     # @param [Hash] opts the optional parameters
     # @return [Zones]
     def get_logged_in_athlete_zones(opts = {})
@@ -77,7 +77,7 @@ module StravaClient
     end
 
     # Get Zones
-    # Returns the the authenticated athlete&#39;s heart rate and power zones.
+    # Returns the the authenticated athlete&#39;s heart rate and power zones. Requires profile:read_all.
     # @param [Hash] opts the optional parameters
     # @return [Array<(Zones, Fixnum, Hash)>] Zones data, response status code and response headers
     def get_logged_in_athlete_zones_with_http_info(opts = {})
@@ -115,11 +115,9 @@ module StravaClient
     end
 
     # Get Athlete Stats
-    # Returns the activity stats of an athlete.
-    # @param id The identifier of the athlete.
+    # Returns the activity stats of an athlete. Only includes data from activities set to Everyone visibilty.
+    # @param id The identifier of the athlete. Must match the authenticated athlete.
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :page Page number.
-    # @option opts [Integer] :per_page Number of items per page. Defaults to 30. (default to 30)
     # @return [ActivityStats]
     def get_stats(id, opts = {})
       data, _status_code, _headers = get_stats_with_http_info(id, opts)
@@ -127,11 +125,9 @@ module StravaClient
     end
 
     # Get Athlete Stats
-    # Returns the activity stats of an athlete.
-    # @param id The identifier of the athlete.
+    # Returns the activity stats of an athlete. Only includes data from activities set to Everyone visibilty.
+    # @param id The identifier of the athlete. Must match the authenticated athlete.
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :page Page number.
-    # @option opts [Integer] :per_page Number of items per page. Defaults to 30.
     # @return [Array<(ActivityStats, Fixnum, Hash)>] ActivityStats data, response status code and response headers
     def get_stats_with_http_info(id, opts = {})
       if @api_client.config.debugging
@@ -146,8 +142,6 @@ module StravaClient
 
       # query parameters
       query_params = {}
-      query_params[:'page'] = opts[:'page'] if !opts[:'page'].nil?
-      query_params[:'per_page'] = opts[:'per_page'] if !opts[:'per_page'].nil?
 
       # header parameters
       header_params = {}
@@ -174,30 +168,30 @@ module StravaClient
     end
 
     # Update Athlete
-    # Update the currently authenticated athlete.
-    # @param body The athlete entity to update.
+    # Update the currently authenticated athlete. Requires profile:write scope.
+    # @param weight The weight of the athlete in kilograms.
     # @param [Hash] opts the optional parameters
     # @return [DetailedAthlete]
-    def update_logged_in_athlete(body, opts = {})
-      data, _status_code, _headers = update_logged_in_athlete_with_http_info(body, opts)
+    def update_logged_in_athlete(weight, opts = {})
+      data, _status_code, _headers = update_logged_in_athlete_with_http_info(weight, opts)
       return data
     end
 
     # Update Athlete
-    # Update the currently authenticated athlete.
-    # @param body The athlete entity to update.
+    # Update the currently authenticated athlete. Requires profile:write scope.
+    # @param weight The weight of the athlete in kilograms.
     # @param [Hash] opts the optional parameters
     # @return [Array<(DetailedAthlete, Fixnum, Hash)>] DetailedAthlete data, response status code and response headers
-    def update_logged_in_athlete_with_http_info(body, opts = {})
+    def update_logged_in_athlete_with_http_info(weight, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug "Calling API: AthletesApi.update_logged_in_athlete ..."
       end
-      # verify the required parameter 'body' is set
-      if @api_client.config.client_side_validation && body.nil?
-        fail ArgumentError, "Missing the required parameter 'body' when calling AthletesApi.update_logged_in_athlete"
+      # verify the required parameter 'weight' is set
+      if @api_client.config.client_side_validation && weight.nil?
+        fail ArgumentError, "Missing the required parameter 'weight' when calling AthletesApi.update_logged_in_athlete"
       end
       # resource path
-      local_var_path = "/athlete"
+      local_var_path = "/athlete".sub('{' + 'weight' + '}', weight.to_s)
 
       # query parameters
       query_params = {}
@@ -206,12 +200,14 @@ module StravaClient
       header_params = {}
       # HTTP header 'Accept' (if needed)
       header_params['Accept'] = @api_client.select_header_accept(['application/json'])
+      # HTTP header 'Content-Type'
+      header_params['Content-Type'] = @api_client.select_header_content_type(['multipart/form-data'])
 
       # form parameters
       form_params = {}
 
       # http body (model)
-      post_body = @api_client.object_to_http_body(body)
+      post_body = nil
       auth_names = ['strava_oauth']
       data, status_code, headers = @api_client.call_api(:PUT, local_var_path,
         :header_params => header_params,

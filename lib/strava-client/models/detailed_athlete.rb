@@ -1,7 +1,7 @@
 =begin
 #Strava API v3
 
-#Strava API
+#The [Swagger Playground](https://developers.strava.com/playground) is the easiest way to familiarize yourself with the Strava API by submitting HTTP requests and observing the responses before you write any client code. It will show what a response will look like with different endpoints depending on the authorization scope you receive from your athletes. To use the Playground, go to https://www.strava.com/settings/api and change your “Authorization Callback Domain” to developers.strava.com. Please note, we only support Swagger 2.0. There is a known issue where you can only select one scope at a time. For more information, please check the section “client code” at https://developers.strava.com/docs.
 
 OpenAPI spec version: 3.0.0
 
@@ -45,14 +45,11 @@ module StravaClient
     # The athlete's sex.
     attr_accessor :sex
 
-    # Whether the currently logged-in athlete follows this athlete.
-    attr_accessor :friend
-
-    # Whether this athlete follows the currently logged-in athlete.
-    attr_accessor :follower
-
-    # The athlete's premium status.
+    # Deprecated.  Use summit field instead. Whether the athlete has any Summit subscription.
     attr_accessor :premium
+
+    # Whether the athlete has any Summit subscription.
+    attr_accessor :summit
 
     # The time at which the athlete was created.
     attr_accessor :created_at
@@ -66,14 +63,8 @@ module StravaClient
     # The athlete's friend count.
     attr_accessor :friend_count
 
-    # The number or athletes mutually followed by this athlete and the currently logged-in athlete.
-    attr_accessor :mutual_friend_count
-
     # The athlete's preferred unit system.
     attr_accessor :measurement_preference
-
-    # The athlete's email address.
-    attr_accessor :email
 
     # The athlete's FTP (Functional Threshold Power).
     attr_accessor :ftp
@@ -125,16 +116,13 @@ module StravaClient
         :'state' => :'state',
         :'country' => :'country',
         :'sex' => :'sex',
-        :'friend' => :'friend',
-        :'follower' => :'follower',
         :'premium' => :'premium',
+        :'summit' => :'summit',
         :'created_at' => :'created_at',
         :'updated_at' => :'updated_at',
         :'follower_count' => :'follower_count',
         :'friend_count' => :'friend_count',
-        :'mutual_friend_count' => :'mutual_friend_count',
         :'measurement_preference' => :'measurement_preference',
-        :'email' => :'email',
         :'ftp' => :'ftp',
         :'weight' => :'weight',
         :'clubs' => :'clubs',
@@ -156,16 +144,13 @@ module StravaClient
         :'state' => :'String',
         :'country' => :'String',
         :'sex' => :'String',
-        :'friend' => :'String',
-        :'follower' => :'String',
         :'premium' => :'BOOLEAN',
+        :'summit' => :'BOOLEAN',
         :'created_at' => :'DateTime',
         :'updated_at' => :'DateTime',
         :'follower_count' => :'Integer',
         :'friend_count' => :'Integer',
-        :'mutual_friend_count' => :'Integer',
         :'measurement_preference' => :'String',
-        :'email' => :'String',
         :'ftp' => :'Integer',
         :'weight' => :'Float',
         :'clubs' => :'Array<SummaryClub>',
@@ -222,16 +207,12 @@ module StravaClient
         self.sex = attributes[:'sex']
       end
 
-      if attributes.has_key?(:'friend')
-        self.friend = attributes[:'friend']
-      end
-
-      if attributes.has_key?(:'follower')
-        self.follower = attributes[:'follower']
-      end
-
       if attributes.has_key?(:'premium')
         self.premium = attributes[:'premium']
+      end
+
+      if attributes.has_key?(:'summit')
+        self.summit = attributes[:'summit']
       end
 
       if attributes.has_key?(:'created_at')
@@ -250,16 +231,8 @@ module StravaClient
         self.friend_count = attributes[:'friend_count']
       end
 
-      if attributes.has_key?(:'mutual_friend_count')
-        self.mutual_friend_count = attributes[:'mutual_friend_count']
-      end
-
       if attributes.has_key?(:'measurement_preference')
         self.measurement_preference = attributes[:'measurement_preference']
-      end
-
-      if attributes.has_key?(:'email')
-        self.email = attributes[:'email']
       end
 
       if attributes.has_key?(:'ftp')
@@ -302,10 +275,6 @@ module StravaClient
     def valid?
       sex_validator = EnumAttributeValidator.new('String', ["M", "F"])
       return false unless sex_validator.valid?(@sex)
-      friend_validator = EnumAttributeValidator.new('String', ["pending", "accepted", "blocked"])
-      return false unless friend_validator.valid?(@friend)
-      follower_validator = EnumAttributeValidator.new('String', ["pending", "accepted", "blocked"])
-      return false unless follower_validator.valid?(@follower)
       measurement_preference_validator = EnumAttributeValidator.new('String', ["feet", "meters"])
       return false unless measurement_preference_validator.valid?(@measurement_preference)
       return true
@@ -319,26 +288,6 @@ module StravaClient
         fail ArgumentError, "invalid value for 'sex', must be one of #{validator.allowable_values}."
       end
       @sex = sex
-    end
-
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] friend Object to be assigned
-    def friend=(friend)
-      validator = EnumAttributeValidator.new('String', ["pending", "accepted", "blocked"])
-      unless validator.valid?(friend)
-        fail ArgumentError, "invalid value for 'friend', must be one of #{validator.allowable_values}."
-      end
-      @friend = friend
-    end
-
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] follower Object to be assigned
-    def follower=(follower)
-      validator = EnumAttributeValidator.new('String', ["pending", "accepted", "blocked"])
-      unless validator.valid?(follower)
-        fail ArgumentError, "invalid value for 'follower', must be one of #{validator.allowable_values}."
-      end
-      @follower = follower
     end
 
     # Custom attribute writer method checking allowed values (enum).
@@ -366,16 +315,13 @@ module StravaClient
           state == o.state &&
           country == o.country &&
           sex == o.sex &&
-          friend == o.friend &&
-          follower == o.follower &&
           premium == o.premium &&
+          summit == o.summit &&
           created_at == o.created_at &&
           updated_at == o.updated_at &&
           follower_count == o.follower_count &&
           friend_count == o.friend_count &&
-          mutual_friend_count == o.mutual_friend_count &&
           measurement_preference == o.measurement_preference &&
-          email == o.email &&
           ftp == o.ftp &&
           weight == o.weight &&
           clubs == o.clubs &&
@@ -392,7 +338,7 @@ module StravaClient
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [id, resource_state, firstname, lastname, profile_medium, profile, city, state, country, sex, friend, follower, premium, created_at, updated_at, follower_count, friend_count, mutual_friend_count, measurement_preference, email, ftp, weight, clubs, bikes, shoes].hash
+      [id, resource_state, firstname, lastname, profile_medium, profile, city, state, country, sex, premium, summit, created_at, updated_at, follower_count, friend_count, measurement_preference, ftp, weight, clubs, bikes, shoes].hash
     end
 
     # Builds the object from hash

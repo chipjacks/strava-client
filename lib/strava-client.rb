@@ -1,7 +1,7 @@
 =begin
 #Strava API v3
 
-#Strava API
+#The [Swagger Playground](https://developers.strava.com/playground) is the easiest way to familiarize yourself with the Strava API by submitting HTTP requests and observing the responses before you write any client code. It will show what a response will look like with different endpoints depending on the authorization scope you receive from your athletes. To use the Playground, go to https://www.strava.com/settings/api and change your “Authorization Callback Domain” to developers.strava.com. Please note, we only support Swagger 2.0. There is a known issue where you can only select one scope at a time. For more information, please check the section “client code” at https://developers.strava.com/docs.
 
 OpenAPI spec version: 3.0.0
 
@@ -30,7 +30,6 @@ require 'strava-client/models/fault'
 require 'strava-client/models/heart_rate_zone_ranges'
 require 'strava-client/models/lap'
 require 'strava-client/models/lat_lng'
-require 'strava-client/models/membership_application'
 require 'strava-client/models/meta_activity'
 require 'strava-client/models/meta_athlete'
 require 'strava-client/models/meta_club'
@@ -39,13 +38,11 @@ require 'strava-client/models/photos_summary_primary'
 require 'strava-client/models/polyline_map'
 require 'strava-client/models/power_zone_ranges'
 require 'strava-client/models/route'
-require 'strava-client/models/route_direction'
 require 'strava-client/models/running_race'
-require 'strava-client/models/segment_leaderboard'
-require 'strava-client/models/segment_leaderboard_entry'
 require 'strava-client/models/split'
 require 'strava-client/models/stream_set'
 require 'strava-client/models/summary_gear'
+require 'strava-client/models/summary_pr_segment_effort'
 require 'strava-client/models/summary_segment'
 require 'strava-client/models/summary_segment_effort'
 require 'strava-client/models/timed_zone_distribution'

@@ -1,7 +1,7 @@
 =begin
 #Strava API v3
 
-#Strava API
+#The [Swagger Playground](https://developers.strava.com/playground) is the easiest way to familiarize yourself with the Strava API by submitting HTTP requests and observing the responses before you write any client code. It will show what a response will look like with different endpoints depending on the authorization scope you receive from your athletes. To use the Playground, go to https://www.strava.com/settings/api and change your “Authorization Callback Domain” to developers.strava.com. Please note, we only support Swagger 2.0. There is a known issue where you can only select one scope at a time. For more information, please check the section “client code” at https://developers.strava.com/docs.
 
 OpenAPI spec version: 3.0.0
 
@@ -17,6 +17,9 @@ module StravaClient
   class Upload
     # The unique identifier of the upload
     attr_accessor :id
+
+    # The unique identifier of the upload in string format
+    attr_accessor :id_str
 
     # The external identifier of the upload
     attr_accessor :external_id
@@ -35,6 +38,7 @@ module StravaClient
     def self.attribute_map
       {
         :'id' => :'id',
+        :'id_str' => :'id_str',
         :'external_id' => :'external_id',
         :'error' => :'error',
         :'status' => :'status',
@@ -46,6 +50,7 @@ module StravaClient
     def self.swagger_types
       {
         :'id' => :'Integer',
+        :'id_str' => :'String',
         :'external_id' => :'String',
         :'error' => :'String',
         :'status' => :'String',
@@ -63,6 +68,10 @@ module StravaClient
 
       if attributes.has_key?(:'id')
         self.id = attributes[:'id']
+      end
+
+      if attributes.has_key?(:'id_str')
+        self.id_str = attributes[:'id_str']
       end
 
       if attributes.has_key?(:'external_id')
@@ -102,6 +111,7 @@ module StravaClient
       return true if self.equal?(o)
       self.class == o.class &&
           id == o.id &&
+          id_str == o.id_str &&
           external_id == o.external_id &&
           error == o.error &&
           status == o.status &&
@@ -117,7 +127,7 @@ module StravaClient
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [id, external_id, error, status, activity_id].hash
+      [id, id_str, external_id, error, status, activity_id].hash
     end
 
     # Builds the object from hash

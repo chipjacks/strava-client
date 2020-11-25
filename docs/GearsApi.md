@@ -26,7 +26,7 @@ end
 
 api_instance = StravaClient::GearsApi.new
 
-id = 56 # Integer | The identifier of the gear.
+id = "id_example" # String | The identifier of the gear.
 
 
 begin
@@ -42,7 +42,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **Integer**| The identifier of the gear. | 
+ **id** | **String**| The identifier of the gear. | 
 
 ### Return type
 

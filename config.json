@@ -1,5 +1,6 @@
 {
-  "gemName": "strava_client",
-  "moduleName": "StravaClient"
+  "gemName": "strava-client",
+  "moduleName": "StravaClient",
+  "gemVersion": "1.1.0"
 }
 

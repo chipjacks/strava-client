@@ -13,9 +13,8 @@ Name | Type | Description | Notes
 **state** | **String** | The athlete&#39;s state or geographical region. | [optional] 
 **country** | **String** | The athlete&#39;s country. | [optional] 
 **sex** | **String** | The athlete&#39;s sex. | [optional] 
-**friend** | **String** | Whether the currently logged-in athlete follows this athlete. | [optional] 
-**follower** | **String** | Whether this athlete follows the currently logged-in athlete. | [optional] 
-**premium** | **BOOLEAN** | The athlete&#39;s premium status. | [optional] 
+**premium** | **BOOLEAN** | Deprecated.  Use summit field instead. Whether the athlete has any Summit subscription. | [optional] 
+**summit** | **BOOLEAN** | Whether the athlete has any Summit subscription. | [optional] 
 **created_at** | **DateTime** | The time at which the athlete was created. | [optional] 
 **updated_at** | **DateTime** | The time at which the athlete was last updated. | [optional] 
 

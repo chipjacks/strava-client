@@ -14,58 +14,37 @@ require 'date'
 
 module StravaClient
 
-  class MovingStream
-    # The number of data points in this stream
-    attr_accessor :original_size
+  class SummaryPRSegmentEffort
+    # The unique identifier of the activity related to the PR effort.
+    attr_accessor :pr_activity_id
 
-    # The level of detail (sampling) in which this stream was returned
-    attr_accessor :resolution
+    # The elapsed time ot the PR effort.
+    attr_accessor :pr_elapsed_time
 
-    # The base series used in the case the stream was downsampled
-    attr_accessor :series_type
+    # The time at which the PR effort was started.
+    attr_accessor :pr_date
 
-    # The sequence of moving values for this stream, as boolean values
-    attr_accessor :data
+    # Number of efforts by the authenticated athlete on this segment.
+    attr_accessor :effort_count
 
-    class EnumAttributeValidator
-      attr_reader :datatype
-      attr_reader :allowable_values
-
-      def initialize(datatype, allowable_values)
-        @allowable_values = allowable_values.map do |value|
-          case datatype.to_s
-          when /Integer/i
-            value.to_i
-          when /Float/i
-            value.to_f
-          else
-            value
-          end
-        end
-      end
-
-      def valid?(value)
-        !value || allowable_values.include?(value)
-      end
-    end
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'original_size' => :'original_size',
-        :'resolution' => :'resolution',
-        :'series_type' => :'series_type',
-        :'data' => :'data'
+        :'pr_activity_id' => :'pr_activity_id',
+        :'pr_elapsed_time' => :'pr_elapsed_time',
+        :'pr_date' => :'pr_date',
+        :'effort_count' => :'effort_count'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'original_size' => :'Integer',
-        :'resolution' => :'String',
-        :'series_type' => :'String',
-        :'data' => :'Array<BOOLEAN>'
+        :'pr_activity_id' => :'Integer',
+        :'pr_elapsed_time' => :'Integer',
+        :'pr_date' => :'DateTime',
+        :'effort_count' => :'Integer'
       }
     end
 
@@ -77,22 +56,20 @@ module StravaClient
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
 
-      if attributes.has_key?(:'original_size')
-        self.original_size = attributes[:'original_size']
+      if attributes.has_key?(:'pr_activity_id')
+        self.pr_activity_id = attributes[:'pr_activity_id']
       end
 
-      if attributes.has_key?(:'resolution')
-        self.resolution = attributes[:'resolution']
+      if attributes.has_key?(:'pr_elapsed_time')
+        self.pr_elapsed_time = attributes[:'pr_elapsed_time']
       end
 
-      if attributes.has_key?(:'series_type')
-        self.series_type = attributes[:'series_type']
+      if attributes.has_key?(:'pr_date')
+        self.pr_date = attributes[:'pr_date']
       end
 
-      if attributes.has_key?(:'data')
-        if (value = attributes[:'data']).is_a?(Array)
-          self.data = value
-        end
+      if attributes.has_key?(:'effort_count')
+        self.effort_count = attributes[:'effort_count']
       end
 
     end
@@ -107,31 +84,7 @@ module StravaClient
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      resolution_validator = EnumAttributeValidator.new('String', ["low", "medium", "high"])
-      return false unless resolution_validator.valid?(@resolution)
-      series_type_validator = EnumAttributeValidator.new('String', ["distance", "time"])
-      return false unless series_type_validator.valid?(@series_type)
       return true
-    end
-
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] resolution Object to be assigned
-    def resolution=(resolution)
-      validator = EnumAttributeValidator.new('String', ["low", "medium", "high"])
-      unless validator.valid?(resolution)
-        fail ArgumentError, "invalid value for 'resolution', must be one of #{validator.allowable_values}."
-      end
-      @resolution = resolution
-    end
-
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] series_type Object to be assigned
-    def series_type=(series_type)
-      validator = EnumAttributeValidator.new('String', ["distance", "time"])
-      unless validator.valid?(series_type)
-        fail ArgumentError, "invalid value for 'series_type', must be one of #{validator.allowable_values}."
-      end
-      @series_type = series_type
     end
 
     # Checks equality by comparing each attribute.
@@ -139,10 +92,10 @@ module StravaClient
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          original_size == o.original_size &&
-          resolution == o.resolution &&
-          series_type == o.series_type &&
-          data == o.data
+          pr_activity_id == o.pr_activity_id &&
+          pr_elapsed_time == o.pr_elapsed_time &&
+          pr_date == o.pr_date &&
+          effort_count == o.effort_count
     end
 
     # @see the `==` method
@@ -154,7 +107,7 @@ module StravaClient
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [original_size, resolution, series_type, data].hash
+      [pr_activity_id, pr_elapsed_time, pr_date, effort_count].hash
     end
 
     # Builds the object from hash

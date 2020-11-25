@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 Get Authenticated Athlete
 
-Returns the currently authenticated athlete.
+Returns the currently authenticated athlete. Tokens with profile:read_all scope will receive a detailed athlete representation; all others will receive a summary representation.
 
 ### Example
 ```ruby
@@ -61,7 +61,7 @@ This endpoint does not need any parameter.
 
 Get Zones
 
-Returns the the authenticated athlete's heart rate and power zones.
+Returns the the authenticated athlete's heart rate and power zones. Requires profile:read_all.
 
 ### Example
 ```ruby
@@ -103,11 +103,11 @@ This endpoint does not need any parameter.
 
 
 # **get_stats**
-> ActivityStats get_stats(id, opts)
+> ActivityStats get_stats(id)
 
 Get Athlete Stats
 
-Returns the activity stats of an athlete.
+Returns the activity stats of an athlete. Only includes data from activities set to Everyone visibilty.
 
 ### Example
 ```ruby
@@ -121,16 +121,12 @@ end
 
 api_instance = StravaClient::AthletesApi.new
 
-id = 56 # Integer | The identifier of the athlete.
+id = 789 # Integer | The identifier of the athlete. Must match the authenticated athlete.
 
-opts = { 
-  page: 56, # Integer | Page number.
-  per_page: 30 # Integer | Number of items per page. Defaults to 30.
-}
 
 begin
   #Get Athlete Stats
-  result = api_instance.get_stats(id, opts)
+  result = api_instance.get_stats(id)
   p result
 rescue StravaClient::ApiError => e
   puts "Exception when calling AthletesApi->get_stats: #{e}"
@@ -141,9 +137,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **id** | **Integer**| The identifier of the athlete. | 
- **page** | **Integer**| Page number. | [optional] 
- **per_page** | **Integer**| Number of items per page. Defaults to 30. | [optional] [default to 30]
+ **id** | **Integer**| The identifier of the athlete. Must match the authenticated athlete. | 
 
 ### Return type
 
@@ -161,11 +155,11 @@ Name | Type | Description  | Notes
 
 
 # **update_logged_in_athlete**
-> DetailedAthlete update_logged_in_athlete(body)
+> DetailedAthlete update_logged_in_athlete(weight)
 
 Update Athlete
 
-Update the currently authenticated athlete.
+Update the currently authenticated athlete. Requires profile:write scope.
 
 ### Example
 ```ruby
@@ -179,12 +173,12 @@ end
 
 api_instance = StravaClient::AthletesApi.new
 
-body = StravaClient::DetailedAthlete.new # DetailedAthlete | The athlete entity to update.
+weight = 3.4 # Float | The weight of the athlete in kilograms.
 
 
 begin
   #Update Athlete
-  result = api_instance.update_logged_in_athlete(body)
+  result = api_instance.update_logged_in_athlete(weight)
   p result
 rescue StravaClient::ApiError => e
   puts "Exception when calling AthletesApi->update_logged_in_athlete: #{e}"
@@ -195,7 +189,7 @@ end
 
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
- **body** | [**DetailedAthlete**](DetailedAthlete.md)| The athlete entity to update. | 
+ **weight** | **Float**| The weight of the athlete in kilograms. | 
 
 ### Return type
 
@@ -207,7 +201,7 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
+ - **Content-Type**: multipart/form-data
  - **Accept**: application/json
 
 

@@ -1,7 +1,7 @@
 =begin
 #Strava API v3
 
-#Strava API
+#The [Swagger Playground](https://developers.strava.com/playground) is the easiest way to familiarize yourself with the Strava API by submitting HTTP requests and observing the responses before you write any client code. It will show what a response will look like with different endpoints depending on the authorization scope you receive from your athletes. To use the Playground, go to https://www.strava.com/settings/api and change your “Authorization Callback Domain” to developers.strava.com. Please note, we only support Swagger 2.0. There is a known issue where you can only select one scope at a time. For more information, please check the section “client code” at https://developers.strava.com/docs.
 
 OpenAPI spec version: 3.0.0
 
@@ -21,10 +21,10 @@ module StravaClient
     end
 
     # List Club Activities
-    # Retrieve recent activities from members of a specific club. The authenticated athlete must belong to the requested club in order to hit this endpoint. Pagination is supported. Enhanced Privacy Mode is respected for all activities.
+    # Retrieve recent activities from members of a specific club. The authenticated athlete must belong to the requested club in order to hit this endpoint. Pagination is supported. Athlete profile visibility is respected for all activities.
     # @param id The identifier of the club.
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :page Page number.
+    # @option opts [Integer] :page Page number. Defaults to 1.
     # @option opts [Integer] :per_page Number of items per page. Defaults to 30. (default to 30)
     # @return [Array<SummaryActivity>]
     def get_club_activities_by_id(id, opts = {})
@@ -33,10 +33,10 @@ module StravaClient
     end
 
     # List Club Activities
-    # Retrieve recent activities from members of a specific club. The authenticated athlete must belong to the requested club in order to hit this endpoint. Pagination is supported. Enhanced Privacy Mode is respected for all activities.
+    # Retrieve recent activities from members of a specific club. The authenticated athlete must belong to the requested club in order to hit this endpoint. Pagination is supported. Athlete profile visibility is respected for all activities.
     # @param id The identifier of the club.
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :page Page number.
+    # @option opts [Integer] :page Page number. Defaults to 1.
     # @option opts [Integer] :per_page Number of items per page. Defaults to 30.
     # @return [Array<(Array<SummaryActivity>, Fixnum, Hash)>] Array<SummaryActivity> data, response status code and response headers
     def get_club_activities_by_id_with_http_info(id, opts = {})
@@ -79,11 +79,11 @@ module StravaClient
       return data, status_code, headers
     end
 
-    # List Club Administrators.
+    # List Club Administrators
     # Returns a list of the administrators of a given club.
     # @param id The identifier of the club.
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :page Page number.
+    # @option opts [Integer] :page Page number. Defaults to 1.
     # @option opts [Integer] :per_page Number of items per page. Defaults to 30. (default to 30)
     # @return [Array<SummaryAthlete>]
     def get_club_admins_by_id(id, opts = {})
@@ -91,11 +91,11 @@ module StravaClient
       return data
     end
 
-    # List Club Administrators.
+    # List Club Administrators
     # Returns a list of the administrators of a given club.
     # @param id The identifier of the club.
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :page Page number.
+    # @option opts [Integer] :page Page number. Defaults to 1.
     # @option opts [Integer] :per_page Number of items per page. Defaults to 30.
     # @return [Array<(Array<SummaryAthlete>, Fixnum, Hash)>] Array<SummaryAthlete> data, response status code and response headers
     def get_club_admins_by_id_with_http_info(id, opts = {})
@@ -195,7 +195,7 @@ module StravaClient
     # Returns a list of the athletes who are members of a given club.
     # @param id The identifier of the club.
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :page Page number.
+    # @option opts [Integer] :page Page number. Defaults to 1.
     # @option opts [Integer] :per_page Number of items per page. Defaults to 30. (default to 30)
     # @return [Array<SummaryAthlete>]
     def get_club_members_by_id(id, opts = {})
@@ -207,7 +207,7 @@ module StravaClient
     # Returns a list of the athletes who are members of a given club.
     # @param id The identifier of the club.
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :page Page number.
+    # @option opts [Integer] :page Page number. Defaults to 1.
     # @option opts [Integer] :per_page Number of items per page. Defaults to 30.
     # @return [Array<(Array<SummaryAthlete>, Fixnum, Hash)>] Array<SummaryAthlete> data, response status code and response headers
     def get_club_members_by_id_with_http_info(id, opts = {})
@@ -253,7 +253,7 @@ module StravaClient
     # List Athlete Clubs
     # Returns a list of the clubs whose membership includes the authenticated athlete.
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :page Page number.
+    # @option opts [Integer] :page Page number. Defaults to 1.
     # @option opts [Integer] :per_page Number of items per page. Defaults to 30. (default to 30)
     # @return [Array<SummaryClub>]
     def get_logged_in_athlete_clubs(opts = {})
@@ -264,7 +264,7 @@ module StravaClient
     # List Athlete Clubs
     # Returns a list of the clubs whose membership includes the authenticated athlete.
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :page Page number.
+    # @option opts [Integer] :page Page number. Defaults to 1.
     # @option opts [Integer] :per_page Number of items per page. Defaults to 30.
     # @return [Array<(Array<SummaryClub>, Fixnum, Hash)>] Array<SummaryClub> data, response status code and response headers
     def get_logged_in_athlete_clubs_with_http_info(opts = {})
@@ -299,112 +299,6 @@ module StravaClient
         :return_type => 'Array<SummaryClub>')
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: ClubsApi#get_logged_in_athlete_clubs\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
-      end
-      return data, status_code, headers
-    end
-
-    # Join Club
-    # Adds the authenticated athlete to the club's membership.
-    # @param id The identifier of the club.
-    # @param [Hash] opts the optional parameters
-    # @return [MembershipApplication]
-    def join_club_by_id(id, opts = {})
-      data, _status_code, _headers = join_club_by_id_with_http_info(id, opts)
-      return data
-    end
-
-    # Join Club
-    # Adds the authenticated athlete to the club&#39;s membership.
-    # @param id The identifier of the club.
-    # @param [Hash] opts the optional parameters
-    # @return [Array<(MembershipApplication, Fixnum, Hash)>] MembershipApplication data, response status code and response headers
-    def join_club_by_id_with_http_info(id, opts = {})
-      if @api_client.config.debugging
-        @api_client.config.logger.debug "Calling API: ClubsApi.join_club_by_id ..."
-      end
-      # verify the required parameter 'id' is set
-      if @api_client.config.client_side_validation && id.nil?
-        fail ArgumentError, "Missing the required parameter 'id' when calling ClubsApi.join_club_by_id"
-      end
-      # resource path
-      local_var_path = "/clubs/{id}/join".sub('{' + 'id' + '}', id.to_s)
-
-      # query parameters
-      query_params = {}
-
-      # header parameters
-      header_params = {}
-      # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
-
-      # form parameters
-      form_params = {}
-
-      # http body (model)
-      post_body = nil
-      auth_names = ['strava_oauth']
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path,
-        :header_params => header_params,
-        :query_params => query_params,
-        :form_params => form_params,
-        :body => post_body,
-        :auth_names => auth_names,
-        :return_type => 'MembershipApplication')
-      if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: ClubsApi#join_club_by_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
-      end
-      return data, status_code, headers
-    end
-
-    # Leave Club
-    # Removes the authenticated athlete from the club's membership.
-    # @param id The identifier of the club.
-    # @param [Hash] opts the optional parameters
-    # @return [MembershipApplication]
-    def leave_club_by_id(id, opts = {})
-      data, _status_code, _headers = leave_club_by_id_with_http_info(id, opts)
-      return data
-    end
-
-    # Leave Club
-    # Removes the authenticated athlete from the club&#39;s membership.
-    # @param id The identifier of the club.
-    # @param [Hash] opts the optional parameters
-    # @return [Array<(MembershipApplication, Fixnum, Hash)>] MembershipApplication data, response status code and response headers
-    def leave_club_by_id_with_http_info(id, opts = {})
-      if @api_client.config.debugging
-        @api_client.config.logger.debug "Calling API: ClubsApi.leave_club_by_id ..."
-      end
-      # verify the required parameter 'id' is set
-      if @api_client.config.client_side_validation && id.nil?
-        fail ArgumentError, "Missing the required parameter 'id' when calling ClubsApi.leave_club_by_id"
-      end
-      # resource path
-      local_var_path = "/clubs/{id}/leave".sub('{' + 'id' + '}', id.to_s)
-
-      # query parameters
-      query_params = {}
-
-      # header parameters
-      header_params = {}
-      # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
-
-      # form parameters
-      form_params = {}
-
-      # http body (model)
-      post_body = nil
-      auth_names = ['strava_oauth']
-      data, status_code, headers = @api_client.call_api(:POST, local_var_path,
-        :header_params => header_params,
-        :query_params => query_params,
-        :form_params => form_params,
-        :body => post_body,
-        :auth_names => auth_names,
-        :return_type => 'MembershipApplication')
-      if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: ClubsApi#leave_club_by_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
       return data, status_code, headers
     end

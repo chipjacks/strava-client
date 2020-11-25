@@ -1,7 +1,7 @@
 =begin
 #Strava API v3
 
-#Strava API
+#The [Swagger Playground](https://developers.strava.com/playground) is the easiest way to familiarize yourself with the Strava API by submitting HTTP requests and observing the responses before you write any client code. It will show what a response will look like with different endpoints depending on the authorization scope you receive from your athletes. To use the Playground, go to https://www.strava.com/settings/api and change your “Authorization Callback Domain” to developers.strava.com. Please note, we only support Swagger 2.0. There is a known issue where you can only select one scope at a time. For more information, please check the section “client code” at https://developers.strava.com/docs.
 
 OpenAPI spec version: 3.0.0
 
@@ -21,8 +21,8 @@ module StravaClient
     end
 
     # Explore segments
-    # Returns the segments matching a specified query.
-    # @param bounds The geographical boundaries of the search.
+    # Returns the top 10 segments matching a specified query.
+    # @param bounds The latitude and longitude for two points describing a rectangular boundary for the search: [southwest corner latitutde, southwest corner longitude, northeast corner latitude, northeast corner longitude]
     # @param [Hash] opts the optional parameters
     # @option opts [String] :activity_type Desired activity type.
     # @option opts [Integer] :min_cat The minimum climbing category.
@@ -34,8 +34,8 @@ module StravaClient
     end
 
     # Explore segments
-    # Returns the segments matching a specified query.
-    # @param bounds The geographical boundaries of the search.
+    # Returns the top 10 segments matching a specified query.
+    # @param bounds The latitude and longitude for two points describing a rectangular boundary for the search: [southwest corner latitutde, southwest corner longitude, northeast corner latitude, northeast corner longitude]
     # @param [Hash] opts the optional parameters
     # @option opts [String] :activity_type Desired activity type.
     # @option opts [Integer] :min_cat The minimum climbing category.
@@ -110,102 +110,10 @@ module StravaClient
       return data, status_code, headers
     end
 
-    # Get Segment Leaderboard
-    # Returns the specified segment leaderboard.
-    # @param id The identifier of the segment leaderboard.
-    # @param [Hash] opts the optional parameters
-    # @option opts [String] :gender Filter by gender.
-    # @option opts [String] :age_group Premium Feature. Filter by age group.
-    # @option opts [String] :weight_class Premium Feature. Filter by weight class.
-    # @option opts [BOOLEAN] :following Filter by friends of the authenticated athlete.
-    # @option opts [Integer] :club_id Filter by club.
-    # @option opts [String] :date_range Filter by date range.
-    # @option opts [Integer] :context_entries 
-    # @option opts [Integer] :page Page number.
-    # @option opts [Integer] :per_page Number of items per page. Defaults to 30. (default to 30)
-    # @return [SegmentLeaderboard]
-    def get_leaderboard_by_segment_id(id, opts = {})
-      data, _status_code, _headers = get_leaderboard_by_segment_id_with_http_info(id, opts)
-      return data
-    end
-
-    # Get Segment Leaderboard
-    # Returns the specified segment leaderboard.
-    # @param id The identifier of the segment leaderboard.
-    # @param [Hash] opts the optional parameters
-    # @option opts [String] :gender Filter by gender.
-    # @option opts [String] :age_group Premium Feature. Filter by age group.
-    # @option opts [String] :weight_class Premium Feature. Filter by weight class.
-    # @option opts [BOOLEAN] :following Filter by friends of the authenticated athlete.
-    # @option opts [Integer] :club_id Filter by club.
-    # @option opts [String] :date_range Filter by date range.
-    # @option opts [Integer] :context_entries 
-    # @option opts [Integer] :page Page number.
-    # @option opts [Integer] :per_page Number of items per page. Defaults to 30.
-    # @return [Array<(SegmentLeaderboard, Fixnum, Hash)>] SegmentLeaderboard data, response status code and response headers
-    def get_leaderboard_by_segment_id_with_http_info(id, opts = {})
-      if @api_client.config.debugging
-        @api_client.config.logger.debug "Calling API: SegmentsApi.get_leaderboard_by_segment_id ..."
-      end
-      # verify the required parameter 'id' is set
-      if @api_client.config.client_side_validation && id.nil?
-        fail ArgumentError, "Missing the required parameter 'id' when calling SegmentsApi.get_leaderboard_by_segment_id"
-      end
-      if @api_client.config.client_side_validation && opts[:'gender'] && !['M', 'F'].include?(opts[:'gender'])
-        fail ArgumentError, 'invalid value for "gender", must be one of M, F'
-      end
-      if @api_client.config.client_side_validation && opts[:'age_group'] && !['0_19', '20_24', '25_34', '35_44', '45_54', '55_64', '65_69', '70_74', '75_plus'].include?(opts[:'age_group'])
-        fail ArgumentError, 'invalid value for "age_group", must be one of 0_19, 20_24, 25_34, 35_44, 45_54, 55_64, 65_69, 70_74, 75_plus'
-      end
-      if @api_client.config.client_side_validation && opts[:'weight_class'] && !['0_124', '125_149', '150_164', '165_179', '180_199', '200_224', '225_249', '250_plus', '0_54', '55_64', '65_74', '75_84', '85_94', '95_104', '105_114', '115_plus'].include?(opts[:'weight_class'])
-        fail ArgumentError, 'invalid value for "weight_class", must be one of 0_124, 125_149, 150_164, 165_179, 180_199, 200_224, 225_249, 250_plus, 0_54, 55_64, 65_74, 75_84, 85_94, 95_104, 105_114, 115_plus'
-      end
-      if @api_client.config.client_side_validation && opts[:'date_range'] && !['this_year', 'this_month', 'this_week', 'today'].include?(opts[:'date_range'])
-        fail ArgumentError, 'invalid value for "date_range", must be one of this_year, this_month, this_week, today'
-      end
-      # resource path
-      local_var_path = "/segments/{id}/leaderboard".sub('{' + 'id' + '}', id.to_s)
-
-      # query parameters
-      query_params = {}
-      query_params[:'gender'] = opts[:'gender'] if !opts[:'gender'].nil?
-      query_params[:'age_group'] = opts[:'age_group'] if !opts[:'age_group'].nil?
-      query_params[:'weight_class'] = opts[:'weight_class'] if !opts[:'weight_class'].nil?
-      query_params[:'following'] = opts[:'following'] if !opts[:'following'].nil?
-      query_params[:'club_id'] = opts[:'club_id'] if !opts[:'club_id'].nil?
-      query_params[:'date_range'] = opts[:'date_range'] if !opts[:'date_range'].nil?
-      query_params[:'context_entries'] = opts[:'context_entries'] if !opts[:'context_entries'].nil?
-      query_params[:'page'] = opts[:'page'] if !opts[:'page'].nil?
-      query_params[:'per_page'] = opts[:'per_page'] if !opts[:'per_page'].nil?
-
-      # header parameters
-      header_params = {}
-      # HTTP header 'Accept' (if needed)
-      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
-
-      # form parameters
-      form_params = {}
-
-      # http body (model)
-      post_body = nil
-      auth_names = ['strava_oauth']
-      data, status_code, headers = @api_client.call_api(:GET, local_var_path,
-        :header_params => header_params,
-        :query_params => query_params,
-        :form_params => form_params,
-        :body => post_body,
-        :auth_names => auth_names,
-        :return_type => 'SegmentLeaderboard')
-      if @api_client.config.debugging
-        @api_client.config.logger.debug "API called: SegmentsApi#get_leaderboard_by_segment_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
-      end
-      return data, status_code, headers
-    end
-
     # List Starred Segments
-    # List of the authenticated athlete's starred segments.
+    # List of the authenticated athlete's starred segments. Private segments are filtered out unless requested by a token with read_all scope.
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :page Page number.
+    # @option opts [Integer] :page Page number. Defaults to 1.
     # @option opts [Integer] :per_page Number of items per page. Defaults to 30. (default to 30)
     # @return [Array<SummarySegment>]
     def get_logged_in_athlete_starred_segments(opts = {})
@@ -214,9 +122,9 @@ module StravaClient
     end
 
     # List Starred Segments
-    # List of the authenticated athlete&#39;s starred segments.
+    # List of the authenticated athlete&#39;s starred segments. Private segments are filtered out unless requested by a token with read_all scope.
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :page Page number.
+    # @option opts [Integer] :page Page number. Defaults to 1.
     # @option opts [Integer] :per_page Number of items per page. Defaults to 30.
     # @return [Array<(Array<SummarySegment>, Fixnum, Hash)>] Array<SummarySegment> data, response status code and response headers
     def get_logged_in_athlete_starred_segments_with_http_info(opts = {})
@@ -256,7 +164,7 @@ module StravaClient
     end
 
     # Get Segment
-    # Returns the specified segment.
+    # Returns the specified segment. read_all scope required in order to retrieve athlete-specific segment information, or to retrieve private segments.
     # @param id The identifier of the segment.
     # @param [Hash] opts the optional parameters
     # @return [DetailedSegment]
@@ -266,7 +174,7 @@ module StravaClient
     end
 
     # Get Segment
-    # Returns the specified segment.
+    # Returns the specified segment. read_all scope required in order to retrieve athlete-specific segment information, or to retrieve private segments.
     # @param id The identifier of the segment.
     # @param [Hash] opts the optional parameters
     # @return [Array<(DetailedSegment, Fixnum, Hash)>] DetailedSegment data, response status code and response headers
@@ -309,27 +217,33 @@ module StravaClient
     end
 
     # Star Segment
-    # Stars the given segment for the authenticated athlete.
+    # Stars/Unstars the given segment for the authenticated athlete. Requires profile:write scope.
     # @param id The identifier of the segment to star.
+    # @param starred If true, star the segment; if false, unstar the segment.
     # @param [Hash] opts the optional parameters
     # @return [DetailedSegment]
-    def star_segment(id, opts = {})
-      data, _status_code, _headers = star_segment_with_http_info(id, opts)
+    def star_segment(id, starred, opts = {})
+      data, _status_code, _headers = star_segment_with_http_info(id, starred, opts)
       return data
     end
 
     # Star Segment
-    # Stars the given segment for the authenticated athlete.
+    # Stars/Unstars the given segment for the authenticated athlete. Requires profile:write scope.
     # @param id The identifier of the segment to star.
+    # @param starred If true, star the segment; if false, unstar the segment.
     # @param [Hash] opts the optional parameters
     # @return [Array<(DetailedSegment, Fixnum, Hash)>] DetailedSegment data, response status code and response headers
-    def star_segment_with_http_info(id, opts = {})
+    def star_segment_with_http_info(id, starred, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug "Calling API: SegmentsApi.star_segment ..."
       end
       # verify the required parameter 'id' is set
       if @api_client.config.client_side_validation && id.nil?
         fail ArgumentError, "Missing the required parameter 'id' when calling SegmentsApi.star_segment"
+      end
+      # verify the required parameter 'starred' is set
+      if @api_client.config.client_side_validation && starred.nil?
+        fail ArgumentError, "Missing the required parameter 'starred' when calling SegmentsApi.star_segment"
       end
       # resource path
       local_var_path = "/segments/{id}/starred".sub('{' + 'id' + '}', id.to_s)
@@ -344,6 +258,7 @@ module StravaClient
 
       # form parameters
       form_params = {}
+      form_params["starred"] = starred
 
       # http body (model)
       post_body = nil

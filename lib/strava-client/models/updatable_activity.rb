@@ -1,7 +1,7 @@
 =begin
 #Strava API v3
 
-#Strava API
+#The [Swagger Playground](https://developers.strava.com/playground) is the easiest way to familiarize yourself with the Strava API by submitting HTTP requests and observing the responses before you write any client code. It will show what a response will look like with different endpoints depending on the authorization scope you receive from your athletes. To use the Playground, go to https://www.strava.com/settings/api and change your “Authorization Callback Domain” to developers.strava.com. Please note, we only support Swagger 2.0. There is a known issue where you can only select one scope at a time. For more information, please check the section “client code” at https://developers.strava.com/docs.
 
 OpenAPI spec version: 3.0.0
 
@@ -29,8 +29,8 @@ module StravaClient
 
     attr_accessor :type
 
-    # Whether this activity is private
-    attr_accessor :private
+    # Identifier for the gear associated with the activity. ‘none’ clears gear from activity
+    attr_accessor :gear_id
 
 
     # Attribute mapping from ruby-style variable name to JSON key.
@@ -41,7 +41,7 @@ module StravaClient
         :'description' => :'description',
         :'name' => :'name',
         :'type' => :'type',
-        :'private' => :'private'
+        :'gear_id' => :'gear_id'
       }
     end
 
@@ -53,7 +53,7 @@ module StravaClient
         :'description' => :'String',
         :'name' => :'String',
         :'type' => :'ActivityType',
-        :'private' => :'BOOLEAN'
+        :'gear_id' => :'String'
       }
     end
 
@@ -85,8 +85,8 @@ module StravaClient
         self.type = attributes[:'type']
       end
 
-      if attributes.has_key?(:'private')
-        self.private = attributes[:'private']
+      if attributes.has_key?(:'gear_id')
+        self.gear_id = attributes[:'gear_id']
       end
 
     end
@@ -114,7 +114,7 @@ module StravaClient
           description == o.description &&
           name == o.name &&
           type == o.type &&
-          private == o.private
+          gear_id == o.gear_id
     end
 
     # @see the `==` method
@@ -126,7 +126,7 @@ module StravaClient
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [commute, trainer, description, name, type, private].hash
+      [commute, trainer, description, name, type, gear_id].hash
     end
 
     # Builds the object from hash

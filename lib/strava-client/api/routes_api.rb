@@ -1,7 +1,7 @@
 =begin
 #Strava API v3
 
-#Strava API
+#The [Swagger Playground](https://developers.strava.com/playground) is the easiest way to familiarize yourself with the Strava API by submitting HTTP requests and observing the responses before you write any client code. It will show what a response will look like with different endpoints depending on the authorization scope you receive from your athletes. To use the Playground, go to https://www.strava.com/settings/api and change your “Authorization Callback Domain” to developers.strava.com. Please note, we only support Swagger 2.0. There is a known issue where you can only select one scope at a time. For more information, please check the section “client code” at https://developers.strava.com/docs.
 
 OpenAPI spec version: 3.0.0
 
@@ -20,8 +20,112 @@ module StravaClient
       @api_client = api_client
     end
 
+    # Export Route GPX
+    # Returns a GPX file of the route. Requires read_all scope for private routes.
+    # @param id The identifier of the route.
+    # @param [Hash] opts the optional parameters
+    # @return [nil]
+    def get_route_as_gpx(id, opts = {})
+      get_route_as_gpx_with_http_info(id, opts)
+      return nil
+    end
+
+    # Export Route GPX
+    # Returns a GPX file of the route. Requires read_all scope for private routes.
+    # @param id The identifier of the route.
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
+    def get_route_as_gpx_with_http_info(id, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "Calling API: RoutesApi.get_route_as_gpx ..."
+      end
+      # verify the required parameter 'id' is set
+      if @api_client.config.client_side_validation && id.nil?
+        fail ArgumentError, "Missing the required parameter 'id' when calling RoutesApi.get_route_as_gpx"
+      end
+      # resource path
+      local_var_path = "/routes/{id}/export_gpx".sub('{' + 'id' + '}', id.to_s)
+
+      # query parameters
+      query_params = {}
+
+      # header parameters
+      header_params = {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
+
+      # form parameters
+      form_params = {}
+
+      # http body (model)
+      post_body = nil
+      auth_names = ['strava_oauth']
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: RoutesApi#get_route_as_gpx\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # Export Route TCX
+    # Returns a TCX file of the route. Requires read_all scope for private routes.
+    # @param id The identifier of the route.
+    # @param [Hash] opts the optional parameters
+    # @return [nil]
+    def get_route_as_tcx(id, opts = {})
+      get_route_as_tcx_with_http_info(id, opts)
+      return nil
+    end
+
+    # Export Route TCX
+    # Returns a TCX file of the route. Requires read_all scope for private routes.
+    # @param id The identifier of the route.
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(nil, Fixnum, Hash)>] nil, response status code and response headers
+    def get_route_as_tcx_with_http_info(id, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "Calling API: RoutesApi.get_route_as_tcx ..."
+      end
+      # verify the required parameter 'id' is set
+      if @api_client.config.client_side_validation && id.nil?
+        fail ArgumentError, "Missing the required parameter 'id' when calling RoutesApi.get_route_as_tcx"
+      end
+      # resource path
+      local_var_path = "/routes/{id}/export_tcx".sub('{' + 'id' + '}', id.to_s)
+
+      # query parameters
+      query_params = {}
+
+      # header parameters
+      header_params = {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
+
+      # form parameters
+      form_params = {}
+
+      # http body (model)
+      post_body = nil
+      auth_names = ['strava_oauth']
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names)
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: RoutesApi#get_route_as_tcx\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
     # Get Route
-    # Returns a route using its identifier.
+    # Returns a route using its identifier. Requires read_all scope for private routes.
     # @param id The identifier of the route.
     # @param [Hash] opts the optional parameters
     # @return [Route]
@@ -31,7 +135,7 @@ module StravaClient
     end
 
     # Get Route
-    # Returns a route using its identifier.
+    # Returns a route using its identifier. Requires read_all scope for private routes.
     # @param id The identifier of the route.
     # @param [Hash] opts the optional parameters
     # @return [Array<(Route, Fixnum, Hash)>] Route data, response status code and response headers
@@ -74,34 +178,28 @@ module StravaClient
     end
 
     # List Athlete Routes
-    # Returns a list of the routes created by the authenticated athlete using their athlete ID.
-    # @param id The identifier of the athlete.
+    # Returns a list of the routes created by the authenticated athlete. Private routes are filtered out unless requested by a token with read_all scope.
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :page Page number.
+    # @option opts [Integer] :page Page number. Defaults to 1.
     # @option opts [Integer] :per_page Number of items per page. Defaults to 30. (default to 30)
     # @return [Array<Route>]
-    def get_routes_by_athlete_id(id, opts = {})
-      data, _status_code, _headers = get_routes_by_athlete_id_with_http_info(id, opts)
+    def get_routes_by_athlete_id(opts = {})
+      data, _status_code, _headers = get_routes_by_athlete_id_with_http_info(opts)
       return data
     end
 
     # List Athlete Routes
-    # Returns a list of the routes created by the authenticated athlete using their athlete ID.
-    # @param id The identifier of the athlete.
+    # Returns a list of the routes created by the authenticated athlete. Private routes are filtered out unless requested by a token with read_all scope.
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :page Page number.
+    # @option opts [Integer] :page Page number. Defaults to 1.
     # @option opts [Integer] :per_page Number of items per page. Defaults to 30.
     # @return [Array<(Array<Route>, Fixnum, Hash)>] Array<Route> data, response status code and response headers
-    def get_routes_by_athlete_id_with_http_info(id, opts = {})
+    def get_routes_by_athlete_id_with_http_info(opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug "Calling API: RoutesApi.get_routes_by_athlete_id ..."
       end
-      # verify the required parameter 'id' is set
-      if @api_client.config.client_side_validation && id.nil?
-        fail ArgumentError, "Missing the required parameter 'id' when calling RoutesApi.get_routes_by_athlete_id"
-      end
       # resource path
-      local_var_path = "/athletes/{id}/routes".sub('{' + 'id' + '}', id.to_s)
+      local_var_path = "/athletes/{id}/routes"
 
       # query parameters
       query_params = {}

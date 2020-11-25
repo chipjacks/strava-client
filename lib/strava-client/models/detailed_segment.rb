@@ -1,7 +1,7 @@
 =begin
 #Strava API v3
 
-#Strava API
+#The [Swagger Playground](https://developers.strava.com/playground) is the easiest way to familiarize yourself with the Strava API by submitting HTTP requests and observing the responses before you write any client code. It will show what a response will look like with different endpoints depending on the authorization scope you receive from your athletes. To use the Playground, go to https://www.strava.com/settings/api and change your “Authorization Callback Domain” to developers.strava.com. Please note, we only support Swagger 2.0. There is a known issue where you can only select one scope at a time. For more information, please check the section “client code” at https://developers.strava.com/docs.
 
 OpenAPI spec version: 3.0.0
 
@@ -42,7 +42,7 @@ module StravaClient
 
     attr_accessor :end_latlng
 
-    # The category of the climb
+    # The category of the climb [0, 5]. Higher is harder ie. 5 is Hors catégorie, 0 is uncategorized in climb_category.
     attr_accessor :climb_category
 
     # The segments's city.
@@ -58,6 +58,8 @@ module StravaClient
     attr_accessor :private
 
     attr_accessor :athlete_pr_effort
+
+    attr_accessor :athlete_segment_stats
 
     # The time at which the segment was created.
     attr_accessor :created_at
@@ -123,6 +125,7 @@ module StravaClient
         :'country' => :'country',
         :'private' => :'private',
         :'athlete_pr_effort' => :'athlete_pr_effort',
+        :'athlete_segment_stats' => :'athlete_segment_stats',
         :'created_at' => :'created_at',
         :'updated_at' => :'updated_at',
         :'total_elevation_gain' => :'total_elevation_gain',
@@ -153,6 +156,7 @@ module StravaClient
         :'country' => :'String',
         :'private' => :'BOOLEAN',
         :'athlete_pr_effort' => :'SummarySegmentEffort',
+        :'athlete_segment_stats' => :'SummaryPRSegmentEffort',
         :'created_at' => :'DateTime',
         :'updated_at' => :'DateTime',
         :'total_elevation_gain' => :'Float',
@@ -236,6 +240,10 @@ module StravaClient
         self.athlete_pr_effort = attributes[:'athlete_pr_effort']
       end
 
+      if attributes.has_key?(:'athlete_segment_stats')
+        self.athlete_segment_stats = attributes[:'athlete_segment_stats']
+      end
+
       if attributes.has_key?(:'created_at')
         self.created_at = attributes[:'created_at']
       end
@@ -274,14 +282,6 @@ module StravaClient
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
-      if !@climb_category.nil? && @climb_category > 5
-        invalid_properties.push("invalid value for 'climb_category', must be smaller than or equal to 5.")
-      end
-
-      if !@climb_category.nil? && @climb_category < 0
-        invalid_properties.push("invalid value for 'climb_category', must be greater than or equal to 0.")
-      end
-
       return invalid_properties
     end
 
@@ -290,8 +290,6 @@ module StravaClient
     def valid?
       activity_type_validator = EnumAttributeValidator.new('String', ["Ride", "Run"])
       return false unless activity_type_validator.valid?(@activity_type)
-      return false if !@climb_category.nil? && @climb_category > 5
-      return false if !@climb_category.nil? && @climb_category < 0
       return true
     end
 
@@ -303,21 +301,6 @@ module StravaClient
         fail ArgumentError, "invalid value for 'activity_type', must be one of #{validator.allowable_values}."
       end
       @activity_type = activity_type
-    end
-
-    # Custom attribute writer method with validation
-    # @param [Object] climb_category Value to be assigned
-    def climb_category=(climb_category)
-
-      if !climb_category.nil? && climb_category > 5
-        fail ArgumentError, "invalid value for 'climb_category', must be smaller than or equal to 5."
-      end
-
-      if !climb_category.nil? && climb_category < 0
-        fail ArgumentError, "invalid value for 'climb_category', must be greater than or equal to 0."
-      end
-
-      @climb_category = climb_category
     end
 
     # Checks equality by comparing each attribute.
@@ -341,6 +324,7 @@ module StravaClient
           country == o.country &&
           private == o.private &&
           athlete_pr_effort == o.athlete_pr_effort &&
+          athlete_segment_stats == o.athlete_segment_stats &&
           created_at == o.created_at &&
           updated_at == o.updated_at &&
           total_elevation_gain == o.total_elevation_gain &&
@@ -360,7 +344,7 @@ module StravaClient
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [id, name, activity_type, distance, average_grade, maximum_grade, elevation_high, elevation_low, start_latlng, end_latlng, climb_category, city, state, country, private, athlete_pr_effort, created_at, updated_at, total_elevation_gain, map, effort_count, athlete_count, hazardous, star_count].hash
+      [id, name, activity_type, distance, average_grade, maximum_grade, elevation_high, elevation_low, start_latlng, end_latlng, climb_category, city, state, country, private, athlete_pr_effort, athlete_segment_stats, created_at, updated_at, total_elevation_gain, map, effort_count, athlete_count, hazardous, star_count].hash
     end
 
     # Builds the object from hash

@@ -1,7 +1,7 @@
 =begin
 #Strava API v3
 
-#Strava API
+#The [Swagger Playground](https://developers.strava.com/playground) is the easiest way to familiarize yourself with the Strava API by submitting HTTP requests and observing the responses before you write any client code. It will show what a response will look like with different endpoints depending on the authorization scope you receive from your athletes. To use the Playground, go to https://www.strava.com/settings/api and change your “Authorization Callback Domain” to developers.strava.com. Please note, we only support Swagger 2.0. There is a known issue where you can only select one scope at a time. For more information, please check the section “client code” at https://developers.strava.com/docs.
 
 OpenAPI spec version: 3.0.0
 
@@ -21,7 +21,7 @@ module StravaClient
     end
 
     # Get Activity Streams
-    # Returns the given activity's streams.
+    # Returns the given activity's streams. Requires activity:read scope. Requires activity:read_all scope for Only Me activities.
     # @param id The identifier of the activity.
     # @param keys Desired stream types.
     # @param key_by_type Must be true.
@@ -33,7 +33,7 @@ module StravaClient
     end
 
     # Get Activity Streams
-    # Returns the given activity&#39;s streams.
+    # Returns the given activity&#39;s streams. Requires activity:read scope. Requires activity:read_all scope for Only Me activities.
     # @param id The identifier of the activity.
     # @param keys Desired stream types.
     # @param key_by_type Must be true.
@@ -91,8 +91,61 @@ module StravaClient
       return data, status_code, headers
     end
 
-    # Get segment effort streams
-    # Returns a set of streams for a segment effort completed by the authenticated athlete.
+    # Get Route Streams
+    # Returns the given route's streams. Requires read_all scope for private routes.
+    # @param id The identifier of the route.
+    # @param [Hash] opts the optional parameters
+    # @return [StreamSet]
+    def get_route_streams(id, opts = {})
+      data, _status_code, _headers = get_route_streams_with_http_info(id, opts)
+      return data
+    end
+
+    # Get Route Streams
+    # Returns the given route&#39;s streams. Requires read_all scope for private routes.
+    # @param id The identifier of the route.
+    # @param [Hash] opts the optional parameters
+    # @return [Array<(StreamSet, Fixnum, Hash)>] StreamSet data, response status code and response headers
+    def get_route_streams_with_http_info(id, opts = {})
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "Calling API: StreamsApi.get_route_streams ..."
+      end
+      # verify the required parameter 'id' is set
+      if @api_client.config.client_side_validation && id.nil?
+        fail ArgumentError, "Missing the required parameter 'id' when calling StreamsApi.get_route_streams"
+      end
+      # resource path
+      local_var_path = "/routes/{id}/streams".sub('{' + 'id' + '}', id.to_s)
+
+      # query parameters
+      query_params = {}
+
+      # header parameters
+      header_params = {}
+      # HTTP header 'Accept' (if needed)
+      header_params['Accept'] = @api_client.select_header_accept(['application/json'])
+
+      # form parameters
+      form_params = {}
+
+      # http body (model)
+      post_body = nil
+      auth_names = ['strava_oauth']
+      data, status_code, headers = @api_client.call_api(:GET, local_var_path,
+        :header_params => header_params,
+        :query_params => query_params,
+        :form_params => form_params,
+        :body => post_body,
+        :auth_names => auth_names,
+        :return_type => 'StreamSet')
+      if @api_client.config.debugging
+        @api_client.config.logger.debug "API called: StreamsApi#get_route_streams\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
+      end
+      return data, status_code, headers
+    end
+
+    # Get Segment Effort Streams
+    # Returns a set of streams for a segment effort completed by the authenticated athlete. Requires read_all scope.
     # @param id The identifier of the segment effort.
     # @param keys The types of streams to return.
     # @param key_by_type Must be true.
@@ -103,8 +156,8 @@ module StravaClient
       return data
     end
 
-    # Get segment effort streams
-    # Returns a set of streams for a segment effort completed by the authenticated athlete.
+    # Get Segment Effort Streams
+    # Returns a set of streams for a segment effort completed by the authenticated athlete. Requires read_all scope.
     # @param id The identifier of the segment effort.
     # @param keys The types of streams to return.
     # @param key_by_type Must be true.
@@ -163,7 +216,7 @@ module StravaClient
     end
 
     # Get Segment Streams
-    # Returns the given segment's streams.
+    # Returns the given segment's streams. Requires read_all scope for private segments.
     # @param id The identifier of the segment.
     # @param keys The types of streams to return.
     # @param key_by_type Must be true.
@@ -175,7 +228,7 @@ module StravaClient
     end
 
     # Get Segment Streams
-    # Returns the given segment&#39;s streams.
+    # Returns the given segment&#39;s streams. Requires read_all scope for private segments.
     # @param id The identifier of the segment.
     # @param keys The types of streams to return.
     # @param key_by_type Must be true.

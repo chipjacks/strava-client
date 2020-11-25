@@ -5,13 +5,13 @@ All URIs are relative to *https://www.strava.com/api/v3*
 Method | HTTP request | Description
 ------------- | ------------- | -------------
 [**create_activity**](ActivitiesApi.md#create_activity) | **POST** /activities | Create an Activity
-[**get_activity_by_id**](ActivitiesApi.md#get_activity_by_id) | **GET** /activities | Get Activity
+[**get_activity_by_id**](ActivitiesApi.md#get_activity_by_id) | **GET** /activities/{id} | Get Activity
 [**get_comments_by_activity_id**](ActivitiesApi.md#get_comments_by_activity_id) | **GET** /activities/{id}/comments | List Activity Comments
 [**get_kudoers_by_activity_id**](ActivitiesApi.md#get_kudoers_by_activity_id) | **GET** /activities/{id}/kudos | List Activity Kudoers
 [**get_laps_by_activity_id**](ActivitiesApi.md#get_laps_by_activity_id) | **GET** /activities/{id}/laps | List Activity Laps
 [**get_logged_in_athlete_activities**](ActivitiesApi.md#get_logged_in_athlete_activities) | **GET** /athlete/activities | List Athlete Activities
 [**get_zones_by_activity_id**](ActivitiesApi.md#get_zones_by_activity_id) | **GET** /activities/{id}/zones | Get Activity Zones
-[**update_activity_by_id**](ActivitiesApi.md#update_activity_by_id) | **PUT** /activities | Update Activity
+[**update_activity_by_id**](ActivitiesApi.md#update_activity_by_id) | **PUT** /activities/{id} | Update Activity
 
 
 # **create_activity**
@@ -19,7 +19,7 @@ Method | HTTP request | Description
 
 Create an Activity
 
-Creates a manual activity for an athlete. Requires write permissions, as requested during the authorization process.
+Creates a manual activity for an athlete, requires activity:write scope.
 
 ### Example
 ```ruby
@@ -37,16 +37,14 @@ name = "name_example" # String | The name of the activity.
 
 type = "type_example" # String | Type of activity. For example - Run, Ride etc.
 
-start_date_local = "start_date_local_example" # String | ISO 8601 formatted date time.
+start_date_local = DateTime.parse("2013-10-20T19:20:30+01:00") # DateTime | ISO 8601 formatted date time.
 
 elapsed_time = 56 # Integer | In seconds.
 
 opts = { 
   description: "description_example", # String | Description of the activity.
-  distance: "distance_example", # String | In meters.
-  private: 56, # Integer | set to 1 to mark the resulting activity as private, ‘view_private’ permissions will be necessary to view the activity. If not specified, set according to the athlete’s privacy setting (recommended).
+  distance: 3.4, # Float | In meters.
   trainer: 56, # Integer | Set to 1 to mark as a trainer activity.
-  photo_ids: "photo_ids_example", # String | List of native photo ids to attach to the activity.
   commute: 56 # Integer | Set to 1 to mark as commute.
 }
 
@@ -65,13 +63,11 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **String**| The name of the activity. | 
  **type** | **String**| Type of activity. For example - Run, Ride etc. | 
- **start_date_local** | **String**| ISO 8601 formatted date time. | 
+ **start_date_local** | **DateTime**| ISO 8601 formatted date time. | 
  **elapsed_time** | **Integer**| In seconds. | 
  **description** | **String**| Description of the activity. | [optional] 
- **distance** | **String**| In meters. | [optional] 
- **private** | **Integer**| set to 1 to mark the resulting activity as private, ‘view_private’ permissions will be necessary to view the activity. If not specified, set according to the athlete’s privacy setting (recommended). | [optional] 
+ **distance** | **Float**| In meters. | [optional] 
  **trainer** | **Integer**| Set to 1 to mark as a trainer activity. | [optional] 
- **photo_ids** | **String**| List of native photo ids to attach to the activity. | [optional] 
  **commute** | **Integer**| Set to 1 to mark as commute. | [optional] 
 
 ### Return type
@@ -94,7 +90,7 @@ Name | Type | Description  | Notes
 
 Get Activity
 
-Returns the given activity that is owned by the authenticated athlete.
+Returns the given activity that is owned by the authenticated athlete. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities.
 
 ### Example
 ```ruby
@@ -150,7 +146,7 @@ Name | Type | Description  | Notes
 
 List Activity Comments
 
-Returns the comments on the given activity.
+Returns the comments on the given activity. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities.
 
 ### Example
 ```ruby
@@ -167,7 +163,7 @@ api_instance = StravaClient::ActivitiesApi.new
 id = 789 # Integer | The identifier of the activity.
 
 opts = { 
-  page: 56, # Integer | Page number.
+  page: 56, # Integer | Page number. Defaults to 1.
   per_page: 30 # Integer | Number of items per page. Defaults to 30.
 }
 
@@ -185,7 +181,7 @@ end
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **Integer**| The identifier of the activity. | 
- **page** | **Integer**| Page number. | [optional] 
+ **page** | **Integer**| Page number. Defaults to 1. | [optional] 
  **per_page** | **Integer**| Number of items per page. Defaults to 30. | [optional] [default to 30]
 
 ### Return type
@@ -208,7 +204,7 @@ Name | Type | Description  | Notes
 
 List Activity Kudoers
 
-Returns the athletes who kudoed an activity identified by an identifier.
+Returns the athletes who kudoed an activity identified by an identifier. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities.
 
 ### Example
 ```ruby
@@ -222,10 +218,10 @@ end
 
 api_instance = StravaClient::ActivitiesApi.new
 
-id = 56 # Integer | The identifier of the activity.
+id = 789 # Integer | The identifier of the activity.
 
 opts = { 
-  page: 56, # Integer | Page number.
+  page: 56, # Integer | Page number. Defaults to 1.
   per_page: 30 # Integer | Number of items per page. Defaults to 30.
 }
 
@@ -243,7 +239,7 @@ end
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **Integer**| The identifier of the activity. | 
- **page** | **Integer**| Page number. | [optional] 
+ **page** | **Integer**| Page number. Defaults to 1. | [optional] 
  **per_page** | **Integer**| Number of items per page. Defaults to 30. | [optional] [default to 30]
 
 ### Return type
@@ -266,7 +262,7 @@ Name | Type | Description  | Notes
 
 List Activity Laps
 
-Returns the laps of an activity identified by an identifier.
+Returns the laps of an activity identified by an identifier. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities.
 
 ### Example
 ```ruby
@@ -318,7 +314,7 @@ Name | Type | Description  | Notes
 
 List Athlete Activities
 
-Returns the activities of an athlete for a specific identifier.
+Returns the activities of an athlete for a specific identifier. Requires activity:read. Only Me activities will be filtered out unless requested by a token with activity:read_all.
 
 ### Example
 ```ruby
@@ -335,7 +331,7 @@ api_instance = StravaClient::ActivitiesApi.new
 opts = { 
   before: 56, # Integer | An epoch timestamp to use for filtering activities that have taken place before a certain time.
   after: 56, # Integer | An epoch timestamp to use for filtering activities that have taken place after a certain time.
-  page: 56, # Integer | Page number.
+  page: 56, # Integer | Page number. Defaults to 1.
   per_page: 30 # Integer | Number of items per page. Defaults to 30.
 }
 
@@ -354,7 +350,7 @@ Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **before** | **Integer**| An epoch timestamp to use for filtering activities that have taken place before a certain time. | [optional] 
  **after** | **Integer**| An epoch timestamp to use for filtering activities that have taken place after a certain time. | [optional] 
- **page** | **Integer**| Page number. | [optional] 
+ **page** | **Integer**| Page number. Defaults to 1. | [optional] 
  **per_page** | **Integer**| Number of items per page. Defaults to 30. | [optional] [default to 30]
 
 ### Return type
@@ -377,7 +373,7 @@ Name | Type | Description  | Notes
 
 Get Activity Zones
 
-Premium Feature. Returns the zones of a given activity.
+Summit Feature. Returns the zones of a given activity. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities.
 
 ### Example
 ```ruby
@@ -391,7 +387,7 @@ end
 
 api_instance = StravaClient::ActivitiesApi.new
 
-id = 56 # Integer | The identifier of the activity.
+id = 789 # Integer | The identifier of the activity.
 
 
 begin
@@ -429,7 +425,7 @@ Name | Type | Description  | Notes
 
 Update Activity
 
-Updates the given activity that is owned by the authenticated athlete.
+Updates the given activity that is owned by the authenticated athlete. Requires activity:write. Also requires activity:read_all in order to update Only Me activities
 
 ### Example
 ```ruby

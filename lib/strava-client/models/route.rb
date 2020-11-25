@@ -1,7 +1,7 @@
 =begin
 #Strava API v3
 
-#Strava API
+#The [Swagger Playground](https://developers.strava.com/playground) is the easiest way to familiarize yourself with the Strava API by submitting HTTP requests and observing the responses before you write any client code. It will show what a response will look like with different endpoints depending on the authorization scope you receive from your athletes. To use the Playground, go to https://www.strava.com/settings/api and change your “Authorization Callback Domain” to developers.strava.com. Please note, we only support Swagger 2.0. There is a known issue where you can only select one scope at a time. For more information, please check the section “client code” at https://developers.strava.com/docs.
 
 OpenAPI spec version: 3.0.0
 
@@ -29,6 +29,9 @@ module StravaClient
     # The unique identifier of this route
     attr_accessor :id
 
+    # The unique identifier of the route in string format
+    attr_accessor :id_str
+
     attr_accessor :map
 
     # The name of this route
@@ -40,6 +43,7 @@ module StravaClient
     # Whether this route is starred by the logged-in athlete
     attr_accessor :starred
 
+    # An epoch timestamp of when the route was created
     attr_accessor :timestamp
 
     # This route's type (1 for ride, 2 for runs)
@@ -48,11 +52,17 @@ module StravaClient
     # This route's sub-type (1 for road, 2 for mountain bike, 3 for cross, 4 for trail, 5 for mixed)
     attr_accessor :sub_type
 
+    # The time at which the route was created
+    attr_accessor :created_at
+
+    # The time at which the route was last updated
+    attr_accessor :updated_at
+
+    # Estimated time in seconds for the authenticated athlete to complete route
+    attr_accessor :estimated_moving_time
+
     # The segments traversed by this route
     attr_accessor :segments
-
-    # The directions of this route
-    attr_accessor :directions
 
 
     # Attribute mapping from ruby-style variable name to JSON key.
@@ -63,6 +73,7 @@ module StravaClient
         :'distance' => :'distance',
         :'elevation_gain' => :'elevation_gain',
         :'id' => :'id',
+        :'id_str' => :'id_str',
         :'map' => :'map',
         :'name' => :'name',
         :'private' => :'private',
@@ -70,8 +81,10 @@ module StravaClient
         :'timestamp' => :'timestamp',
         :'type' => :'type',
         :'sub_type' => :'sub_type',
-        :'segments' => :'segments',
-        :'directions' => :'directions'
+        :'created_at' => :'created_at',
+        :'updated_at' => :'updated_at',
+        :'estimated_moving_time' => :'estimated_moving_time',
+        :'segments' => :'segments'
       }
     end
 
@@ -83,6 +96,7 @@ module StravaClient
         :'distance' => :'Float',
         :'elevation_gain' => :'Float',
         :'id' => :'Integer',
+        :'id_str' => :'String',
         :'map' => :'PolylineMap',
         :'name' => :'String',
         :'private' => :'BOOLEAN',
@@ -90,8 +104,10 @@ module StravaClient
         :'timestamp' => :'Integer',
         :'type' => :'Integer',
         :'sub_type' => :'Integer',
-        :'segments' => :'Array<SummarySegment>',
-        :'directions' => :'Array<RouteDirection>'
+        :'created_at' => :'DateTime',
+        :'updated_at' => :'DateTime',
+        :'estimated_moving_time' => :'Integer',
+        :'segments' => :'Array<SummarySegment>'
       }
     end
 
@@ -123,6 +139,10 @@ module StravaClient
         self.id = attributes[:'id']
       end
 
+      if attributes.has_key?(:'id_str')
+        self.id_str = attributes[:'id_str']
+      end
+
       if attributes.has_key?(:'map')
         self.map = attributes[:'map']
       end
@@ -151,15 +171,21 @@ module StravaClient
         self.sub_type = attributes[:'sub_type']
       end
 
+      if attributes.has_key?(:'created_at')
+        self.created_at = attributes[:'created_at']
+      end
+
+      if attributes.has_key?(:'updated_at')
+        self.updated_at = attributes[:'updated_at']
+      end
+
+      if attributes.has_key?(:'estimated_moving_time')
+        self.estimated_moving_time = attributes[:'estimated_moving_time']
+      end
+
       if attributes.has_key?(:'segments')
         if (value = attributes[:'segments']).is_a?(Array)
           self.segments = value
-        end
-      end
-
-      if attributes.has_key?(:'directions')
-        if (value = attributes[:'directions']).is_a?(Array)
-          self.directions = value
         end
       end
 
@@ -188,6 +214,7 @@ module StravaClient
           distance == o.distance &&
           elevation_gain == o.elevation_gain &&
           id == o.id &&
+          id_str == o.id_str &&
           map == o.map &&
           name == o.name &&
           private == o.private &&
@@ -195,8 +222,10 @@ module StravaClient
           timestamp == o.timestamp &&
           type == o.type &&
           sub_type == o.sub_type &&
-          segments == o.segments &&
-          directions == o.directions
+          created_at == o.created_at &&
+          updated_at == o.updated_at &&
+          estimated_moving_time == o.estimated_moving_time &&
+          segments == o.segments
     end
 
     # @see the `==` method
@@ -208,7 +237,7 @@ module StravaClient
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [athlete, description, distance, elevation_gain, id, map, name, private, starred, timestamp, type, sub_type, segments, directions].hash
+      [athlete, description, distance, elevation_gain, id, id_str, map, name, private, starred, timestamp, type, sub_type, created_at, updated_at, estimated_moving_time, segments].hash
     end
 
     # Builds the object from hash

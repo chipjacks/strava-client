@@ -1,7 +1,7 @@
 =begin
 #Strava API v3
 
-#Strava API
+#The [Swagger Playground](https://developers.strava.com/playground) is the easiest way to familiarize yourself with the Strava API by submitting HTTP requests and observing the responses before you write any client code. It will show what a response will look like with different endpoints depending on the authorization scope you receive from your athletes. To use the Playground, go to https://www.strava.com/settings/api and change your “Authorization Callback Domain” to developers.strava.com. Please note, we only support Swagger 2.0. There is a known issue where you can only select one scope at a time. For more information, please check the section “client code” at https://developers.strava.com/docs.
 
 OpenAPI spec version: 3.0.0
 
@@ -21,17 +21,15 @@ module StravaClient
     end
 
     # Create an Activity
-    # Creates a manual activity for an athlete. Requires write permissions, as requested during the authorization process.
+    # Creates a manual activity for an athlete, requires activity:write scope.
     # @param name The name of the activity.
     # @param type Type of activity. For example - Run, Ride etc.
     # @param start_date_local ISO 8601 formatted date time.
     # @param elapsed_time In seconds.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :description Description of the activity.
-    # @option opts [String] :distance In meters.
-    # @option opts [Integer] :private set to 1 to mark the resulting activity as private, ‘view_private’ permissions will be necessary to view the activity. If not specified, set according to the athlete’s privacy setting (recommended).
+    # @option opts [Float] :distance In meters.
     # @option opts [Integer] :trainer Set to 1 to mark as a trainer activity.
-    # @option opts [String] :photo_ids List of native photo ids to attach to the activity.
     # @option opts [Integer] :commute Set to 1 to mark as commute.
     # @return [DetailedActivity]
     def create_activity(name, type, start_date_local, elapsed_time, opts = {})
@@ -40,17 +38,15 @@ module StravaClient
     end
 
     # Create an Activity
-    # Creates a manual activity for an athlete. Requires write permissions, as requested during the authorization process.
+    # Creates a manual activity for an athlete, requires activity:write scope.
     # @param name The name of the activity.
     # @param type Type of activity. For example - Run, Ride etc.
     # @param start_date_local ISO 8601 formatted date time.
     # @param elapsed_time In seconds.
     # @param [Hash] opts the optional parameters
     # @option opts [String] :description Description of the activity.
-    # @option opts [String] :distance In meters.
-    # @option opts [Integer] :private set to 1 to mark the resulting activity as private, ‘view_private’ permissions will be necessary to view the activity. If not specified, set according to the athlete’s privacy setting (recommended).
+    # @option opts [Float] :distance In meters.
     # @option opts [Integer] :trainer Set to 1 to mark as a trainer activity.
-    # @option opts [String] :photo_ids List of native photo ids to attach to the activity.
     # @option opts [Integer] :commute Set to 1 to mark as commute.
     # @return [Array<(DetailedActivity, Fixnum, Hash)>] DetailedActivity data, response status code and response headers
     def create_activity_with_http_info(name, type, start_date_local, elapsed_time, opts = {})
@@ -92,9 +88,7 @@ module StravaClient
       form_params["elapsed_time"] = elapsed_time
       form_params["description"] = opts[:'description'] if !opts[:'description'].nil?
       form_params["distance"] = opts[:'distance'] if !opts[:'distance'].nil?
-      form_params["private"] = opts[:'private'] if !opts[:'private'].nil?
       form_params["trainer"] = opts[:'trainer'] if !opts[:'trainer'].nil?
-      form_params["photo_ids"] = opts[:'photo_ids'] if !opts[:'photo_ids'].nil?
       form_params["commute"] = opts[:'commute'] if !opts[:'commute'].nil?
 
       # http body (model)
@@ -114,7 +108,7 @@ module StravaClient
     end
 
     # Get Activity
-    # Returns the given activity that is owned by the authenticated athlete.
+    # Returns the given activity that is owned by the authenticated athlete. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities.
     # @param id The identifier of the activity.
     # @param [Hash] opts the optional parameters
     # @option opts [BOOLEAN] :include_all_efforts To include all segments efforts.
@@ -125,7 +119,7 @@ module StravaClient
     end
 
     # Get Activity
-    # Returns the given activity that is owned by the authenticated athlete.
+    # Returns the given activity that is owned by the authenticated athlete. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities.
     # @param id The identifier of the activity.
     # @param [Hash] opts the optional parameters
     # @option opts [BOOLEAN] :include_all_efforts To include all segments efforts.
@@ -139,7 +133,7 @@ module StravaClient
         fail ArgumentError, "Missing the required parameter 'id' when calling ActivitiesApi.get_activity_by_id"
       end
       # resource path
-      local_var_path = "/activities".sub('{' + 'id' + '}', id.to_s)
+      local_var_path = "/activities/{id}".sub('{' + 'id' + '}', id.to_s)
 
       # query parameters
       query_params = {}
@@ -170,10 +164,10 @@ module StravaClient
     end
 
     # List Activity Comments
-    # Returns the comments on the given activity.
+    # Returns the comments on the given activity. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities.
     # @param id The identifier of the activity.
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :page Page number.
+    # @option opts [Integer] :page Page number. Defaults to 1.
     # @option opts [Integer] :per_page Number of items per page. Defaults to 30. (default to 30)
     # @return [Array<Comment>]
     def get_comments_by_activity_id(id, opts = {})
@@ -182,10 +176,10 @@ module StravaClient
     end
 
     # List Activity Comments
-    # Returns the comments on the given activity.
+    # Returns the comments on the given activity. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities.
     # @param id The identifier of the activity.
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :page Page number.
+    # @option opts [Integer] :page Page number. Defaults to 1.
     # @option opts [Integer] :per_page Number of items per page. Defaults to 30.
     # @return [Array<(Array<Comment>, Fixnum, Hash)>] Array<Comment> data, response status code and response headers
     def get_comments_by_activity_id_with_http_info(id, opts = {})
@@ -229,10 +223,10 @@ module StravaClient
     end
 
     # List Activity Kudoers
-    # Returns the athletes who kudoed an activity identified by an identifier.
+    # Returns the athletes who kudoed an activity identified by an identifier. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities.
     # @param id The identifier of the activity.
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :page Page number.
+    # @option opts [Integer] :page Page number. Defaults to 1.
     # @option opts [Integer] :per_page Number of items per page. Defaults to 30. (default to 30)
     # @return [Array<SummaryAthlete>]
     def get_kudoers_by_activity_id(id, opts = {})
@@ -241,10 +235,10 @@ module StravaClient
     end
 
     # List Activity Kudoers
-    # Returns the athletes who kudoed an activity identified by an identifier.
+    # Returns the athletes who kudoed an activity identified by an identifier. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities.
     # @param id The identifier of the activity.
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :page Page number.
+    # @option opts [Integer] :page Page number. Defaults to 1.
     # @option opts [Integer] :per_page Number of items per page. Defaults to 30.
     # @return [Array<(Array<SummaryAthlete>, Fixnum, Hash)>] Array<SummaryAthlete> data, response status code and response headers
     def get_kudoers_by_activity_id_with_http_info(id, opts = {})
@@ -288,7 +282,7 @@ module StravaClient
     end
 
     # List Activity Laps
-    # Returns the laps of an activity identified by an identifier.
+    # Returns the laps of an activity identified by an identifier. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities.
     # @param id The identifier of the activity.
     # @param [Hash] opts the optional parameters
     # @return [Array<Lap>]
@@ -298,7 +292,7 @@ module StravaClient
     end
 
     # List Activity Laps
-    # Returns the laps of an activity identified by an identifier.
+    # Returns the laps of an activity identified by an identifier. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities.
     # @param id The identifier of the activity.
     # @param [Hash] opts the optional parameters
     # @return [Array<(Array<Lap>, Fixnum, Hash)>] Array<Lap> data, response status code and response headers
@@ -341,11 +335,11 @@ module StravaClient
     end
 
     # List Athlete Activities
-    # Returns the activities of an athlete for a specific identifier.
+    # Returns the activities of an athlete for a specific identifier. Requires activity:read. Only Me activities will be filtered out unless requested by a token with activity:read_all.
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :before An epoch timestamp to use for filtering activities that have taken place before a certain time.
     # @option opts [Integer] :after An epoch timestamp to use for filtering activities that have taken place after a certain time.
-    # @option opts [Integer] :page Page number.
+    # @option opts [Integer] :page Page number. Defaults to 1.
     # @option opts [Integer] :per_page Number of items per page. Defaults to 30. (default to 30)
     # @return [Array<SummaryActivity>]
     def get_logged_in_athlete_activities(opts = {})
@@ -354,11 +348,11 @@ module StravaClient
     end
 
     # List Athlete Activities
-    # Returns the activities of an athlete for a specific identifier.
+    # Returns the activities of an athlete for a specific identifier. Requires activity:read. Only Me activities will be filtered out unless requested by a token with activity:read_all.
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :before An epoch timestamp to use for filtering activities that have taken place before a certain time.
     # @option opts [Integer] :after An epoch timestamp to use for filtering activities that have taken place after a certain time.
-    # @option opts [Integer] :page Page number.
+    # @option opts [Integer] :page Page number. Defaults to 1.
     # @option opts [Integer] :per_page Number of items per page. Defaults to 30.
     # @return [Array<(Array<SummaryActivity>, Fixnum, Hash)>] Array<SummaryActivity> data, response status code and response headers
     def get_logged_in_athlete_activities_with_http_info(opts = {})
@@ -400,7 +394,7 @@ module StravaClient
     end
 
     # Get Activity Zones
-    # Premium Feature. Returns the zones of a given activity.
+    # Summit Feature. Returns the zones of a given activity. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities.
     # @param id The identifier of the activity.
     # @param [Hash] opts the optional parameters
     # @return [Array<ActivityZone>]
@@ -410,7 +404,7 @@ module StravaClient
     end
 
     # Get Activity Zones
-    # Premium Feature. Returns the zones of a given activity.
+    # Summit Feature. Returns the zones of a given activity. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities.
     # @param id The identifier of the activity.
     # @param [Hash] opts the optional parameters
     # @return [Array<(Array<ActivityZone>, Fixnum, Hash)>] Array<ActivityZone> data, response status code and response headers
@@ -453,7 +447,7 @@ module StravaClient
     end
 
     # Update Activity
-    # Updates the given activity that is owned by the authenticated athlete.
+    # Updates the given activity that is owned by the authenticated athlete. Requires activity:write. Also requires activity:read_all in order to update Only Me activities
     # @param id The identifier of the activity.
     # @param [Hash] opts the optional parameters
     # @option opts [UpdatableActivity] :body 
@@ -464,7 +458,7 @@ module StravaClient
     end
 
     # Update Activity
-    # Updates the given activity that is owned by the authenticated athlete.
+    # Updates the given activity that is owned by the authenticated athlete. Requires activity:write. Also requires activity:read_all in order to update Only Me activities
     # @param id The identifier of the activity.
     # @param [Hash] opts the optional parameters
     # @option opts [UpdatableActivity] :body 
@@ -478,7 +472,7 @@ module StravaClient
         fail ArgumentError, "Missing the required parameter 'id' when calling ActivitiesApi.update_activity_by_id"
       end
       # resource path
-      local_var_path = "/activities".sub('{' + 'id' + '}', id.to_s)
+      local_var_path = "/activities/{id}".sub('{' + 'id' + '}', id.to_s)
 
       # query parameters
       query_params = {}

@@ -1,7 +1,7 @@
 =begin
 #Strava API v3
 
-#Strava API
+#The [Swagger Playground](https://developers.strava.com/playground) is the easiest way to familiarize yourself with the Strava API by submitting HTTP requests and observing the responses before you write any client code. It will show what a response will look like with different endpoints depending on the authorization scope you receive from your athletes. To use the Playground, go to https://www.strava.com/settings/api and change your “Authorization Callback Domain” to developers.strava.com. Please note, we only support Swagger 2.0. There is a known issue where you can only select one scope at a time. For more information, please check the section “client code” at https://developers.strava.com/docs.
 
 OpenAPI spec version: 3.0.0
 
@@ -45,14 +45,11 @@ module StravaClient
     # The athlete's sex.
     attr_accessor :sex
 
-    # Whether the currently logged-in athlete follows this athlete.
-    attr_accessor :friend
-
-    # Whether this athlete follows the currently logged-in athlete.
-    attr_accessor :follower
-
-    # The athlete's premium status.
+    # Deprecated.  Use summit field instead. Whether the athlete has any Summit subscription.
     attr_accessor :premium
+
+    # Whether the athlete has any Summit subscription.
+    attr_accessor :summit
 
     # The time at which the athlete was created.
     attr_accessor :created_at
@@ -95,9 +92,8 @@ module StravaClient
         :'state' => :'state',
         :'country' => :'country',
         :'sex' => :'sex',
-        :'friend' => :'friend',
-        :'follower' => :'follower',
         :'premium' => :'premium',
+        :'summit' => :'summit',
         :'created_at' => :'created_at',
         :'updated_at' => :'updated_at'
       }
@@ -116,9 +112,8 @@ module StravaClient
         :'state' => :'String',
         :'country' => :'String',
         :'sex' => :'String',
-        :'friend' => :'String',
-        :'follower' => :'String',
         :'premium' => :'BOOLEAN',
+        :'summit' => :'BOOLEAN',
         :'created_at' => :'DateTime',
         :'updated_at' => :'DateTime'
       }
@@ -172,16 +167,12 @@ module StravaClient
         self.sex = attributes[:'sex']
       end
 
-      if attributes.has_key?(:'friend')
-        self.friend = attributes[:'friend']
-      end
-
-      if attributes.has_key?(:'follower')
-        self.follower = attributes[:'follower']
-      end
-
       if attributes.has_key?(:'premium')
         self.premium = attributes[:'premium']
+      end
+
+      if attributes.has_key?(:'summit')
+        self.summit = attributes[:'summit']
       end
 
       if attributes.has_key?(:'created_at')
@@ -206,10 +197,6 @@ module StravaClient
     def valid?
       sex_validator = EnumAttributeValidator.new('String', ["M", "F"])
       return false unless sex_validator.valid?(@sex)
-      friend_validator = EnumAttributeValidator.new('String', ["pending", "accepted", "blocked"])
-      return false unless friend_validator.valid?(@friend)
-      follower_validator = EnumAttributeValidator.new('String', ["pending", "accepted", "blocked"])
-      return false unless follower_validator.valid?(@follower)
       return true
     end
 
@@ -221,26 +208,6 @@ module StravaClient
         fail ArgumentError, "invalid value for 'sex', must be one of #{validator.allowable_values}."
       end
       @sex = sex
-    end
-
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] friend Object to be assigned
-    def friend=(friend)
-      validator = EnumAttributeValidator.new('String', ["pending", "accepted", "blocked"])
-      unless validator.valid?(friend)
-        fail ArgumentError, "invalid value for 'friend', must be one of #{validator.allowable_values}."
-      end
-      @friend = friend
-    end
-
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] follower Object to be assigned
-    def follower=(follower)
-      validator = EnumAttributeValidator.new('String', ["pending", "accepted", "blocked"])
-      unless validator.valid?(follower)
-        fail ArgumentError, "invalid value for 'follower', must be one of #{validator.allowable_values}."
-      end
-      @follower = follower
     end
 
     # Checks equality by comparing each attribute.
@@ -258,9 +225,8 @@ module StravaClient
           state == o.state &&
           country == o.country &&
           sex == o.sex &&
-          friend == o.friend &&
-          follower == o.follower &&
           premium == o.premium &&
+          summit == o.summit &&
           created_at == o.created_at &&
           updated_at == o.updated_at
     end
@@ -274,7 +240,7 @@ module StravaClient
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [id, resource_state, firstname, lastname, profile_medium, profile, city, state, country, sex, friend, follower, premium, created_at, updated_at].hash
+      [id, resource_state, firstname, lastname, profile_medium, profile, city, state, country, sex, premium, summit, created_at, updated_at].hash
     end
 
     # Builds the object from hash

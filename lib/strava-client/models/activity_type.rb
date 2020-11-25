@@ -1,7 +1,7 @@
 =begin
 #Strava API v3
 
-#Strava API
+#The [Swagger Playground](https://developers.strava.com/playground) is the easiest way to familiarize yourself with the Strava API by submitting HTTP requests and observing the responses before you write any client code. It will show what a response will look like with different endpoints depending on the authorization scope you receive from your athletes. To use the Playground, go to https://www.strava.com/settings/api and change your “Authorization Callback Domain” to developers.strava.com. Please note, we only support Swagger 2.0. There is a known issue where you can only select one scope at a time. For more information, please check the section “client code” at https://developers.strava.com/docs.
 
 OpenAPI spec version: 3.0.0
 
@@ -21,6 +21,8 @@ module StravaClient
     CROSSFIT = "Crossfit".freeze
     E_BIKE_RIDE = "EBikeRide".freeze
     ELLIPTICAL = "Elliptical".freeze
+    GOLF = "Golf".freeze
+    HANDCYCLE = "Handcycle".freeze
     HIKE = "Hike".freeze
     ICE_SKATE = "IceSkate".freeze
     INLINE_SKATE = "InlineSkate".freeze
@@ -32,15 +34,21 @@ module StravaClient
     ROLLER_SKI = "RollerSki".freeze
     ROWING = "Rowing".freeze
     RUN = "Run".freeze
+    SAIL = "Sail".freeze
+    SKATEBOARD = "Skateboard".freeze
     SNOWBOARD = "Snowboard".freeze
     SNOWSHOE = "Snowshoe".freeze
+    SOCCER = "Soccer".freeze
     STAIR_STEPPER = "StairStepper".freeze
     STAND_UP_PADDLING = "StandUpPaddling".freeze
     SURFING = "Surfing".freeze
     SWIM = "Swim".freeze
+    VELOMOBILE = "Velomobile".freeze
     VIRTUAL_RIDE = "VirtualRide".freeze
+    VIRTUAL_RUN = "VirtualRun".freeze
     WALK = "Walk".freeze
     WEIGHT_TRAINING = "WeightTraining".freeze
+    WHEELCHAIR = "Wheelchair".freeze
     WINDSURF = "Windsurf".freeze
     WORKOUT = "Workout".freeze
     YOGA = "Yoga".freeze

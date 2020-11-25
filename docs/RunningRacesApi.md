@@ -27,7 +27,7 @@ end
 
 api_instance = StravaClient::RunningRacesApi.new
 
-id = 56 # Integer | The identifier of the running race.
+id = 789 # Integer | The identifier of the running race.
 
 
 begin

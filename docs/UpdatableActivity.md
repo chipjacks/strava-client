@@ -8,6 +8,6 @@ Name | Type | Description | Notes
 **description** | **String** | The description of the activity | [optional] 
 **name** | **String** | The name of the activity | [optional] 
 **type** | [**ActivityType**](ActivityType.md) |  | [optional] 
-**private** | **BOOLEAN** | Whether this activity is private | [optional] 
+**gear_id** | **String** | Identifier for the gear associated with the activity. ‘none’ clears gear from activity | [optional] 
 
 

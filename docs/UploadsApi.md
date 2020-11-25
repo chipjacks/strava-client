@@ -13,7 +13,7 @@ Method | HTTP request | Description
 
 Upload Activity
 
-Uploads a new data file to create an activity from.
+Uploads a new data file to create an activity from. Requires activity:write scope.
 
 ### Example
 ```ruby
@@ -31,7 +31,6 @@ opts = {
   file: File.new("/path/to/file.txt"), # File | The uploaded file.
   name: "name_example", # String | The desired name of the resulting activity.
   description: "description_example", # String | The desired description of the resulting activity.
-  private: 56, # Integer | Whether the resulting activity should be private.
   trainer: "trainer_example", # String | Whether the resulting activity should be marked as having been performed on a trainer.
   commute: "commute_example", # String | Whether the resulting activity should be tagged as a commute.
   data_type: "data_type_example", # String | The format of the uploaded file.
@@ -54,7 +53,6 @@ Name | Type | Description  | Notes
  **file** | **File**| The uploaded file. | [optional] 
  **name** | **String**| The desired name of the resulting activity. | [optional] 
  **description** | **String**| The desired description of the resulting activity. | [optional] 
- **private** | **Integer**| Whether the resulting activity should be private. | [optional] 
  **trainer** | **String**| Whether the resulting activity should be marked as having been performed on a trainer. | [optional] 
  **commute** | **String**| Whether the resulting activity should be tagged as a commute. | [optional] 
  **data_type** | **String**| The format of the uploaded file. | [optional] 
@@ -80,7 +78,7 @@ Name | Type | Description  | Notes
 
 Get Upload
 
-Returns an upload for a given identifier.
+Returns an upload for a given identifier. Requires activity:write scope.
 
 ### Example
 ```ruby
