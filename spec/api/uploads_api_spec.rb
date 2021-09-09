@@ -1,7 +1,7 @@
 =begin
 #Strava API v3
 
-#Strava API
+#The [Swagger Playground](https://developers.strava.com/playground) is the easiest way to familiarize yourself with the Strava API by submitting HTTP requests and observing the responses before you write any client code. It will show what a response will look like with different endpoints depending on the authorization scope you receive from your athletes. To use the Playground, go to https://www.strava.com/settings/api and change your “Authorization Callback Domain” to developers.strava.com. Please note, we only support Swagger 2.0. There is a known issue where you can only select one scope at a time. For more information, please check the section “client code” at https://developers.strava.com/docs.
 
 OpenAPI spec version: 3.0.0
 
@@ -34,12 +34,11 @@ describe 'UploadsApi' do
 
   # unit tests for create_upload
   # Upload Activity
-  # Uploads a new data file to create an activity from.
+  # Uploads a new data file to create an activity from. Requires activity:write scope.
   # @param [Hash] opts the optional parameters
   # @option opts [File] :file The uploaded file.
   # @option opts [String] :name The desired name of the resulting activity.
   # @option opts [String] :description The desired description of the resulting activity.
-  # @option opts [Integer] :private Whether the resulting activity should be private.
   # @option opts [String] :trainer Whether the resulting activity should be marked as having been performed on a trainer.
   # @option opts [String] :commute Whether the resulting activity should be tagged as a commute.
   # @option opts [String] :data_type The format of the uploaded file.
@@ -53,7 +52,7 @@ describe 'UploadsApi' do
 
   # unit tests for get_upload_by_id
   # Get Upload
-  # Returns an upload for a given identifier.
+  # Returns an upload for a given identifier. Requires activity:write scope.
   # @param upload_id The identifier of the upload.
   # @param [Hash] opts the optional parameters
   # @return [Upload]

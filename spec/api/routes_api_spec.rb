@@ -1,7 +1,7 @@
 =begin
 #Strava API v3
 
-#Strava API
+#The [Swagger Playground](https://developers.strava.com/playground) is the easiest way to familiarize yourself with the Strava API by submitting HTTP requests and observing the responses before you write any client code. It will show what a response will look like with different endpoints depending on the authorization scope you receive from your athletes. To use the Playground, go to https://www.strava.com/settings/api and change your “Authorization Callback Domain” to developers.strava.com. Please note, we only support Swagger 2.0. There is a known issue where you can only select one scope at a time. For more information, please check the section “client code” at https://developers.strava.com/docs.
 
 OpenAPI spec version: 3.0.0
 
@@ -32,9 +32,33 @@ describe 'RoutesApi' do
     end
   end
 
+  # unit tests for get_route_as_gpx
+  # Export Route GPX
+  # Returns a GPX file of the route. Requires read_all scope for private routes.
+  # @param id The identifier of the route.
+  # @param [Hash] opts the optional parameters
+  # @return [nil]
+  describe 'get_route_as_gpx test' do
+    it "should work" do
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+    end
+  end
+
+  # unit tests for get_route_as_tcx
+  # Export Route TCX
+  # Returns a TCX file of the route. Requires read_all scope for private routes.
+  # @param id The identifier of the route.
+  # @param [Hash] opts the optional parameters
+  # @return [nil]
+  describe 'get_route_as_tcx test' do
+    it "should work" do
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+    end
+  end
+
   # unit tests for get_route_by_id
   # Get Route
-  # Returns a route using its identifier.
+  # Returns a route using its identifier. Requires read_all scope for private routes.
   # @param id The identifier of the route.
   # @param [Hash] opts the optional parameters
   # @return [Route]
@@ -46,10 +70,9 @@ describe 'RoutesApi' do
 
   # unit tests for get_routes_by_athlete_id
   # List Athlete Routes
-  # Returns a list of the routes created by the authenticated athlete using their athlete ID.
-  # @param id The identifier of the athlete.
+  # Returns a list of the routes created by the authenticated athlete. Private routes are filtered out unless requested by a token with read_all scope.
   # @param [Hash] opts the optional parameters
-  # @option opts [Integer] :page Page number.
+  # @option opts [Integer] :page Page number. Defaults to 1.
   # @option opts [Integer] :per_page Number of items per page. Defaults to 30.
   # @return [Array<Route>]
   describe 'get_routes_by_athlete_id test' do

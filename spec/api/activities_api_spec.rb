@@ -1,7 +1,7 @@
 =begin
 #Strava API v3
 
-#Strava API
+#The [Swagger Playground](https://developers.strava.com/playground) is the easiest way to familiarize yourself with the Strava API by submitting HTTP requests and observing the responses before you write any client code. It will show what a response will look like with different endpoints depending on the authorization scope you receive from your athletes. To use the Playground, go to https://www.strava.com/settings/api and change your “Authorization Callback Domain” to developers.strava.com. Please note, we only support Swagger 2.0. There is a known issue where you can only select one scope at a time. For more information, please check the section “client code” at https://developers.strava.com/docs.
 
 OpenAPI spec version: 3.0.0
 
@@ -34,17 +34,15 @@ describe 'ActivitiesApi' do
 
   # unit tests for create_activity
   # Create an Activity
-  # Creates a manual activity for an athlete. Requires write permissions, as requested during the authorization process.
+  # Creates a manual activity for an athlete, requires activity:write scope.
   # @param name The name of the activity.
   # @param type Type of activity. For example - Run, Ride etc.
   # @param start_date_local ISO 8601 formatted date time.
   # @param elapsed_time In seconds.
   # @param [Hash] opts the optional parameters
   # @option opts [String] :description Description of the activity.
-  # @option opts [String] :distance In meters.
-  # @option opts [Integer] :private set to 1 to mark the resulting activity as private, ‘view_private’ permissions will be necessary to view the activity. If not specified, set according to the athlete’s privacy setting (recommended).
+  # @option opts [Float] :distance In meters.
   # @option opts [Integer] :trainer Set to 1 to mark as a trainer activity.
-  # @option opts [String] :photo_ids List of native photo ids to attach to the activity.
   # @option opts [Integer] :commute Set to 1 to mark as commute.
   # @return [DetailedActivity]
   describe 'create_activity test' do
@@ -55,7 +53,7 @@ describe 'ActivitiesApi' do
 
   # unit tests for get_activity_by_id
   # Get Activity
-  # Returns the given activity that is owned by the authenticated athlete.
+  # Returns the given activity that is owned by the authenticated athlete. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities.
   # @param id The identifier of the activity.
   # @param [Hash] opts the optional parameters
   # @option opts [BOOLEAN] :include_all_efforts To include all segments efforts.
@@ -68,10 +66,10 @@ describe 'ActivitiesApi' do
 
   # unit tests for get_comments_by_activity_id
   # List Activity Comments
-  # Returns the comments on the given activity.
+  # Returns the comments on the given activity. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities.
   # @param id The identifier of the activity.
   # @param [Hash] opts the optional parameters
-  # @option opts [Integer] :page Page number.
+  # @option opts [Integer] :page Page number. Defaults to 1.
   # @option opts [Integer] :per_page Number of items per page. Defaults to 30.
   # @return [Array<Comment>]
   describe 'get_comments_by_activity_id test' do
@@ -82,10 +80,10 @@ describe 'ActivitiesApi' do
 
   # unit tests for get_kudoers_by_activity_id
   # List Activity Kudoers
-  # Returns the athletes who kudoed an activity identified by an identifier.
+  # Returns the athletes who kudoed an activity identified by an identifier. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities.
   # @param id The identifier of the activity.
   # @param [Hash] opts the optional parameters
-  # @option opts [Integer] :page Page number.
+  # @option opts [Integer] :page Page number. Defaults to 1.
   # @option opts [Integer] :per_page Number of items per page. Defaults to 30.
   # @return [Array<SummaryAthlete>]
   describe 'get_kudoers_by_activity_id test' do
@@ -96,7 +94,7 @@ describe 'ActivitiesApi' do
 
   # unit tests for get_laps_by_activity_id
   # List Activity Laps
-  # Returns the laps of an activity identified by an identifier.
+  # Returns the laps of an activity identified by an identifier. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities.
   # @param id The identifier of the activity.
   # @param [Hash] opts the optional parameters
   # @return [Array<Lap>]
@@ -108,11 +106,11 @@ describe 'ActivitiesApi' do
 
   # unit tests for get_logged_in_athlete_activities
   # List Athlete Activities
-  # Returns the activities of an athlete for a specific identifier.
+  # Returns the activities of an athlete for a specific identifier. Requires activity:read. Only Me activities will be filtered out unless requested by a token with activity:read_all.
   # @param [Hash] opts the optional parameters
   # @option opts [Integer] :before An epoch timestamp to use for filtering activities that have taken place before a certain time.
   # @option opts [Integer] :after An epoch timestamp to use for filtering activities that have taken place after a certain time.
-  # @option opts [Integer] :page Page number.
+  # @option opts [Integer] :page Page number. Defaults to 1.
   # @option opts [Integer] :per_page Number of items per page. Defaults to 30.
   # @return [Array<SummaryActivity>]
   describe 'get_logged_in_athlete_activities test' do
@@ -123,7 +121,7 @@ describe 'ActivitiesApi' do
 
   # unit tests for get_zones_by_activity_id
   # Get Activity Zones
-  # Premium Feature. Returns the zones of a given activity.
+  # Summit Feature. Returns the zones of a given activity. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities.
   # @param id The identifier of the activity.
   # @param [Hash] opts the optional parameters
   # @return [Array<ActivityZone>]
@@ -135,7 +133,7 @@ describe 'ActivitiesApi' do
 
   # unit tests for update_activity_by_id
   # Update Activity
-  # Updates the given activity that is owned by the authenticated athlete.
+  # Updates the given activity that is owned by the authenticated athlete. Requires activity:write. Also requires activity:read_all in order to update Only Me activities
   # @param id The identifier of the activity.
   # @param [Hash] opts the optional parameters
   # @option opts [UpdatableActivity] :body 

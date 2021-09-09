@@ -1,7 +1,7 @@
 =begin
 #Strava API v3
 
-#Strava API
+#The [Swagger Playground](https://developers.strava.com/playground) is the easiest way to familiarize yourself with the Strava API by submitting HTTP requests and observing the responses before you write any client code. It will show what a response will look like with different endpoints depending on the authorization scope you receive from your athletes. To use the Playground, go to https://www.strava.com/settings/api and change your “Authorization Callback Domain” to developers.strava.com. Please note, we only support Swagger 2.0. There is a known issue where you can only select one scope at a time. For more information, please check the section “client code” at https://developers.strava.com/docs.
 
 OpenAPI spec version: 3.0.0
 
@@ -34,7 +34,7 @@ describe 'StreamsApi' do
 
   # unit tests for get_activity_streams
   # Get Activity Streams
-  # Returns the given activity&#39;s streams.
+  # Returns the given activity&#39;s streams. Requires activity:read scope. Requires activity:read_all scope for Only Me activities.
   # @param id The identifier of the activity.
   # @param keys Desired stream types.
   # @param key_by_type Must be true.
@@ -46,9 +46,21 @@ describe 'StreamsApi' do
     end
   end
 
+  # unit tests for get_route_streams
+  # Get Route Streams
+  # Returns the given route&#39;s streams. Requires read_all scope for private routes.
+  # @param id The identifier of the route.
+  # @param [Hash] opts the optional parameters
+  # @return [StreamSet]
+  describe 'get_route_streams test' do
+    it "should work" do
+      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
+    end
+  end
+
   # unit tests for get_segment_effort_streams
-  # Get segment effort streams
-  # Returns a set of streams for a segment effort completed by the authenticated athlete.
+  # Get Segment Effort Streams
+  # Returns a set of streams for a segment effort completed by the authenticated athlete. Requires read_all scope.
   # @param id The identifier of the segment effort.
   # @param keys The types of streams to return.
   # @param key_by_type Must be true.
@@ -62,7 +74,7 @@ describe 'StreamsApi' do
 
   # unit tests for get_segment_streams
   # Get Segment Streams
-  # Returns the given segment&#39;s streams.
+  # Returns the given segment&#39;s streams. Requires read_all scope for private segments.
   # @param id The identifier of the segment.
   # @param keys The types of streams to return.
   # @param key_by_type Must be true.

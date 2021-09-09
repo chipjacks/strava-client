@@ -1,7 +1,7 @@
 =begin
 #Strava API v3
 
-#Strava API
+#The [Swagger Playground](https://developers.strava.com/playground) is the easiest way to familiarize yourself with the Strava API by submitting HTTP requests and observing the responses before you write any client code. It will show what a response will look like with different endpoints depending on the authorization scope you receive from your athletes. To use the Playground, go to https://www.strava.com/settings/api and change your “Authorization Callback Domain” to developers.strava.com. Please note, we only support Swagger 2.0. There is a known issue where you can only select one scope at a time. For more information, please check the section “client code” at https://developers.strava.com/docs.
 
 OpenAPI spec version: 3.0.0
 
@@ -34,10 +34,11 @@ describe 'SegmentEffortsApi' do
 
   # unit tests for get_efforts_by_segment_id
   # List Segment Efforts
-  # Returns a set of the authenticated athlete&#39;s segment efforts for a given segment.
-  # @param id The identifier of the segment.
+  # Returns a set of the authenticated athlete&#39;s segment efforts for a given segment.  Requires subscription.
+  # @param segment_id The identifier of the segment.
   # @param [Hash] opts the optional parameters
-  # @option opts [Integer] :page Page number.
+  # @option opts [DateTime] :start_date_local ISO 8601 formatted date time.
+  # @option opts [DateTime] :end_date_local ISO 8601 formatted date time.
   # @option opts [Integer] :per_page Number of items per page. Defaults to 30.
   # @return [Array<DetailedSegmentEffort>]
   describe 'get_efforts_by_segment_id test' do
@@ -48,7 +49,7 @@ describe 'SegmentEffortsApi' do
 
   # unit tests for get_segment_effort_by_id
   # Get Segment Effort
-  # Returns a segment effort from an activity that is owned by the authenticated athlete.
+  # Returns a segment effort from an activity that is owned by the authenticated athlete. Requires subscription.
   # @param id The identifier of the segment effort.
   # @param [Hash] opts the optional parameters
   # @return [DetailedSegmentEffort]

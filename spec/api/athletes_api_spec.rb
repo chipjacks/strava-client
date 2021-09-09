@@ -1,7 +1,7 @@
 =begin
 #Strava API v3
 
-#Strava API
+#The [Swagger Playground](https://developers.strava.com/playground) is the easiest way to familiarize yourself with the Strava API by submitting HTTP requests and observing the responses before you write any client code. It will show what a response will look like with different endpoints depending on the authorization scope you receive from your athletes. To use the Playground, go to https://www.strava.com/settings/api and change your “Authorization Callback Domain” to developers.strava.com. Please note, we only support Swagger 2.0. There is a known issue where you can only select one scope at a time. For more information, please check the section “client code” at https://developers.strava.com/docs.
 
 OpenAPI spec version: 3.0.0
 
@@ -34,7 +34,7 @@ describe 'AthletesApi' do
 
   # unit tests for get_logged_in_athlete
   # Get Authenticated Athlete
-  # Returns the currently authenticated athlete.
+  # Returns the currently authenticated athlete. Tokens with profile:read_all scope will receive a detailed athlete representation; all others will receive a summary representation.
   # @param [Hash] opts the optional parameters
   # @return [DetailedAthlete]
   describe 'get_logged_in_athlete test' do
@@ -45,7 +45,7 @@ describe 'AthletesApi' do
 
   # unit tests for get_logged_in_athlete_zones
   # Get Zones
-  # Returns the the authenticated athlete&#39;s heart rate and power zones.
+  # Returns the the authenticated athlete&#39;s heart rate and power zones. Requires profile:read_all.
   # @param [Hash] opts the optional parameters
   # @return [Zones]
   describe 'get_logged_in_athlete_zones test' do
@@ -56,11 +56,9 @@ describe 'AthletesApi' do
 
   # unit tests for get_stats
   # Get Athlete Stats
-  # Returns the activity stats of an athlete.
-  # @param id The identifier of the athlete.
+  # Returns the activity stats of an athlete. Only includes data from activities set to Everyone visibilty.
+  # @param id The identifier of the athlete. Must match the authenticated athlete.
   # @param [Hash] opts the optional parameters
-  # @option opts [Integer] :page Page number.
-  # @option opts [Integer] :per_page Number of items per page. Defaults to 30.
   # @return [ActivityStats]
   describe 'get_stats test' do
     it "should work" do
@@ -70,8 +68,8 @@ describe 'AthletesApi' do
 
   # unit tests for update_logged_in_athlete
   # Update Athlete
-  # Update the currently authenticated athlete.
-  # @param body The athlete entity to update.
+  # Update the currently authenticated athlete. Requires profile:write scope.
+  # @param weight The weight of the athlete in kilograms.
   # @param [Hash] opts the optional parameters
   # @return [DetailedAthlete]
   describe 'update_logged_in_athlete test' do

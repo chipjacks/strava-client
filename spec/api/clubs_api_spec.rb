@@ -1,7 +1,7 @@
 =begin
 #Strava API v3
 
-#Strava API
+#The [Swagger Playground](https://developers.strava.com/playground) is the easiest way to familiarize yourself with the Strava API by submitting HTTP requests and observing the responses before you write any client code. It will show what a response will look like with different endpoints depending on the authorization scope you receive from your athletes. To use the Playground, go to https://www.strava.com/settings/api and change your “Authorization Callback Domain” to developers.strava.com. Please note, we only support Swagger 2.0. There is a known issue where you can only select one scope at a time. For more information, please check the section “client code” at https://developers.strava.com/docs.
 
 OpenAPI spec version: 3.0.0
 
@@ -34,10 +34,10 @@ describe 'ClubsApi' do
 
   # unit tests for get_club_activities_by_id
   # List Club Activities
-  # Retrieve recent activities from members of a specific club. The authenticated athlete must belong to the requested club in order to hit this endpoint. Pagination is supported. Enhanced Privacy Mode is respected for all activities.
+  # Retrieve recent activities from members of a specific club. The authenticated athlete must belong to the requested club in order to hit this endpoint. Pagination is supported. Athlete profile visibility is respected for all activities.
   # @param id The identifier of the club.
   # @param [Hash] opts the optional parameters
-  # @option opts [Integer] :page Page number.
+  # @option opts [Integer] :page Page number. Defaults to 1.
   # @option opts [Integer] :per_page Number of items per page. Defaults to 30.
   # @return [Array<SummaryActivity>]
   describe 'get_club_activities_by_id test' do
@@ -47,11 +47,11 @@ describe 'ClubsApi' do
   end
 
   # unit tests for get_club_admins_by_id
-  # List Club Administrators.
+  # List Club Administrators
   # Returns a list of the administrators of a given club.
   # @param id The identifier of the club.
   # @param [Hash] opts the optional parameters
-  # @option opts [Integer] :page Page number.
+  # @option opts [Integer] :page Page number. Defaults to 1.
   # @option opts [Integer] :per_page Number of items per page. Defaults to 30.
   # @return [Array<SummaryAthlete>]
   describe 'get_club_admins_by_id test' do
@@ -77,7 +77,7 @@ describe 'ClubsApi' do
   # Returns a list of the athletes who are members of a given club.
   # @param id The identifier of the club.
   # @param [Hash] opts the optional parameters
-  # @option opts [Integer] :page Page number.
+  # @option opts [Integer] :page Page number. Defaults to 1.
   # @option opts [Integer] :per_page Number of items per page. Defaults to 30.
   # @return [Array<SummaryAthlete>]
   describe 'get_club_members_by_id test' do
@@ -90,34 +90,10 @@ describe 'ClubsApi' do
   # List Athlete Clubs
   # Returns a list of the clubs whose membership includes the authenticated athlete.
   # @param [Hash] opts the optional parameters
-  # @option opts [Integer] :page Page number.
+  # @option opts [Integer] :page Page number. Defaults to 1.
   # @option opts [Integer] :per_page Number of items per page. Defaults to 30.
   # @return [Array<SummaryClub>]
   describe 'get_logged_in_athlete_clubs test' do
-    it "should work" do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
-    end
-  end
-
-  # unit tests for join_club_by_id
-  # Join Club
-  # Adds the authenticated athlete to the club&#39;s membership.
-  # @param id The identifier of the club.
-  # @param [Hash] opts the optional parameters
-  # @return [MembershipApplication]
-  describe 'join_club_by_id test' do
-    it "should work" do
-      # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
-    end
-  end
-
-  # unit tests for leave_club_by_id
-  # Leave Club
-  # Removes the authenticated athlete from the club&#39;s membership.
-  # @param id The identifier of the club.
-  # @param [Hash] opts the optional parameters
-  # @return [MembershipApplication]
-  describe 'leave_club_by_id test' do
     it "should work" do
       # assertion here. ref: https://www.relishapp.com/rspec/rspec-expectations/docs/built-in-matchers
     end
