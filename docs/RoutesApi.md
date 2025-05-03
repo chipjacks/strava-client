@@ -2,24 +2,26 @@
 
 All URIs are relative to *https://www.strava.com/api/v3*
 
-Method | HTTP request | Description
-------------- | ------------- | -------------
-[**get_route_as_gpx**](RoutesApi.md#get_route_as_gpx) | **GET** /routes/{id}/export_gpx | Export Route GPX
-[**get_route_as_tcx**](RoutesApi.md#get_route_as_tcx) | **GET** /routes/{id}/export_tcx | Export Route TCX
-[**get_route_by_id**](RoutesApi.md#get_route_by_id) | **GET** /routes/{id} | Get Route
-[**get_routes_by_athlete_id**](RoutesApi.md#get_routes_by_athlete_id) | **GET** /athletes/{id}/routes | List Athlete Routes
+| Method | HTTP request | Description |
+| ------ | ------------ | ----------- |
+| [**get_route_as_gpx**](RoutesApi.md#get_route_as_gpx) | **GET** /routes/{id}/export_gpx | Export Route GPX |
+| [**get_route_as_tcx**](RoutesApi.md#get_route_as_tcx) | **GET** /routes/{id}/export_tcx | Export Route TCX |
+| [**get_route_by_id**](RoutesApi.md#get_route_by_id) | **GET** /routes/{id} | Get Route |
+| [**get_routes_by_athlete_id**](RoutesApi.md#get_routes_by_athlete_id) | **GET** /athletes/{id}/routes | List Athlete Routes |
 
 
-# **get_route_as_gpx**
+## get_route_as_gpx
+
 > get_route_as_gpx(id)
 
 Export Route GPX
 
 Returns a GPX file of the route. Requires read_all scope for private routes.
 
-### Example
+### Examples
+
 ```ruby
-# load the gem
+require 'time'
 require 'strava-client'
 # setup authorization
 StravaClient.configure do |config|
@@ -28,23 +30,39 @@ StravaClient.configure do |config|
 end
 
 api_instance = StravaClient::RoutesApi.new
-
 id = 789 # Integer | The identifier of the route.
 
-
 begin
-  #Export Route GPX
+  # Export Route GPX
   api_instance.get_route_as_gpx(id)
 rescue StravaClient::ApiError => e
-  puts "Exception when calling RoutesApi->get_route_as_gpx: #{e}"
+  puts "Error when calling RoutesApi->get_route_as_gpx: #{e}"
+end
+```
+
+#### Using the get_route_as_gpx_with_http_info variant
+
+This returns an Array which contains the response data (`nil` in this case), status code and headers.
+
+> <Array(nil, Integer, Hash)> get_route_as_gpx_with_http_info(id)
+
+```ruby
+begin
+  # Export Route GPX
+  data, status_code, headers = api_instance.get_route_as_gpx_with_http_info(id)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => nil
+rescue StravaClient::ApiError => e
+  puts "Error when calling RoutesApi->get_route_as_gpx_with_http_info: #{e}"
 end
 ```
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **id** | **Integer**| The identifier of the route. | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **id** | **Integer** | The identifier of the route. |  |
 
 ### Return type
 
@@ -56,21 +74,22 @@ nil (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
 
+## get_route_as_tcx
 
-# **get_route_as_tcx**
 > get_route_as_tcx(id)
 
 Export Route TCX
 
 Returns a TCX file of the route. Requires read_all scope for private routes.
 
-### Example
+### Examples
+
 ```ruby
-# load the gem
+require 'time'
 require 'strava-client'
 # setup authorization
 StravaClient.configure do |config|
@@ -79,23 +98,39 @@ StravaClient.configure do |config|
 end
 
 api_instance = StravaClient::RoutesApi.new
-
 id = 789 # Integer | The identifier of the route.
 
-
 begin
-  #Export Route TCX
+  # Export Route TCX
   api_instance.get_route_as_tcx(id)
 rescue StravaClient::ApiError => e
-  puts "Exception when calling RoutesApi->get_route_as_tcx: #{e}"
+  puts "Error when calling RoutesApi->get_route_as_tcx: #{e}"
+end
+```
+
+#### Using the get_route_as_tcx_with_http_info variant
+
+This returns an Array which contains the response data (`nil` in this case), status code and headers.
+
+> <Array(nil, Integer, Hash)> get_route_as_tcx_with_http_info(id)
+
+```ruby
+begin
+  # Export Route TCX
+  data, status_code, headers = api_instance.get_route_as_tcx_with_http_info(id)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => nil
+rescue StravaClient::ApiError => e
+  puts "Error when calling RoutesApi->get_route_as_tcx_with_http_info: #{e}"
 end
 ```
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **id** | **Integer**| The identifier of the route. | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **id** | **Integer** | The identifier of the route. |  |
 
 ### Return type
 
@@ -107,21 +142,22 @@ nil (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
 
+## get_route_by_id
 
-# **get_route_by_id**
-> Route get_route_by_id(id)
+> <Route> get_route_by_id(id)
 
 Get Route
 
 Returns a route using its identifier. Requires read_all scope for private routes.
 
-### Example
+### Examples
+
 ```ruby
-# load the gem
+require 'time'
 require 'strava-client'
 # setup authorization
 StravaClient.configure do |config|
@@ -130,24 +166,40 @@ StravaClient.configure do |config|
 end
 
 api_instance = StravaClient::RoutesApi.new
-
 id = 789 # Integer | The identifier of the route.
 
-
 begin
-  #Get Route
+  # Get Route
   result = api_instance.get_route_by_id(id)
   p result
 rescue StravaClient::ApiError => e
-  puts "Exception when calling RoutesApi->get_route_by_id: #{e}"
+  puts "Error when calling RoutesApi->get_route_by_id: #{e}"
+end
+```
+
+#### Using the get_route_by_id_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<Route>, Integer, Hash)> get_route_by_id_with_http_info(id)
+
+```ruby
+begin
+  # Get Route
+  data, status_code, headers = api_instance.get_route_by_id_with_http_info(id)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <Route>
+rescue StravaClient::ApiError => e
+  puts "Error when calling RoutesApi->get_route_by_id_with_http_info: #{e}"
 end
 ```
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **id** | **Integer**| The identifier of the route. | 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **id** | **Integer** | The identifier of the route. |  |
 
 ### Return type
 
@@ -159,21 +211,22 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
+- **Content-Type**: Not defined
+- **Accept**: application/json
 
 
+## get_routes_by_athlete_id
 
-# **get_routes_by_athlete_id**
-> Array&lt;Route&gt; get_routes_by_athlete_id(opts)
+> <Array<Route>> get_routes_by_athlete_id(opts)
 
 List Athlete Routes
 
 Returns a list of the routes created by the authenticated athlete. Private routes are filtered out unless requested by a token with read_all scope.
 
-### Example
+### Examples
+
 ```ruby
-# load the gem
+require 'time'
 require 'strava-client'
 # setup authorization
 StravaClient.configure do |config|
@@ -182,27 +235,44 @@ StravaClient.configure do |config|
 end
 
 api_instance = StravaClient::RoutesApi.new
-
-opts = { 
+opts = {
   page: 56, # Integer | Page number. Defaults to 1.
-  per_page: 30 # Integer | Number of items per page. Defaults to 30.
+  per_page: 56 # Integer | Number of items per page. Defaults to 30.
 }
 
 begin
-  #List Athlete Routes
+  # List Athlete Routes
   result = api_instance.get_routes_by_athlete_id(opts)
   p result
 rescue StravaClient::ApiError => e
-  puts "Exception when calling RoutesApi->get_routes_by_athlete_id: #{e}"
+  puts "Error when calling RoutesApi->get_routes_by_athlete_id: #{e}"
+end
+```
+
+#### Using the get_routes_by_athlete_id_with_http_info variant
+
+This returns an Array which contains the response data, status code and headers.
+
+> <Array(<Array<Route>>, Integer, Hash)> get_routes_by_athlete_id_with_http_info(opts)
+
+```ruby
+begin
+  # List Athlete Routes
+  data, status_code, headers = api_instance.get_routes_by_athlete_id_with_http_info(opts)
+  p status_code # => 2xx
+  p headers # => { ... }
+  p data # => <Array<Route>>
+rescue StravaClient::ApiError => e
+  puts "Error when calling RoutesApi->get_routes_by_athlete_id_with_http_info: #{e}"
 end
 ```
 
 ### Parameters
 
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **page** | **Integer**| Page number. Defaults to 1. | [optional] 
- **per_page** | **Integer**| Number of items per page. Defaults to 30. | [optional] [default to 30]
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **page** | **Integer** | Page number. Defaults to 1. | [optional] |
+| **per_page** | **Integer** | Number of items per page. Defaults to 30. | [optional][default to 30] |
 
 ### Return type
 
@@ -214,8 +284,6 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
- - **Content-Type**: Not defined
- - **Accept**: application/json
-
-
+- **Content-Type**: Not defined
+- **Accept**: application/json
 

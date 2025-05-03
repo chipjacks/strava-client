@@ -1,10 +1,22 @@
 # StravaClient::PolylineMap
 
 ## Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**id** | **String** | The identifier of the map | [optional] 
-**polyline** | **String** | The polyline of the map, only returned on detailed representation of an object | [optional] 
-**summary_polyline** | **String** | The summary polyline of the map | [optional] 
 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **id** | **String** | The identifier of the map | [optional] |
+| **polyline** | **String** | The polyline of the map, only returned on detailed representation of an object | [optional] |
+| **summary_polyline** | **String** | The summary polyline of the map | [optional] |
+
+## Example
+
+```ruby
+require 'strava-client'
+
+instance = StravaClient::PolylineMap.new(
+  id: null,
+  polyline: null,
+  summary_polyline: null
+)
+```
 

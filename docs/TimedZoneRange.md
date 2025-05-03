@@ -1,10 +1,22 @@
 # StravaClient::TimedZoneRange
 
 ## Properties
-Name | Type | Description | Notes
------------- | ------------- | ------------- | -------------
-**min** | **Integer** | The minimum value in the range. | [optional] 
-**max** | **Integer** | The maximum value in the range. | [optional] 
-**time** | **Integer** | The number of seconds spent in this zone | [optional] 
 
+| Name | Type | Description | Notes |
+| ---- | ---- | ----------- | ----- |
+| **min** | **Integer** | The minimum value in the range. | [optional] |
+| **max** | **Integer** | The maximum value in the range. | [optional] |
+| **time** | **Integer** | The number of seconds spent in this zone | [optional] |
+
+## Example
+
+```ruby
+require 'strava-client'
+
+instance = StravaClient::TimedZoneRange.new(
+  min: null,
+  max: null,
+  time: null
+)
+```
 
