@@ -2,30 +2,28 @@
 
 All URIs are relative to *https://www.strava.com/api/v3*
 
-| Method | HTTP request | Description |
-| ------ | ------------ | ----------- |
-| [**create_activity**](ActivitiesApi.md#create_activity) | **POST** /activities | Create an Activity |
-| [**get_activity_by_id**](ActivitiesApi.md#get_activity_by_id) | **GET** /activities/{id} | Get Activity |
-| [**get_comments_by_activity_id**](ActivitiesApi.md#get_comments_by_activity_id) | **GET** /activities/{id}/comments | List Activity Comments |
-| [**get_kudoers_by_activity_id**](ActivitiesApi.md#get_kudoers_by_activity_id) | **GET** /activities/{id}/kudos | List Activity Kudoers |
-| [**get_laps_by_activity_id**](ActivitiesApi.md#get_laps_by_activity_id) | **GET** /activities/{id}/laps | List Activity Laps |
-| [**get_logged_in_athlete_activities**](ActivitiesApi.md#get_logged_in_athlete_activities) | **GET** /athlete/activities | List Athlete Activities |
-| [**get_zones_by_activity_id**](ActivitiesApi.md#get_zones_by_activity_id) | **GET** /activities/{id}/zones | Get Activity Zones |
-| [**update_activity_by_id**](ActivitiesApi.md#update_activity_by_id) | **PUT** /activities/{id} | Update Activity |
+Method | HTTP request | Description
+------------- | ------------- | -------------
+[**create_activity**](ActivitiesApi.md#create_activity) | **POST** /activities | Create an Activity
+[**get_activity_by_id**](ActivitiesApi.md#get_activity_by_id) | **GET** /activities/{id} | Get Activity
+[**get_comments_by_activity_id**](ActivitiesApi.md#get_comments_by_activity_id) | **GET** /activities/{id}/comments | List Activity Comments
+[**get_kudoers_by_activity_id**](ActivitiesApi.md#get_kudoers_by_activity_id) | **GET** /activities/{id}/kudos | List Activity Kudoers
+[**get_laps_by_activity_id**](ActivitiesApi.md#get_laps_by_activity_id) | **GET** /activities/{id}/laps | List Activity Laps
+[**get_logged_in_athlete_activities**](ActivitiesApi.md#get_logged_in_athlete_activities) | **GET** /athlete/activities | List Athlete Activities
+[**get_zones_by_activity_id**](ActivitiesApi.md#get_zones_by_activity_id) | **GET** /activities/{id}/zones | Get Activity Zones
+[**update_activity_by_id**](ActivitiesApi.md#update_activity_by_id) | **PUT** /activities/{id} | Update Activity
 
 
-## create_activity
-
-> <DetailedActivity> create_activity(name, sport_type, start_date_local, elapsed_time, opts)
+# **create_activity**
+> DetailedActivity create_activity(name, sport_type, start_date_local, elapsed_time, opts)
 
 Create an Activity
 
 Creates a manual activity for an athlete, requires activity:write scope.
 
-### Examples
-
+### Example
 ```ruby
-require 'time'
+# load the gem
 require 'strava-client'
 # setup authorization
 StravaClient.configure do |config|
@@ -34,58 +32,45 @@ StravaClient.configure do |config|
 end
 
 api_instance = StravaClient::ActivitiesApi.new
-name = 'name_example' # String | The name of the activity.
-sport_type = 'sport_type_example' # String | Sport type of activity. For example - Run, MountainBikeRide, Ride, etc.
-start_date_local = Time.parse('2013-10-20T19:20:30+01:00') # Time | ISO 8601 formatted date time.
+
+name = "name_example" # String | The name of the activity.
+
+sport_type = "sport_type_example" # String | Sport type of activity. For example - Run, MountainBikeRide, Ride, etc.
+
+start_date_local = DateTime.parse("2013-10-20T19:20:30+01:00") # DateTime | ISO 8601 formatted date time.
+
 elapsed_time = 56 # Integer | In seconds.
-opts = {
-  type: 'type_example', # String | Type of activity. For example - Run, Ride etc.
-  description: 'description_example', # String | Description of the activity.
+
+opts = { 
+  type: "type_example", # String | Type of activity. For example - Run, Ride etc.
+  description: "description_example", # String | Description of the activity.
   distance: 3.4, # Float | In meters.
   trainer: 56, # Integer | Set to 1 to mark as a trainer activity.
   commute: 56 # Integer | Set to 1 to mark as commute.
 }
 
 begin
-  # Create an Activity
+  #Create an Activity
   result = api_instance.create_activity(name, sport_type, start_date_local, elapsed_time, opts)
   p result
 rescue StravaClient::ApiError => e
-  puts "Error when calling ActivitiesApi->create_activity: #{e}"
-end
-```
-
-#### Using the create_activity_with_http_info variant
-
-This returns an Array which contains the response data, status code and headers.
-
-> <Array(<DetailedActivity>, Integer, Hash)> create_activity_with_http_info(name, sport_type, start_date_local, elapsed_time, opts)
-
-```ruby
-begin
-  # Create an Activity
-  data, status_code, headers = api_instance.create_activity_with_http_info(name, sport_type, start_date_local, elapsed_time, opts)
-  p status_code # => 2xx
-  p headers # => { ... }
-  p data # => <DetailedActivity>
-rescue StravaClient::ApiError => e
-  puts "Error when calling ActivitiesApi->create_activity_with_http_info: #{e}"
+  puts "Exception when calling ActivitiesApi->create_activity: #{e}"
 end
 ```
 
 ### Parameters
 
-| Name | Type | Description | Notes |
-| ---- | ---- | ----------- | ----- |
-| **name** | **String** | The name of the activity. |  |
-| **sport_type** | **String** | Sport type of activity. For example - Run, MountainBikeRide, Ride, etc. |  |
-| **start_date_local** | **Time** | ISO 8601 formatted date time. |  |
-| **elapsed_time** | **Integer** | In seconds. |  |
-| **type** | **String** | Type of activity. For example - Run, Ride etc. | [optional] |
-| **description** | **String** | Description of the activity. | [optional] |
-| **distance** | **Float** | In meters. | [optional] |
-| **trainer** | **Integer** | Set to 1 to mark as a trainer activity. | [optional] |
-| **commute** | **Integer** | Set to 1 to mark as commute. | [optional] |
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **name** | **String**| The name of the activity. | 
+ **sport_type** | **String**| Sport type of activity. For example - Run, MountainBikeRide, Ride, etc. | 
+ **start_date_local** | **DateTime**| ISO 8601 formatted date time. | 
+ **elapsed_time** | **Integer**| In seconds. | 
+ **type** | **String**| Type of activity. For example - Run, Ride etc. | [optional] 
+ **description** | **String**| Description of the activity. | [optional] 
+ **distance** | **Float**| In meters. | [optional] 
+ **trainer** | **Integer**| Set to 1 to mark as a trainer activity. | [optional] 
+ **commute** | **Integer**| Set to 1 to mark as commute. | [optional] 
 
 ### Return type
 
@@ -97,22 +82,21 @@ end
 
 ### HTTP request headers
 
-- **Content-Type**: multipart/form-data
-- **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
 
 
-## get_activity_by_id
 
-> <DetailedActivity> get_activity_by_id(id, opts)
+# **get_activity_by_id**
+> DetailedActivity get_activity_by_id(id, opts)
 
 Get Activity
 
 Returns the given activity that is owned by the authenticated athlete. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities.
 
-### Examples
-
+### Example
 ```ruby
-require 'time'
+# load the gem
 require 'strava-client'
 # setup authorization
 StravaClient.configure do |config|
@@ -121,44 +105,28 @@ StravaClient.configure do |config|
 end
 
 api_instance = StravaClient::ActivitiesApi.new
+
 id = 789 # Integer | The identifier of the activity.
-opts = {
-  include_all_efforts: true # Boolean | To include all segments efforts.
+
+opts = { 
+  include_all_efforts: true # BOOLEAN | To include all segments efforts.
 }
 
 begin
-  # Get Activity
+  #Get Activity
   result = api_instance.get_activity_by_id(id, opts)
   p result
 rescue StravaClient::ApiError => e
-  puts "Error when calling ActivitiesApi->get_activity_by_id: #{e}"
-end
-```
-
-#### Using the get_activity_by_id_with_http_info variant
-
-This returns an Array which contains the response data, status code and headers.
-
-> <Array(<DetailedActivity>, Integer, Hash)> get_activity_by_id_with_http_info(id, opts)
-
-```ruby
-begin
-  # Get Activity
-  data, status_code, headers = api_instance.get_activity_by_id_with_http_info(id, opts)
-  p status_code # => 2xx
-  p headers # => { ... }
-  p data # => <DetailedActivity>
-rescue StravaClient::ApiError => e
-  puts "Error when calling ActivitiesApi->get_activity_by_id_with_http_info: #{e}"
+  puts "Exception when calling ActivitiesApi->get_activity_by_id: #{e}"
 end
 ```
 
 ### Parameters
 
-| Name | Type | Description | Notes |
-| ---- | ---- | ----------- | ----- |
-| **id** | **Integer** | The identifier of the activity. |  |
-| **include_all_efforts** | **Boolean** | To include all segments efforts. | [optional] |
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **Integer**| The identifier of the activity. | 
+ **include_all_efforts** | **BOOLEAN**| To include all segments efforts. | [optional] 
 
 ### Return type
 
@@ -170,22 +138,21 @@ end
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
 
 
-## get_comments_by_activity_id
 
-> <Array<Comment>> get_comments_by_activity_id(id, opts)
+# **get_comments_by_activity_id**
+> Array&lt;Comment&gt; get_comments_by_activity_id(id, opts)
 
 List Activity Comments
 
 Returns the comments on the given activity. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities.
 
-### Examples
-
+### Example
 ```ruby
-require 'time'
+# load the gem
 require 'strava-client'
 # setup authorization
 StravaClient.configure do |config|
@@ -194,50 +161,34 @@ StravaClient.configure do |config|
 end
 
 api_instance = StravaClient::ActivitiesApi.new
+
 id = 789 # Integer | The identifier of the activity.
-opts = {
+
+opts = { 
   page: 56, # Integer | Deprecated. Prefer to use after_cursor.
-  per_page: 56, # Integer | Deprecated. Prefer to use page_size.
-  page_size: 56, # Integer | Number of items per page. Defaults to 30.
-  after_cursor: 'after_cursor_example' # String | Cursor of the last item in the previous page of results, used to request the subsequent page of results.  When omitted, the first page of results is fetched.
+  per_page: 30, # Integer | Deprecated. Prefer to use page_size.
+  page_size: 30, # Integer | Number of items per page. Defaults to 30.
+  after_cursor: "after_cursor_example" # String | Cursor of the last item in the previous page of results, used to request the subsequent page of results.  When omitted, the first page of results is fetched.
 }
 
 begin
-  # List Activity Comments
+  #List Activity Comments
   result = api_instance.get_comments_by_activity_id(id, opts)
   p result
 rescue StravaClient::ApiError => e
-  puts "Error when calling ActivitiesApi->get_comments_by_activity_id: #{e}"
-end
-```
-
-#### Using the get_comments_by_activity_id_with_http_info variant
-
-This returns an Array which contains the response data, status code and headers.
-
-> <Array(<Array<Comment>>, Integer, Hash)> get_comments_by_activity_id_with_http_info(id, opts)
-
-```ruby
-begin
-  # List Activity Comments
-  data, status_code, headers = api_instance.get_comments_by_activity_id_with_http_info(id, opts)
-  p status_code # => 2xx
-  p headers # => { ... }
-  p data # => <Array<Comment>>
-rescue StravaClient::ApiError => e
-  puts "Error when calling ActivitiesApi->get_comments_by_activity_id_with_http_info: #{e}"
+  puts "Exception when calling ActivitiesApi->get_comments_by_activity_id: #{e}"
 end
 ```
 
 ### Parameters
 
-| Name | Type | Description | Notes |
-| ---- | ---- | ----------- | ----- |
-| **id** | **Integer** | The identifier of the activity. |  |
-| **page** | **Integer** | Deprecated. Prefer to use after_cursor. | [optional] |
-| **per_page** | **Integer** | Deprecated. Prefer to use page_size. | [optional][default to 30] |
-| **page_size** | **Integer** | Number of items per page. Defaults to 30. | [optional][default to 30] |
-| **after_cursor** | **String** | Cursor of the last item in the previous page of results, used to request the subsequent page of results.  When omitted, the first page of results is fetched. | [optional] |
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **Integer**| The identifier of the activity. | 
+ **page** | **Integer**| Deprecated. Prefer to use after_cursor. | [optional] 
+ **per_page** | **Integer**| Deprecated. Prefer to use page_size. | [optional] [default to 30]
+ **page_size** | **Integer**| Number of items per page. Defaults to 30. | [optional] [default to 30]
+ **after_cursor** | **String**| Cursor of the last item in the previous page of results, used to request the subsequent page of results.  When omitted, the first page of results is fetched. | [optional] 
 
 ### Return type
 
@@ -249,22 +200,21 @@ end
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
 
 
-## get_kudoers_by_activity_id
 
-> <Array<SummaryAthlete>> get_kudoers_by_activity_id(id, opts)
+# **get_kudoers_by_activity_id**
+> Array&lt;SummaryAthlete&gt; get_kudoers_by_activity_id(id, opts)
 
 List Activity Kudoers
 
 Returns the athletes who kudoed an activity identified by an identifier. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities.
 
-### Examples
-
+### Example
 ```ruby
-require 'time'
+# load the gem
 require 'strava-client'
 # setup authorization
 StravaClient.configure do |config|
@@ -273,46 +223,30 @@ StravaClient.configure do |config|
 end
 
 api_instance = StravaClient::ActivitiesApi.new
+
 id = 789 # Integer | The identifier of the activity.
-opts = {
+
+opts = { 
   page: 56, # Integer | Page number. Defaults to 1.
-  per_page: 56 # Integer | Number of items per page. Defaults to 30.
+  per_page: 30 # Integer | Number of items per page. Defaults to 30.
 }
 
 begin
-  # List Activity Kudoers
+  #List Activity Kudoers
   result = api_instance.get_kudoers_by_activity_id(id, opts)
   p result
 rescue StravaClient::ApiError => e
-  puts "Error when calling ActivitiesApi->get_kudoers_by_activity_id: #{e}"
-end
-```
-
-#### Using the get_kudoers_by_activity_id_with_http_info variant
-
-This returns an Array which contains the response data, status code and headers.
-
-> <Array(<Array<SummaryAthlete>>, Integer, Hash)> get_kudoers_by_activity_id_with_http_info(id, opts)
-
-```ruby
-begin
-  # List Activity Kudoers
-  data, status_code, headers = api_instance.get_kudoers_by_activity_id_with_http_info(id, opts)
-  p status_code # => 2xx
-  p headers # => { ... }
-  p data # => <Array<SummaryAthlete>>
-rescue StravaClient::ApiError => e
-  puts "Error when calling ActivitiesApi->get_kudoers_by_activity_id_with_http_info: #{e}"
+  puts "Exception when calling ActivitiesApi->get_kudoers_by_activity_id: #{e}"
 end
 ```
 
 ### Parameters
 
-| Name | Type | Description | Notes |
-| ---- | ---- | ----------- | ----- |
-| **id** | **Integer** | The identifier of the activity. |  |
-| **page** | **Integer** | Page number. Defaults to 1. | [optional] |
-| **per_page** | **Integer** | Number of items per page. Defaults to 30. | [optional][default to 30] |
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **Integer**| The identifier of the activity. | 
+ **page** | **Integer**| Page number. Defaults to 1. | [optional] 
+ **per_page** | **Integer**| Number of items per page. Defaults to 30. | [optional] [default to 30]
 
 ### Return type
 
@@ -324,22 +258,21 @@ end
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
 
 
-## get_laps_by_activity_id
 
-> <Array<Lap>> get_laps_by_activity_id(id)
+# **get_laps_by_activity_id**
+> Array&lt;Lap&gt; get_laps_by_activity_id(id)
 
 List Activity Laps
 
 Returns the laps of an activity identified by an identifier. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities.
 
-### Examples
-
+### Example
 ```ruby
-require 'time'
+# load the gem
 require 'strava-client'
 # setup authorization
 StravaClient.configure do |config|
@@ -348,40 +281,24 @@ StravaClient.configure do |config|
 end
 
 api_instance = StravaClient::ActivitiesApi.new
+
 id = 789 # Integer | The identifier of the activity.
 
+
 begin
-  # List Activity Laps
+  #List Activity Laps
   result = api_instance.get_laps_by_activity_id(id)
   p result
 rescue StravaClient::ApiError => e
-  puts "Error when calling ActivitiesApi->get_laps_by_activity_id: #{e}"
-end
-```
-
-#### Using the get_laps_by_activity_id_with_http_info variant
-
-This returns an Array which contains the response data, status code and headers.
-
-> <Array(<Array<Lap>>, Integer, Hash)> get_laps_by_activity_id_with_http_info(id)
-
-```ruby
-begin
-  # List Activity Laps
-  data, status_code, headers = api_instance.get_laps_by_activity_id_with_http_info(id)
-  p status_code # => 2xx
-  p headers # => { ... }
-  p data # => <Array<Lap>>
-rescue StravaClient::ApiError => e
-  puts "Error when calling ActivitiesApi->get_laps_by_activity_id_with_http_info: #{e}"
+  puts "Exception when calling ActivitiesApi->get_laps_by_activity_id: #{e}"
 end
 ```
 
 ### Parameters
 
-| Name | Type | Description | Notes |
-| ---- | ---- | ----------- | ----- |
-| **id** | **Integer** | The identifier of the activity. |  |
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **Integer**| The identifier of the activity. | 
 
 ### Return type
 
@@ -393,22 +310,21 @@ end
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
 
 
-## get_logged_in_athlete_activities
 
-> <Array<SummaryActivity>> get_logged_in_athlete_activities(opts)
+# **get_logged_in_athlete_activities**
+> Array&lt;SummaryActivity&gt; get_logged_in_athlete_activities(opts)
 
 List Athlete Activities
 
 Returns the activities of an athlete for a specific identifier. Requires activity:read. Only Me activities will be filtered out unless requested by a token with activity:read_all.
 
-### Examples
-
+### Example
 ```ruby
-require 'time'
+# load the gem
 require 'strava-client'
 # setup authorization
 StravaClient.configure do |config|
@@ -417,48 +333,31 @@ StravaClient.configure do |config|
 end
 
 api_instance = StravaClient::ActivitiesApi.new
-opts = {
+
+opts = { 
   before: 56, # Integer | An epoch timestamp to use for filtering activities that have taken place before a certain time.
   after: 56, # Integer | An epoch timestamp to use for filtering activities that have taken place after a certain time.
   page: 56, # Integer | Page number. Defaults to 1.
-  per_page: 56 # Integer | Number of items per page. Defaults to 30.
+  per_page: 30 # Integer | Number of items per page. Defaults to 30.
 }
 
 begin
-  # List Athlete Activities
+  #List Athlete Activities
   result = api_instance.get_logged_in_athlete_activities(opts)
   p result
 rescue StravaClient::ApiError => e
-  puts "Error when calling ActivitiesApi->get_logged_in_athlete_activities: #{e}"
-end
-```
-
-#### Using the get_logged_in_athlete_activities_with_http_info variant
-
-This returns an Array which contains the response data, status code and headers.
-
-> <Array(<Array<SummaryActivity>>, Integer, Hash)> get_logged_in_athlete_activities_with_http_info(opts)
-
-```ruby
-begin
-  # List Athlete Activities
-  data, status_code, headers = api_instance.get_logged_in_athlete_activities_with_http_info(opts)
-  p status_code # => 2xx
-  p headers # => { ... }
-  p data # => <Array<SummaryActivity>>
-rescue StravaClient::ApiError => e
-  puts "Error when calling ActivitiesApi->get_logged_in_athlete_activities_with_http_info: #{e}"
+  puts "Exception when calling ActivitiesApi->get_logged_in_athlete_activities: #{e}"
 end
 ```
 
 ### Parameters
 
-| Name | Type | Description | Notes |
-| ---- | ---- | ----------- | ----- |
-| **before** | **Integer** | An epoch timestamp to use for filtering activities that have taken place before a certain time. | [optional] |
-| **after** | **Integer** | An epoch timestamp to use for filtering activities that have taken place after a certain time. | [optional] |
-| **page** | **Integer** | Page number. Defaults to 1. | [optional] |
-| **per_page** | **Integer** | Number of items per page. Defaults to 30. | [optional][default to 30] |
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **before** | **Integer**| An epoch timestamp to use for filtering activities that have taken place before a certain time. | [optional] 
+ **after** | **Integer**| An epoch timestamp to use for filtering activities that have taken place after a certain time. | [optional] 
+ **page** | **Integer**| Page number. Defaults to 1. | [optional] 
+ **per_page** | **Integer**| Number of items per page. Defaults to 30. | [optional] [default to 30]
 
 ### Return type
 
@@ -470,22 +369,21 @@ end
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
 
 
-## get_zones_by_activity_id
 
-> <Array<ActivityZone>> get_zones_by_activity_id(id)
+# **get_zones_by_activity_id**
+> Array&lt;ActivityZone&gt; get_zones_by_activity_id(id)
 
 Get Activity Zones
 
 Summit Feature. Returns the zones of a given activity. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities.
 
-### Examples
-
+### Example
 ```ruby
-require 'time'
+# load the gem
 require 'strava-client'
 # setup authorization
 StravaClient.configure do |config|
@@ -494,40 +392,24 @@ StravaClient.configure do |config|
 end
 
 api_instance = StravaClient::ActivitiesApi.new
+
 id = 789 # Integer | The identifier of the activity.
 
+
 begin
-  # Get Activity Zones
+  #Get Activity Zones
   result = api_instance.get_zones_by_activity_id(id)
   p result
 rescue StravaClient::ApiError => e
-  puts "Error when calling ActivitiesApi->get_zones_by_activity_id: #{e}"
-end
-```
-
-#### Using the get_zones_by_activity_id_with_http_info variant
-
-This returns an Array which contains the response data, status code and headers.
-
-> <Array(<Array<ActivityZone>>, Integer, Hash)> get_zones_by_activity_id_with_http_info(id)
-
-```ruby
-begin
-  # Get Activity Zones
-  data, status_code, headers = api_instance.get_zones_by_activity_id_with_http_info(id)
-  p status_code # => 2xx
-  p headers # => { ... }
-  p data # => <Array<ActivityZone>>
-rescue StravaClient::ApiError => e
-  puts "Error when calling ActivitiesApi->get_zones_by_activity_id_with_http_info: #{e}"
+  puts "Exception when calling ActivitiesApi->get_zones_by_activity_id: #{e}"
 end
 ```
 
 ### Parameters
 
-| Name | Type | Description | Notes |
-| ---- | ---- | ----------- | ----- |
-| **id** | **Integer** | The identifier of the activity. |  |
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **Integer**| The identifier of the activity. | 
 
 ### Return type
 
@@ -539,22 +421,21 @@ end
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
 
 
-## update_activity_by_id
 
-> <DetailedActivity> update_activity_by_id(id, opts)
+# **update_activity_by_id**
+> DetailedActivity update_activity_by_id(id, opts)
 
 Update Activity
 
 Updates the given activity that is owned by the authenticated athlete. Requires activity:write. Also requires activity:read_all in order to update Only Me activities
 
-### Examples
-
+### Example
 ```ruby
-require 'time'
+# load the gem
 require 'strava-client'
 # setup authorization
 StravaClient.configure do |config|
@@ -563,44 +444,28 @@ StravaClient.configure do |config|
 end
 
 api_instance = StravaClient::ActivitiesApi.new
+
 id = 789 # Integer | The identifier of the activity.
-opts = {
+
+opts = { 
   body: StravaClient::UpdatableActivity.new # UpdatableActivity | 
 }
 
 begin
-  # Update Activity
+  #Update Activity
   result = api_instance.update_activity_by_id(id, opts)
   p result
 rescue StravaClient::ApiError => e
-  puts "Error when calling ActivitiesApi->update_activity_by_id: #{e}"
-end
-```
-
-#### Using the update_activity_by_id_with_http_info variant
-
-This returns an Array which contains the response data, status code and headers.
-
-> <Array(<DetailedActivity>, Integer, Hash)> update_activity_by_id_with_http_info(id, opts)
-
-```ruby
-begin
-  # Update Activity
-  data, status_code, headers = api_instance.update_activity_by_id_with_http_info(id, opts)
-  p status_code # => 2xx
-  p headers # => { ... }
-  p data # => <DetailedActivity>
-rescue StravaClient::ApiError => e
-  puts "Error when calling ActivitiesApi->update_activity_by_id_with_http_info: #{e}"
+  puts "Exception when calling ActivitiesApi->update_activity_by_id: #{e}"
 end
 ```
 
 ### Parameters
 
-| Name | Type | Description | Notes |
-| ---- | ---- | ----------- | ----- |
-| **id** | **Integer** | The identifier of the activity. |  |
-| **body** | [**UpdatableActivity**](UpdatableActivity.md) |  | [optional] |
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **id** | **Integer**| The identifier of the activity. | 
+ **body** | [**UpdatableActivity**](UpdatableActivity.md)|  | [optional] 
 
 ### Return type
 
@@ -612,6 +477,8 @@ end
 
 ### HTTP request headers
 
-- **Content-Type**: Not defined
-- **Accept**: application/json
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+
 
