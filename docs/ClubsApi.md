@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 
 # **get_club_activities_by_id**
-> Array&lt;SummaryActivity&gt; get_club_activities_by_id(id, opts)
+> Array&lt;ClubActivity&gt; get_club_activities_by_id(id, opts)
 
 List Club Activities
 
@@ -56,7 +56,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Array&lt;SummaryActivity&gt;**](SummaryActivity.md)
+[**Array&lt;ClubActivity&gt;**](ClubActivity.md)
 
 ### Authorization
 
@@ -180,7 +180,7 @@ Name | Type | Description  | Notes
 
 
 # **get_club_members_by_id**
-> Array&lt;SummaryAthlete&gt; get_club_members_by_id(id, opts)
+> Array&lt;ClubAthlete&gt; get_club_members_by_id(id, opts)
 
 List Club Members
 
@@ -224,7 +224,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Array&lt;SummaryAthlete&gt;**](SummaryAthlete.md)
+[**Array&lt;ClubAthlete&gt;**](ClubAthlete.md)
 
 ### Authorization
 

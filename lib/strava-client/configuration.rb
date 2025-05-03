@@ -11,7 +11,6 @@ Swagger Codegen version: 2.3.1
 =end
 
 require 'uri'
-require 'addressable/uri'
 
 module StravaClient
   class Configuration
@@ -160,27 +159,23 @@ module StravaClient
 
     def scheme=(scheme)
       # remove :// from scheme
-      @scheme = scheme.sub(%r{:\/\/}, '')
+      @scheme = scheme.sub(/:\/\//, '')
     end
 
     def host=(host)
       # remove http(s):// and anything after a slash
-      @host = host.sub(%r{https?:\/\/}, '').split('/').first
+      @host = host.sub(/https?:\/\//, '').split('/').first
     end
 
     def base_path=(base_path)
       # Add leading and trailing slashes to base_path
-      @base_path = "/#{base_path}".gsub(%r{\/+}, '/')
-      @base_path = '' if @base_path == '/'
+      @base_path = "/#{base_path}".gsub(/\/+/, '/')
+      @base_path = "" if @base_path == "/"
     end
 
     def base_url
-      url =
-        "#{scheme}://#{[host, base_path].join('/').gsub(%r{\/+}, '/')}".sub(
-          %r{\/+\z},
-          '',
-        )
-      Addressable::URI.escape(url)
+      url = "#{scheme}://#{[host, base_path].join('/').gsub(/\/+/, '/')}".sub(/\/+\z/, '')
+      URI.encode(url)
     end
 
     # Gets API key (with prefix if set).
@@ -201,12 +196,13 @@ module StravaClient
     # Returns Auth Settings hash for api client.
     def auth_settings
       {
-        'strava_oauth' => {
-          type: 'oauth2',
-          in: 'header',
-          key: 'Authorization',
-          value: "Bearer #{access_token}",
-        },
+        'strava_oauth' =>
+          {
+            type: 'oauth2',
+            in: 'header',
+            key: 'Authorization',
+            value: "Bearer #{access_token}"
+          },
       }
     end
   end

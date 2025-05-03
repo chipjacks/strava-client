@@ -64,6 +64,9 @@ module StravaClient
     # The segments traversed by this route
     attr_accessor :segments
 
+    # The custom waypoints along this route
+    attr_accessor :waypoints
+
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
@@ -84,7 +87,8 @@ module StravaClient
         :'created_at' => :'created_at',
         :'updated_at' => :'updated_at',
         :'estimated_moving_time' => :'estimated_moving_time',
-        :'segments' => :'segments'
+        :'segments' => :'segments',
+        :'waypoints' => :'waypoints'
       }
     end
 
@@ -107,7 +111,8 @@ module StravaClient
         :'created_at' => :'DateTime',
         :'updated_at' => :'DateTime',
         :'estimated_moving_time' => :'Integer',
-        :'segments' => :'Array<SummarySegment>'
+        :'segments' => :'Array<SummarySegment>',
+        :'waypoints' => :'Array<Waypoint>'
       }
     end
 
@@ -189,6 +194,12 @@ module StravaClient
         end
       end
 
+      if attributes.has_key?(:'waypoints')
+        if (value = attributes[:'waypoints']).is_a?(Array)
+          self.waypoints = value
+        end
+      end
+
     end
 
     # Show invalid properties with the reasons. Usually used together with valid?
@@ -225,7 +236,8 @@ module StravaClient
           created_at == o.created_at &&
           updated_at == o.updated_at &&
           estimated_moving_time == o.estimated_moving_time &&
-          segments == o.segments
+          segments == o.segments &&
+          waypoints == o.waypoints
     end
 
     # @see the `==` method
@@ -237,7 +249,7 @@ module StravaClient
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [athlete, description, distance, elevation_gain, id, id_str, map, name, private, starred, timestamp, type, sub_type, created_at, updated_at, estimated_moving_time, segments].hash
+      [athlete, description, distance, elevation_gain, id, id_str, map, name, private, starred, timestamp, type, sub_type, created_at, updated_at, estimated_moving_time, segments, waypoints].hash
     end
 
     # Builds the object from hash

@@ -26,7 +26,7 @@ module StravaClient
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :page Page number. Defaults to 1.
     # @option opts [Integer] :per_page Number of items per page. Defaults to 30. (default to 30)
-    # @return [Array<SummaryActivity>]
+    # @return [Array<ClubActivity>]
     def get_club_activities_by_id(id, opts = {})
       data, _status_code, _headers = get_club_activities_by_id_with_http_info(id, opts)
       return data
@@ -38,7 +38,7 @@ module StravaClient
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :page Page number. Defaults to 1.
     # @option opts [Integer] :per_page Number of items per page. Defaults to 30.
-    # @return [Array<(Array<SummaryActivity>, Fixnum, Hash)>] Array<SummaryActivity> data, response status code and response headers
+    # @return [Array<(Array<ClubActivity>, Fixnum, Hash)>] Array<ClubActivity> data, response status code and response headers
     def get_club_activities_by_id_with_http_info(id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug "Calling API: ClubsApi.get_club_activities_by_id ..."
@@ -72,7 +72,7 @@ module StravaClient
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names,
-        :return_type => 'Array<SummaryActivity>')
+        :return_type => 'Array<ClubActivity>')
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: ClubsApi#get_club_activities_by_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end
@@ -197,7 +197,7 @@ module StravaClient
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :page Page number. Defaults to 1.
     # @option opts [Integer] :per_page Number of items per page. Defaults to 30. (default to 30)
-    # @return [Array<SummaryAthlete>]
+    # @return [Array<ClubAthlete>]
     def get_club_members_by_id(id, opts = {})
       data, _status_code, _headers = get_club_members_by_id_with_http_info(id, opts)
       return data
@@ -209,7 +209,7 @@ module StravaClient
     # @param [Hash] opts the optional parameters
     # @option opts [Integer] :page Page number. Defaults to 1.
     # @option opts [Integer] :per_page Number of items per page. Defaults to 30.
-    # @return [Array<(Array<SummaryAthlete>, Fixnum, Hash)>] Array<SummaryAthlete> data, response status code and response headers
+    # @return [Array<(Array<ClubAthlete>, Fixnum, Hash)>] Array<ClubAthlete> data, response status code and response headers
     def get_club_members_by_id_with_http_info(id, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug "Calling API: ClubsApi.get_club_members_by_id ..."
@@ -243,7 +243,7 @@ module StravaClient
         :form_params => form_params,
         :body => post_body,
         :auth_names => auth_names,
-        :return_type => 'Array<SummaryAthlete>')
+        :return_type => 'Array<ClubAthlete>')
       if @api_client.config.debugging
         @api_client.config.logger.debug "API called: ClubsApi#get_club_members_by_id\nData: #{data.inspect}\nStatus code: #{status_code}\nHeaders: #{headers}"
       end

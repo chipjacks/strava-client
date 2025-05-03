@@ -18,7 +18,7 @@ Name | Type | Description | Notes
 **state** | **String** | The segments&#39;s state or geographical region. | [optional] 
 **country** | **String** | The segment&#39;s country. | [optional] 
 **private** | **BOOLEAN** | Whether this segment is private. | [optional] 
-**athlete_pr_effort** | [**SummarySegmentEffort**](SummarySegmentEffort.md) |  | [optional] 
-**athlete_segment_stats** | [**SummaryPRSegmentEffort**](SummaryPRSegmentEffort.md) |  | [optional] 
+**athlete_pr_effort** | [**SummaryPRSegmentEffort**](SummaryPRSegmentEffort.md) |  | [optional] 
+**athlete_segment_stats** | [**SummarySegmentEffort**](SummarySegmentEffort.md) |  | [optional] 
 
 

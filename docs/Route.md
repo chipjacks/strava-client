@@ -20,5 +20,6 @@ Name | Type | Description | Notes
 **updated_at** | **DateTime** | The time at which the route was last updated | [optional] 
 **estimated_moving_time** | **Integer** | Estimated time in seconds for the authenticated athlete to complete route | [optional] 
 **segments** | [**Array&lt;SummarySegment&gt;**](SummarySegment.md) | The segments traversed by this route | [optional] 
+**waypoints** | [**Array&lt;Waypoint&gt;**](Waypoint.md) | The custom waypoints along this route | [optional] 
 
 

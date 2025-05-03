@@ -124,8 +124,8 @@ module StravaClient
         :'state' => :'String',
         :'country' => :'String',
         :'private' => :'BOOLEAN',
-        :'athlete_pr_effort' => :'SummarySegmentEffort',
-        :'athlete_segment_stats' => :'SummaryPRSegmentEffort'
+        :'athlete_pr_effort' => :'SummaryPRSegmentEffort',
+        :'athlete_segment_stats' => :'SummarySegmentEffort'
       }
     end
 

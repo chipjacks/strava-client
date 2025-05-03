@@ -14,56 +14,47 @@ require 'date'
 
 module StravaClient
 
-  class UpdatableActivity
-    # Whether this activity is a commute
-    attr_accessor :commute
+  class Waypoint
+    # The location along the route that the waypoint is closest to
+    attr_accessor :latlng
 
-    # Whether this activity was recorded on a training machine
-    attr_accessor :trainer
+    # A location off of the route that the waypoint is (optional)
+    attr_accessor :target_latlng
 
-    # Whether this activity is muted
-    attr_accessor :hide_from_home
+    # Categories that the waypoint belongs to
+    attr_accessor :categories
 
-    # The description of the activity
+    # A title for the waypoint
+    attr_accessor :title
+
+    # A description of the waypoint (optional)
     attr_accessor :description
 
-    # The name of the activity
-    attr_accessor :name
-
-    # Deprecated. Prefer to use sport_type. In a request where both type and sport_type are present, this field will be ignored
-    attr_accessor :type
-
-    attr_accessor :sport_type
-
-    # Identifier for the gear associated with the activity. ‘none’ clears gear from activity
-    attr_accessor :gear_id
+    # The number meters along the route that the waypoint is located
+    attr_accessor :distance_into_route
 
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'commute' => :'commute',
-        :'trainer' => :'trainer',
-        :'hide_from_home' => :'hide_from_home',
+        :'latlng' => :'latlng',
+        :'target_latlng' => :'target_latlng',
+        :'categories' => :'categories',
+        :'title' => :'title',
         :'description' => :'description',
-        :'name' => :'name',
-        :'type' => :'type',
-        :'sport_type' => :'sport_type',
-        :'gear_id' => :'gear_id'
+        :'distance_into_route' => :'distance_into_route'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'commute' => :'BOOLEAN',
-        :'trainer' => :'BOOLEAN',
-        :'hide_from_home' => :'BOOLEAN',
+        :'latlng' => :'LatLng',
+        :'target_latlng' => :'LatLng',
+        :'categories' => :'Array<String>',
+        :'title' => :'String',
         :'description' => :'String',
-        :'name' => :'String',
-        :'type' => :'ActivityType',
-        :'sport_type' => :'SportType',
-        :'gear_id' => :'String'
+        :'distance_into_route' => :'Integer'
       }
     end
 
@@ -75,36 +66,30 @@ module StravaClient
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
 
-      if attributes.has_key?(:'commute')
-        self.commute = attributes[:'commute']
+      if attributes.has_key?(:'latlng')
+        self.latlng = attributes[:'latlng']
       end
 
-      if attributes.has_key?(:'trainer')
-        self.trainer = attributes[:'trainer']
+      if attributes.has_key?(:'target_latlng')
+        self.target_latlng = attributes[:'target_latlng']
       end
 
-      if attributes.has_key?(:'hide_from_home')
-        self.hide_from_home = attributes[:'hide_from_home']
+      if attributes.has_key?(:'categories')
+        if (value = attributes[:'categories']).is_a?(Array)
+          self.categories = value
+        end
+      end
+
+      if attributes.has_key?(:'title')
+        self.title = attributes[:'title']
       end
 
       if attributes.has_key?(:'description')
         self.description = attributes[:'description']
       end
 
-      if attributes.has_key?(:'name')
-        self.name = attributes[:'name']
-      end
-
-      if attributes.has_key?(:'type')
-        self.type = attributes[:'type']
-      end
-
-      if attributes.has_key?(:'sport_type')
-        self.sport_type = attributes[:'sport_type']
-      end
-
-      if attributes.has_key?(:'gear_id')
-        self.gear_id = attributes[:'gear_id']
+      if attributes.has_key?(:'distance_into_route')
+        self.distance_into_route = attributes[:'distance_into_route']
       end
 
     end
@@ -127,14 +112,12 @@ module StravaClient
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          commute == o.commute &&
-          trainer == o.trainer &&
-          hide_from_home == o.hide_from_home &&
+          latlng == o.latlng &&
+          target_latlng == o.target_latlng &&
+          categories == o.categories &&
+          title == o.title &&
           description == o.description &&
-          name == o.name &&
-          type == o.type &&
-          sport_type == o.sport_type &&
-          gear_id == o.gear_id
+          distance_into_route == o.distance_into_route
     end
 
     # @see the `==` method
@@ -146,7 +129,7 @@ module StravaClient
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [commute, trainer, hide_from_home, description, name, type, sport_type, gear_id].hash
+      [latlng, target_latlng, categories, title, description, distance_into_route].hash
     end
 
     # Builds the object from hash

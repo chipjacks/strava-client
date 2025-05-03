@@ -33,7 +33,11 @@ module StravaClient
     # URL to a ~360x176  pixel cover photo.
     attr_accessor :cover_photo_small
 
+    # Deprecated. Prefer to use activity_types.
     attr_accessor :sport_type
+
+    # The activity types that count for a club. This takes precedence over sport_type.
+    attr_accessor :activity_types
 
     # The club's city.
     attr_accessor :city
@@ -103,6 +107,7 @@ module StravaClient
         :'cover_photo' => :'cover_photo',
         :'cover_photo_small' => :'cover_photo_small',
         :'sport_type' => :'sport_type',
+        :'activity_types' => :'activity_types',
         :'city' => :'city',
         :'state' => :'state',
         :'country' => :'country',
@@ -128,6 +133,7 @@ module StravaClient
         :'cover_photo' => :'String',
         :'cover_photo_small' => :'String',
         :'sport_type' => :'String',
+        :'activity_types' => :'Array<ActivityType>',
         :'city' => :'String',
         :'state' => :'String',
         :'country' => :'String',
@@ -177,6 +183,12 @@ module StravaClient
 
       if attributes.has_key?(:'sport_type')
         self.sport_type = attributes[:'sport_type']
+      end
+
+      if attributes.has_key?(:'activity_types')
+        if (value = attributes[:'activity_types']).is_a?(Array)
+          self.activity_types = value
+        end
       end
 
       if attributes.has_key?(:'city')
@@ -278,6 +290,7 @@ module StravaClient
           cover_photo == o.cover_photo &&
           cover_photo_small == o.cover_photo_small &&
           sport_type == o.sport_type &&
+          activity_types == o.activity_types &&
           city == o.city &&
           state == o.state &&
           country == o.country &&
@@ -301,7 +314,7 @@ module StravaClient
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [id, resource_state, name, profile_medium, cover_photo, cover_photo_small, sport_type, city, state, country, private, member_count, featured, verified, url, membership, admin, owner, following_count].hash
+      [id, resource_state, name, profile_medium, cover_photo, cover_photo_small, sport_type, activity_types, city, state, country, private, member_count, featured, verified, url, membership, admin, owner, following_count].hash
     end
 
     # Builds the object from hash

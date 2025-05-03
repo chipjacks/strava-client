@@ -15,7 +15,7 @@ Method | HTTP request | Description
 
 
 # **create_activity**
-> DetailedActivity create_activity(name, type, start_date_local, elapsed_time, opts)
+> DetailedActivity create_activity(name, sport_type, start_date_local, elapsed_time, opts)
 
 Create an Activity
 
@@ -35,13 +35,14 @@ api_instance = StravaClient::ActivitiesApi.new
 
 name = "name_example" # String | The name of the activity.
 
-type = "type_example" # String | Type of activity. For example - Run, Ride etc.
+sport_type = "sport_type_example" # String | Sport type of activity. For example - Run, MountainBikeRide, Ride, etc.
 
 start_date_local = DateTime.parse("2013-10-20T19:20:30+01:00") # DateTime | ISO 8601 formatted date time.
 
 elapsed_time = 56 # Integer | In seconds.
 
 opts = { 
+  type: "type_example", # String | Type of activity. For example - Run, Ride etc.
   description: "description_example", # String | Description of the activity.
   distance: 3.4, # Float | In meters.
   trainer: 56, # Integer | Set to 1 to mark as a trainer activity.
@@ -50,7 +51,7 @@ opts = {
 
 begin
   #Create an Activity
-  result = api_instance.create_activity(name, type, start_date_local, elapsed_time, opts)
+  result = api_instance.create_activity(name, sport_type, start_date_local, elapsed_time, opts)
   p result
 rescue StravaClient::ApiError => e
   puts "Exception when calling ActivitiesApi->create_activity: #{e}"
@@ -62,9 +63,10 @@ end
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **name** | **String**| The name of the activity. | 
- **type** | **String**| Type of activity. For example - Run, Ride etc. | 
+ **sport_type** | **String**| Sport type of activity. For example - Run, MountainBikeRide, Ride, etc. | 
  **start_date_local** | **DateTime**| ISO 8601 formatted date time. | 
  **elapsed_time** | **Integer**| In seconds. | 
+ **type** | **String**| Type of activity. For example - Run, Ride etc. | [optional] 
  **description** | **String**| Description of the activity. | [optional] 
  **distance** | **Float**| In meters. | [optional] 
  **trainer** | **Integer**| Set to 1 to mark as a trainer activity. | [optional] 
@@ -163,8 +165,10 @@ api_instance = StravaClient::ActivitiesApi.new
 id = 789 # Integer | The identifier of the activity.
 
 opts = { 
-  page: 56, # Integer | Page number. Defaults to 1.
-  per_page: 30 # Integer | Number of items per page. Defaults to 30.
+  page: 56, # Integer | Deprecated. Prefer to use after_cursor.
+  per_page: 30, # Integer | Deprecated. Prefer to use page_size.
+  page_size: 30, # Integer | Number of items per page. Defaults to 30.
+  after_cursor: "after_cursor_example" # String | Cursor of the last item in the previous page of results, used to request the subsequent page of results.  When omitted, the first page of results is fetched.
 }
 
 begin
@@ -181,8 +185,10 @@ end
 Name | Type | Description  | Notes
 ------------- | ------------- | ------------- | -------------
  **id** | **Integer**| The identifier of the activity. | 
- **page** | **Integer**| Page number. Defaults to 1. | [optional] 
- **per_page** | **Integer**| Number of items per page. Defaults to 30. | [optional] [default to 30]
+ **page** | **Integer**| Deprecated. Prefer to use after_cursor. | [optional] 
+ **per_page** | **Integer**| Deprecated. Prefer to use page_size. | [optional] [default to 30]
+ **page_size** | **Integer**| Number of items per page. Defaults to 30. | [optional] [default to 30]
+ **after_cursor** | **String**| Cursor of the last item in the previous page of results, used to request the subsequent page of results.  When omitted, the first page of results is fetched. | [optional] 
 
 ### Return type
 

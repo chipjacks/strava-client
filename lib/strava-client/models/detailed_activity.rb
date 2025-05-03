@@ -47,7 +47,10 @@ module StravaClient
     # The activity's lowest elevation, in meters
     attr_accessor :elev_low
 
+    # Deprecated. Prefer to use sport_type
     attr_accessor :type
+
+    attr_accessor :sport_type
 
     # The time at which the activity was started.
     attr_accessor :start_date
@@ -112,6 +115,9 @@ module StravaClient
     # Whether the logged-in athlete has kudoed this activity
     attr_accessor :has_kudoed
 
+    # Whether the activity is muted
+    attr_accessor :hide_from_home
+
     # The id of the gear for the activity
     attr_accessor :gear_id
 
@@ -174,6 +180,7 @@ module StravaClient
         :'elev_high' => :'elev_high',
         :'elev_low' => :'elev_low',
         :'type' => :'type',
+        :'sport_type' => :'sport_type',
         :'start_date' => :'start_date',
         :'start_date_local' => :'start_date_local',
         :'timezone' => :'timezone',
@@ -196,6 +203,7 @@ module StravaClient
         :'average_speed' => :'average_speed',
         :'max_speed' => :'max_speed',
         :'has_kudoed' => :'has_kudoed',
+        :'hide_from_home' => :'hide_from_home',
         :'gear_id' => :'gear_id',
         :'kilojoules' => :'kilojoules',
         :'average_watts' => :'average_watts',
@@ -231,6 +239,7 @@ module StravaClient
         :'elev_high' => :'Float',
         :'elev_low' => :'Float',
         :'type' => :'ActivityType',
+        :'sport_type' => :'SportType',
         :'start_date' => :'DateTime',
         :'start_date_local' => :'DateTime',
         :'timezone' => :'String',
@@ -253,6 +262,7 @@ module StravaClient
         :'average_speed' => :'Float',
         :'max_speed' => :'Float',
         :'has_kudoed' => :'BOOLEAN',
+        :'hide_from_home' => :'BOOLEAN',
         :'gear_id' => :'String',
         :'kilojoules' => :'Float',
         :'average_watts' => :'Float',
@@ -327,6 +337,10 @@ module StravaClient
 
       if attributes.has_key?(:'type')
         self.type = attributes[:'type']
+      end
+
+      if attributes.has_key?(:'sport_type')
+        self.sport_type = attributes[:'sport_type']
       end
 
       if attributes.has_key?(:'start_date')
@@ -415,6 +429,10 @@ module StravaClient
 
       if attributes.has_key?(:'has_kudoed')
         self.has_kudoed = attributes[:'has_kudoed']
+      end
+
+      if attributes.has_key?(:'hide_from_home')
+        self.hide_from_home = attributes[:'hide_from_home']
       end
 
       if attributes.has_key?(:'gear_id')
@@ -543,6 +561,7 @@ module StravaClient
           elev_high == o.elev_high &&
           elev_low == o.elev_low &&
           type == o.type &&
+          sport_type == o.sport_type &&
           start_date == o.start_date &&
           start_date_local == o.start_date_local &&
           timezone == o.timezone &&
@@ -565,6 +584,7 @@ module StravaClient
           average_speed == o.average_speed &&
           max_speed == o.max_speed &&
           has_kudoed == o.has_kudoed &&
+          hide_from_home == o.hide_from_home &&
           gear_id == o.gear_id &&
           kilojoules == o.kilojoules &&
           average_watts == o.average_watts &&
@@ -593,7 +613,7 @@ module StravaClient
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [id, external_id, upload_id, athlete, name, distance, moving_time, elapsed_time, total_elevation_gain, elev_high, elev_low, type, start_date, start_date_local, timezone, start_latlng, end_latlng, achievement_count, kudos_count, comment_count, athlete_count, photo_count, total_photo_count, map, trainer, commute, manual, private, flagged, workout_type, upload_id_str, average_speed, max_speed, has_kudoed, gear_id, kilojoules, average_watts, device_watts, max_watts, weighted_average_watts, description, photos, gear, calories, segment_efforts, device_name, embed_token, splits_metric, splits_standard, laps, best_efforts].hash
+      [id, external_id, upload_id, athlete, name, distance, moving_time, elapsed_time, total_elevation_gain, elev_high, elev_low, type, sport_type, start_date, start_date_local, timezone, start_latlng, end_latlng, achievement_count, kudos_count, comment_count, athlete_count, photo_count, total_photo_count, map, trainer, commute, manual, private, flagged, workout_type, upload_id_str, average_speed, max_speed, has_kudoed, hide_from_home, gear_id, kilojoules, average_watts, device_watts, max_watts, weighted_average_watts, description, photos, gear, calories, segment_efforts, device_name, embed_token, splits_metric, splits_standard, laps, best_efforts].hash
     end
 
     # Builds the object from hash

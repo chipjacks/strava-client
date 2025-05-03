@@ -14,118 +14,47 @@ require 'date'
 
 module StravaClient
 
-  class SummaryClub
-    # The club's unique identifier.
-    attr_accessor :id
-
+  class ClubAthlete
     # Resource state, indicates level of detail. Possible values: 1 -> \"meta\", 2 -> \"summary\", 3 -> \"detail\"
     attr_accessor :resource_state
 
-    # The club's name.
-    attr_accessor :name
+    # The athlete's first name.
+    attr_accessor :firstname
 
-    # URL to a 60x60 pixel profile picture.
-    attr_accessor :profile_medium
+    # The athlete's last initial.
+    attr_accessor :lastname
 
-    # URL to a ~1185x580 pixel cover photo.
-    attr_accessor :cover_photo
+    # The athlete's member status.
+    attr_accessor :member
 
-    # URL to a ~360x176  pixel cover photo.
-    attr_accessor :cover_photo_small
+    # Whether the athlete is a club admin.
+    attr_accessor :admin
 
-    # Deprecated. Prefer to use activity_types.
-    attr_accessor :sport_type
+    # Whether the athlete is club owner.
+    attr_accessor :owner
 
-    # The activity types that count for a club. This takes precedence over sport_type.
-    attr_accessor :activity_types
-
-    # The club's city.
-    attr_accessor :city
-
-    # The club's state or geographical region.
-    attr_accessor :state
-
-    # The club's country.
-    attr_accessor :country
-
-    # Whether the club is private.
-    attr_accessor :private
-
-    # The club's member count.
-    attr_accessor :member_count
-
-    # Whether the club is featured or not.
-    attr_accessor :featured
-
-    # Whether the club is verified or not.
-    attr_accessor :verified
-
-    # The club's vanity URL.
-    attr_accessor :url
-
-    class EnumAttributeValidator
-      attr_reader :datatype
-      attr_reader :allowable_values
-
-      def initialize(datatype, allowable_values)
-        @allowable_values = allowable_values.map do |value|
-          case datatype.to_s
-          when /Integer/i
-            value.to_i
-          when /Float/i
-            value.to_f
-          else
-            value
-          end
-        end
-      end
-
-      def valid?(value)
-        !value || allowable_values.include?(value)
-      end
-    end
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'id' => :'id',
         :'resource_state' => :'resource_state',
-        :'name' => :'name',
-        :'profile_medium' => :'profile_medium',
-        :'cover_photo' => :'cover_photo',
-        :'cover_photo_small' => :'cover_photo_small',
-        :'sport_type' => :'sport_type',
-        :'activity_types' => :'activity_types',
-        :'city' => :'city',
-        :'state' => :'state',
-        :'country' => :'country',
-        :'private' => :'private',
-        :'member_count' => :'member_count',
-        :'featured' => :'featured',
-        :'verified' => :'verified',
-        :'url' => :'url'
+        :'firstname' => :'firstname',
+        :'lastname' => :'lastname',
+        :'member' => :'member',
+        :'admin' => :'admin',
+        :'owner' => :'owner'
       }
     end
 
     # Attribute type mapping.
     def self.swagger_types
       {
-        :'id' => :'Integer',
         :'resource_state' => :'Integer',
-        :'name' => :'String',
-        :'profile_medium' => :'String',
-        :'cover_photo' => :'String',
-        :'cover_photo_small' => :'String',
-        :'sport_type' => :'String',
-        :'activity_types' => :'Array<ActivityType>',
-        :'city' => :'String',
-        :'state' => :'String',
-        :'country' => :'String',
-        :'private' => :'BOOLEAN',
-        :'member_count' => :'Integer',
-        :'featured' => :'BOOLEAN',
-        :'verified' => :'BOOLEAN',
-        :'url' => :'String'
+        :'firstname' => :'String',
+        :'lastname' => :'String',
+        :'member' => :'String',
+        :'admin' => :'BOOLEAN',
+        :'owner' => :'BOOLEAN'
       }
     end
 
@@ -137,70 +66,28 @@ module StravaClient
       # convert string to symbol for hash key
       attributes = attributes.each_with_object({}){|(k,v), h| h[k.to_sym] = v}
 
-      if attributes.has_key?(:'id')
-        self.id = attributes[:'id']
-      end
-
       if attributes.has_key?(:'resource_state')
         self.resource_state = attributes[:'resource_state']
       end
 
-      if attributes.has_key?(:'name')
-        self.name = attributes[:'name']
+      if attributes.has_key?(:'firstname')
+        self.firstname = attributes[:'firstname']
       end
 
-      if attributes.has_key?(:'profile_medium')
-        self.profile_medium = attributes[:'profile_medium']
+      if attributes.has_key?(:'lastname')
+        self.lastname = attributes[:'lastname']
       end
 
-      if attributes.has_key?(:'cover_photo')
-        self.cover_photo = attributes[:'cover_photo']
+      if attributes.has_key?(:'member')
+        self.member = attributes[:'member']
       end
 
-      if attributes.has_key?(:'cover_photo_small')
-        self.cover_photo_small = attributes[:'cover_photo_small']
+      if attributes.has_key?(:'admin')
+        self.admin = attributes[:'admin']
       end
 
-      if attributes.has_key?(:'sport_type')
-        self.sport_type = attributes[:'sport_type']
-      end
-
-      if attributes.has_key?(:'activity_types')
-        if (value = attributes[:'activity_types']).is_a?(Array)
-          self.activity_types = value
-        end
-      end
-
-      if attributes.has_key?(:'city')
-        self.city = attributes[:'city']
-      end
-
-      if attributes.has_key?(:'state')
-        self.state = attributes[:'state']
-      end
-
-      if attributes.has_key?(:'country')
-        self.country = attributes[:'country']
-      end
-
-      if attributes.has_key?(:'private')
-        self.private = attributes[:'private']
-      end
-
-      if attributes.has_key?(:'member_count')
-        self.member_count = attributes[:'member_count']
-      end
-
-      if attributes.has_key?(:'featured')
-        self.featured = attributes[:'featured']
-      end
-
-      if attributes.has_key?(:'verified')
-        self.verified = attributes[:'verified']
-      end
-
-      if attributes.has_key?(:'url')
-        self.url = attributes[:'url']
+      if attributes.has_key?(:'owner')
+        self.owner = attributes[:'owner']
       end
 
     end
@@ -215,19 +102,7 @@ module StravaClient
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      sport_type_validator = EnumAttributeValidator.new('String', ["cycling", "running", "triathlon", "other"])
-      return false unless sport_type_validator.valid?(@sport_type)
       return true
-    end
-
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] sport_type Object to be assigned
-    def sport_type=(sport_type)
-      validator = EnumAttributeValidator.new('String', ["cycling", "running", "triathlon", "other"])
-      unless validator.valid?(sport_type)
-        fail ArgumentError, "invalid value for 'sport_type', must be one of #{validator.allowable_values}."
-      end
-      @sport_type = sport_type
     end
 
     # Checks equality by comparing each attribute.
@@ -235,22 +110,12 @@ module StravaClient
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          id == o.id &&
           resource_state == o.resource_state &&
-          name == o.name &&
-          profile_medium == o.profile_medium &&
-          cover_photo == o.cover_photo &&
-          cover_photo_small == o.cover_photo_small &&
-          sport_type == o.sport_type &&
-          activity_types == o.activity_types &&
-          city == o.city &&
-          state == o.state &&
-          country == o.country &&
-          private == o.private &&
-          member_count == o.member_count &&
-          featured == o.featured &&
-          verified == o.verified &&
-          url == o.url
+          firstname == o.firstname &&
+          lastname == o.lastname &&
+          member == o.member &&
+          admin == o.admin &&
+          owner == o.owner
     end
 
     # @see the `==` method
@@ -262,7 +127,7 @@ module StravaClient
     # Calculates hash code according to all attributes.
     # @return [Fixnum] Hash code
     def hash
-      [id, resource_state, name, profile_medium, cover_photo, cover_photo_small, sport_type, activity_types, city, state, country, private, member_count, featured, verified, url].hash
+      [resource_state, firstname, lastname, member, admin, owner].hash
     end
 
     # Builds the object from hash

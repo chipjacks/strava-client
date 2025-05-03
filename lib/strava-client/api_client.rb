@@ -16,7 +16,6 @@ require 'logger'
 require 'tempfile'
 require 'typhoeus'
 require 'uri'
-require 'addressable/uri'
 
 module StravaClient
   class ApiClient
@@ -265,7 +264,7 @@ module StravaClient
     def build_request_url(path)
       # Add leading and trailing slashes to path
       path = "/#{path}".gsub(/\/+/, '/')
-      Addressable::URI.escape(@config.base_url + path)
+      URI.encode(@config.base_url + path)
     end
 
     # Builds the HTTP request body

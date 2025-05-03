@@ -23,33 +23,35 @@ module StravaClient
     # Create an Activity
     # Creates a manual activity for an athlete, requires activity:write scope.
     # @param name The name of the activity.
-    # @param type Type of activity. For example - Run, Ride etc.
+    # @param sport_type Sport type of activity. For example - Run, MountainBikeRide, Ride, etc.
     # @param start_date_local ISO 8601 formatted date time.
     # @param elapsed_time In seconds.
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :type Type of activity. For example - Run, Ride etc.
     # @option opts [String] :description Description of the activity.
     # @option opts [Float] :distance In meters.
     # @option opts [Integer] :trainer Set to 1 to mark as a trainer activity.
     # @option opts [Integer] :commute Set to 1 to mark as commute.
     # @return [DetailedActivity]
-    def create_activity(name, type, start_date_local, elapsed_time, opts = {})
-      data, _status_code, _headers = create_activity_with_http_info(name, type, start_date_local, elapsed_time, opts)
+    def create_activity(name, sport_type, start_date_local, elapsed_time, opts = {})
+      data, _status_code, _headers = create_activity_with_http_info(name, sport_type, start_date_local, elapsed_time, opts)
       return data
     end
 
     # Create an Activity
     # Creates a manual activity for an athlete, requires activity:write scope.
     # @param name The name of the activity.
-    # @param type Type of activity. For example - Run, Ride etc.
+    # @param sport_type Sport type of activity. For example - Run, MountainBikeRide, Ride, etc.
     # @param start_date_local ISO 8601 formatted date time.
     # @param elapsed_time In seconds.
     # @param [Hash] opts the optional parameters
+    # @option opts [String] :type Type of activity. For example - Run, Ride etc.
     # @option opts [String] :description Description of the activity.
     # @option opts [Float] :distance In meters.
     # @option opts [Integer] :trainer Set to 1 to mark as a trainer activity.
     # @option opts [Integer] :commute Set to 1 to mark as commute.
     # @return [Array<(DetailedActivity, Fixnum, Hash)>] DetailedActivity data, response status code and response headers
-    def create_activity_with_http_info(name, type, start_date_local, elapsed_time, opts = {})
+    def create_activity_with_http_info(name, sport_type, start_date_local, elapsed_time, opts = {})
       if @api_client.config.debugging
         @api_client.config.logger.debug "Calling API: ActivitiesApi.create_activity ..."
       end
@@ -57,9 +59,9 @@ module StravaClient
       if @api_client.config.client_side_validation && name.nil?
         fail ArgumentError, "Missing the required parameter 'name' when calling ActivitiesApi.create_activity"
       end
-      # verify the required parameter 'type' is set
-      if @api_client.config.client_side_validation && type.nil?
-        fail ArgumentError, "Missing the required parameter 'type' when calling ActivitiesApi.create_activity"
+      # verify the required parameter 'sport_type' is set
+      if @api_client.config.client_side_validation && sport_type.nil?
+        fail ArgumentError, "Missing the required parameter 'sport_type' when calling ActivitiesApi.create_activity"
       end
       # verify the required parameter 'start_date_local' is set
       if @api_client.config.client_side_validation && start_date_local.nil?
@@ -83,9 +85,10 @@ module StravaClient
       # form parameters
       form_params = {}
       form_params["name"] = name
-      form_params["type"] = type
+      form_params["sport_type"] = sport_type
       form_params["start_date_local"] = start_date_local
       form_params["elapsed_time"] = elapsed_time
+      form_params["type"] = opts[:'type'] if !opts[:'type'].nil?
       form_params["description"] = opts[:'description'] if !opts[:'description'].nil?
       form_params["distance"] = opts[:'distance'] if !opts[:'distance'].nil?
       form_params["trainer"] = opts[:'trainer'] if !opts[:'trainer'].nil?
@@ -167,8 +170,10 @@ module StravaClient
     # Returns the comments on the given activity. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities.
     # @param id The identifier of the activity.
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :page Page number. Defaults to 1.
-    # @option opts [Integer] :per_page Number of items per page. Defaults to 30. (default to 30)
+    # @option opts [Integer] :page Deprecated. Prefer to use after_cursor.
+    # @option opts [Integer] :per_page Deprecated. Prefer to use page_size. (default to 30)
+    # @option opts [Integer] :page_size Number of items per page. Defaults to 30. (default to 30)
+    # @option opts [String] :after_cursor Cursor of the last item in the previous page of results, used to request the subsequent page of results.  When omitted, the first page of results is fetched.
     # @return [Array<Comment>]
     def get_comments_by_activity_id(id, opts = {})
       data, _status_code, _headers = get_comments_by_activity_id_with_http_info(id, opts)
@@ -179,8 +184,10 @@ module StravaClient
     # Returns the comments on the given activity. Requires activity:read for Everyone and Followers activities. Requires activity:read_all for Only Me activities.
     # @param id The identifier of the activity.
     # @param [Hash] opts the optional parameters
-    # @option opts [Integer] :page Page number. Defaults to 1.
-    # @option opts [Integer] :per_page Number of items per page. Defaults to 30.
+    # @option opts [Integer] :page Deprecated. Prefer to use after_cursor.
+    # @option opts [Integer] :per_page Deprecated. Prefer to use page_size.
+    # @option opts [Integer] :page_size Number of items per page. Defaults to 30.
+    # @option opts [String] :after_cursor Cursor of the last item in the previous page of results, used to request the subsequent page of results.  When omitted, the first page of results is fetched.
     # @return [Array<(Array<Comment>, Fixnum, Hash)>] Array<Comment> data, response status code and response headers
     def get_comments_by_activity_id_with_http_info(id, opts = {})
       if @api_client.config.debugging
@@ -197,6 +204,8 @@ module StravaClient
       query_params = {}
       query_params[:'page'] = opts[:'page'] if !opts[:'page'].nil?
       query_params[:'per_page'] = opts[:'per_page'] if !opts[:'per_page'].nil?
+      query_params[:'page_size'] = opts[:'page_size'] if !opts[:'page_size'].nil?
+      query_params[:'after_cursor'] = opts[:'after_cursor'] if !opts[:'after_cursor'].nil?
 
       # header parameters
       header_params = {}
